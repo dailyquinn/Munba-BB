@@ -1,6 +1,6 @@
 # RCI Buyback
 
-RCI Buyback (derived from GDS-BB) is a web application for running an EVE Online corporation buyback program. It combines a static front-end for player interaction with a FastAPI back-end that pulls market prices, estimates contract values, and fetches outstanding contracts via EVE's ESI interface.
+Munba Buyback (derived from GDS-BB and RCI Buyback) is a web application for running an EVE Online corporation buyback program. It combines a static front-end for player interaction with a FastAPI back-end that pulls market prices, estimates contract values, and fetches outstanding contracts via EVE's ESI interface.
 
 ## Features
 
@@ -94,4 +94,5 @@ The “Outstanding Contracts” link triggers the EVE SSO flow and renders `cont
 - All EVE Online assets belong to CCP Games; project is for educational/fan use.
 - Front-end uses Fuzzwork's public market API—please respect rate limits.
 - GDS-BB provided for modification courtesy of Voidlegacy
+- Initial commit made from my last locally saved commit of RCI Buyback
 - Contributions are welcome!
