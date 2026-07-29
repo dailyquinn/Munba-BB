@@ -1,0 +1,9 @@
+fastapi==0.128.0
+pydantic==2.12.5
+typing==3.7.4.3
+httpx==0.28.1
+dotenv==0.9.9
+uvicorn==0.40.0
+schedule==1.2.2
+requests==2.32.5
+

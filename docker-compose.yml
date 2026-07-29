@@ -1,0 +1,23 @@
+services: 
+  rci-buyback:
+    build: .
+    image: rci-buyback:latest
+    container_name: rci-buyback
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_PATH=/app/data/market_prices.db
+      - EVE_CLIENT_ID=${EVE_CLIENT_ID}
+      - EVE_CLIENT_SECRET=${EVE_CLIENT_SECRET}
+      - EVE_REDIRECT_URI=${EVE_REDIRECT_URI}
+      - ADMIN_CORP_ID=${ADMIN_CORP_ID}
+      - APP_DOMAIN=${APP_DOMAIN}
+      - DISCORD_INVITE=${DISCORD_INVITE}
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8000')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
