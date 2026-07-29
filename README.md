@@ -1,4 +1,4 @@
-# RCI Buyback
+# Munba Buyback
 
 Munba Buyback (derived from GDS-BB and RCI Buyback) is a web application for running an EVE Online corporation buyback program. It combines a static front-end for player interaction with a FastAPI back-end that pulls market prices, estimates contract values, and fetches outstanding contracts via EVE's ESI interface.
 
