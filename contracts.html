@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Munba Buyback - Admin</title>
+    <title>Outstanding Contracts</title>
     <!--
     <script>
         (function() {
@@ -327,7 +327,7 @@
         </div>
         <nav>
             <a href="index.html">Back to home</a>
-            <a href="http://localhost:8000/login" id="relogin-link">Re-login</a>
+            <a href="http://localhost:8000/login">Re-login</a>
             <button id="refresh-contracts"
                 style="background: #4CAF50; color: white; border: none; padding: 8px 16px; border-radius: 4px; font-weight: bold; cursor: pointer;">Refresh
                 Contracts</button>
@@ -399,20 +399,6 @@
     <script src="Scripts/contractvalue.js"></script>
     <script src="Scripts/contractlist.js"></script>
     <script src="Scripts/admin-tabs.js"></script>
-    <script>
-    fetch('/api/config')
-      .then(response => response.json())
-      .then(config => {
-        if (config.app_domain) {
-          const relogin = document.getElementById('relogin-link');
-          if (relogin) relogin.href = config.app_domain + '/login';
-        }
-        if (config.app_title) {
-          document.title = config.app_title + ' - Admin';
-        }
-      })
-      .catch(error => console.error('Error loading config:', error));
-    </script>
 </body>
 
 </html>

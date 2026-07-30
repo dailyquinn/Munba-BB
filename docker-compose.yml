@@ -1,4 +1,4 @@
-services: 
+services:
   munba-buyback:
     build: .
     image: munba-buyback:latest
@@ -19,19 +19,9 @@ services:
       - ./data:/app/data
       - ./jsons:/app/jsons
     restart: unless-stopped
+    command: /bin/sh -c "(while true; do python munbabb/manage.py eve_sde_update; sleep 43200; done) & python munbabb/manage.py runserver 0.0.0.0:8000"
     healthcheck:
-      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8000')"]
+      test: [ "CMD", "python", "-c", "import requests; requests.get('http://localhost:8000')" ]
       interval: 30s
       timeout: 10s
       retries: 3
-
-  sde-updater:
-    build: .
-    image: munba-buyback:latest
-    container_name: munba-buyback-sde-updater
-    environment:
-      - DATABASE_PATH=/app/data/db.sqlite3
-    volumes:
-      - ./data:/app/data
-    restart: unless-stopped
-    command: /bin/sh -c "while true; do python munbabb/manage.py eve_sde_update; sleep 43200; done"

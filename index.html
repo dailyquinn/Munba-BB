@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Munba Buyback</title>
+  <title>RCI Buyback</title>
   <style>
     html {
       background: url('Media/Capitals_CrimHarvskin.jpg') no-repeat center center fixed;
@@ -12,7 +13,8 @@
     }
 
     body {
-      background-color: transparent; /* Ensure body doesn't obscure html background */
+      background-color: transparent;
+      /* Ensure body doesn't obscure html background */
       height: 100%;
       margin: 0;
       font-family: Arial, sans-serif;
@@ -20,22 +22,26 @@
       opacity: 1;
       transition: opacity 0.2s ease-in;
     }
+
     header {
-      background-color: rgba(26,29,34,0.85);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+      background-color: rgba(26, 29, 34, 0.85);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
       padding: 20px;
       text-align: center;
       border-bottom: 2px solid #3a3f47;
     }
+
     .header-content {
       display: flex;
       align-items: center;
       justify-content: center;
       margin-right: 60px;
     }
+
     .header-content h1 {
       margin: 0;
     }
+
     nav {
       display: flex;
       justify-content: center;
@@ -43,17 +49,20 @@
       gap: 20px;
       margin: 10px 0;
     }
+
     nav a {
       color: #87cefa;
       text-decoration: none;
       font-weight: bold;
     }
+
     .nav-center {
       display: flex;
       justify-content: center;
       flex: 1;
       gap: 20px;
     }
+
     .admin {
       margin-left: auto;
     }
@@ -68,34 +77,47 @@
       margin: 0 auto;
       animation: slideFade 0.5s ease-in;
     }
+
     @keyframes slideFade {
-      from { opacity: 0; transform: translateY(-30px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .section {
       margin-bottom: 30px;
     }
+
     .section h2 {
       border-bottom: 1px solid #3a3f47;
       padding-bottom: 5px;
     }
+
     footer {
       text-align: center;
       font-size: 0.8em;
       color: #777;
       margin-top: 40px;
     }
+
     .contract-summary {
       background: #1a1d22;
       padding: 15px;
       border-radius: 8px;
       border: 1px solid #3a3f47;
     }
+
     .highlight {
       color: #ffd700;
       font-weight: bold;
     }
+
     .btn {
       background: #2b6cb0;
       color: white;
@@ -109,18 +131,21 @@
       cursor: pointer;
       border: none;
     }
+
     .btn:hover {
       background-color: #4299e1;
       transform: scale(1.05);
       transition: all 0.2s ease;
     }
+
     .btn:active {
-      transform:scale(0.97);
+      transform: scale(0.97);
     }
-    textarea{
+
+    textarea {
       width: 100%;
       height: 150px;
-      background-color: rgba(26,29,34,0.8);
+      background-color: rgba(26, 29, 34, 0.8);
       color: #f0f0f0;
       border: 1px solid #3a3f47;
       border-radius: 5px;
@@ -128,162 +153,179 @@
       font-family: monospace;
     }
 
-    @keyframes fadein{
+    @keyframes fadein {
       from {
         opacity: 0;
         transform: translate(-50%, -30%);
       }
+
       to {
         opacity: 1;
-        transform: translate(-50%,0);
+        transform: translate(-50%, 0);
       }
     }
+
     select {
       width: 100%;
       padding: 8px;
-      background-color: rgba(26,29,34,0.8);
+      background-color: rgba(26, 29, 34, 0.8);
       color: #f0f0f0;
       border: 1px solid #3a3f47;
       border-radius: 5px;
       font-size: 1em;
     }
-    select, #location-warning, #Tenerifis-warning {
+
+    select,
+    #location-warning,
+    #Tenerifis-warning {
       margin-top: 1.5em;
       display: block;
     }
-  .header-content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-  }
-  .header-logo {
-    height: 100px;
-    width: auto;
-  }
-  #result-modal {
-    width: fit-content;
-    max-width: 90%;
-    min-width: 300px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
-    animation: fadein 0.3s ease-out;
-    white-space: normal;
-    display: block;
-    position: fixed;
-    top: 20%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #1a1d22;
-    padding: 20px;
-    border: 1px solid #3a3f47;
-    border-radius: 8px;
-    color: #f0f0f0;
-    width: 100%;
-    word-wrap: break-word;
-  }
 
-  #modal-items {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5em;
-    overflow-y: auto;
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+    }
 
-  }
-  .quote-icons{
-    height: 24px;
-    width: 24px;
-  }
-  .quote-row{
-    display: grid;
-    grid-template-columns: auto 1fr auto auto auto;
-    align-items: center;
-    gap: 0.5em;
-    border-bottom: 1px solid darkslategray;
-  }
-  .login-icon {
-    height: 25px;
-    cursor: pointer;
-    
-  }
-  .admin {
-    margin-left: auto;
-  }
+    .header-logo {
+      height: 100px;
+      width: auto;
+    }
 
+    #result-modal {
+      width: fit-content;
+      max-width: 90%;
+      min-width: 300px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+      animation: fadein 0.3s ease-out;
+      white-space: normal;
+      display: block;
+      position: fixed;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1a1d22;
+      padding: 20px;
+      border: 1px solid #3a3f47;
+      border-radius: 8px;
+      color: #f0f0f0;
+      width: 100%;
+      word-wrap: break-word;
+    }
+
+    #modal-items {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5em;
+      overflow-y: auto;
+
+    }
+
+    .quote-icons {
+      height: 24px;
+      width: 24px;
+    }
+
+    .quote-row {
+      display: grid;
+      grid-template-columns: auto 1fr auto auto auto;
+      align-items: center;
+      gap: 0.5em;
+      border-bottom: 1px solid darkslategray;
+    }
+
+    .login-icon {
+      height: 25px;
+      cursor: pointer;
+
+    }
+
+    .admin {
+      margin-left: auto;
+    }
   </style>
 </head>
 
 <body>
-  <header>
-    <div class="header-content" >
-      <img src="Media/logo.png" alt="Logo" class="header-logo" />
-      <h1 id="app-title">Munba Buyback</h1>
-    </div>
-    <nav>
-      <div class="nav-center">
-        <a href="https://discord.gg/yFxsjw9" id="discord-link">Discord</a>
+
+  <body>
+    <header>
+      <div class="header-content">
+        <img src="Media/rci.png" alt="Logo" class="header-logo" />
+        <h1>RCI Buyback</h1>
       </div>
-      <a href="http://localhost:8000/login" id="admin-link" class="admin">Admin</a>
-    </nav>
-  </header>
+      <nav>
+        <div class="nav-center">
+          <a href="https://discord.gg/yFxsjw9" id="discord-link">Discord</a>
+        </div>
+        <a href="http://localhost:8000/login" id="admin-link" class="admin">Admin</a>
+      </nav>
+    </header>
 
-  <main>
-    <section class="section" id="rates">
-      <h2>Buyback Rates</h2>
-      <p>We pay <span class="highlight">an average of 93% Jita Buy</span> for Ore, Ice, PI, Modules, and more!</p>
-    </section>
-  <div style= "display: inline-block; position: relative;">
-    <label for="location">Select Location:</label>
-    <select id="location" name="location">
-      <option value="">-- Select a location --</option> <!-- default -->
-      <option value="UALX-3">UALX-3</option>
-      <option value="ABE-M2">ABE-M2</option>
-      <option value="Tenerifis L/XL Structure">Tenerifis L/XL Structure</option>
-  </select>
-<br>
-<p id="location-warning" style="display: inline-block; color: red; font-weight: bolder;">
-  Please select a valid location.
-</p>
-<p id="Tenerifis-warning" style="display: inline-block; color: orange; font-weight: bolder;">
-  Selecting this will deduct 50,000,000isk from the payout.
+    <main>
+      <section class="section" id="rates">
+        <h2>Buyback Rates</h2>
+        <p>We pay <span class="highlight">an average of 93% Jita Buy</span> for Ore, Ice, PI, Modules, and more!</p>
+      </section>
+      <div style="display: inline-block; position: relative;">
+        <label for="location">Select Location:</label>
+        <select id="location" name="location">
+          <option value="">-- Select a location --</option> <!-- default -->
+          <option value="UALX-3">UALX-3</option>
+          <option value="ABE-M2">ABE-M2</option>
+          <option value="Tenerifis L/XL Structure">Tenerifis L/XL Structure</option>
+        </select>
+        <br>
+        <p id="location-warning" style="display: inline-block; color: red; font-weight: bolder;">
+          Please select a valid location.
+        </p>
+        <p id="Tenerifis-warning" style="display: inline-block; color: orange; font-weight: bolder;">
+          Selecting this will deduct 50,000,000isk from the payout.
 
-</p>
-    <section class="section" id="instructions">
-      <h2 style="margin-top: 0;">How to Submit a Contract</h2>
-      <ol>
-        <li>Create an <strong>Item Exchange</strong> contract to <b><strong id="contract-recipient">"Munba Buyback"</strong></b>.</li>
-        <li>Use the <strong>UALX-3 Keepstar</strong>, <strong>ABE-M2 Fortizar</strong> or any Large/Extra Large structure in Tenerifis.</li>
-        <li>Enter your items in the text area below, then click "Get a Quote".</li>
-      </ol>
-      <h3>Paste Items Here:</h3>
-      <textarea id="item-list" placeholder="Paste your items here..." spellcheck="false"></textarea>
+        </p>
+        <section class="section" id="instructions">
+          <h2 style="margin-top: 0;">How to Submit a Contract</h2>
+          <ol>
+            <li>Create an <strong>Item Exchange</strong> contract to <b><strong>"RCI. Buyback"</strong></b>.</li>
+            <li>Use the <strong>UALX-3 Keepstar</strong>, <strong>ABE-M2 Fortizar</strong> or any Large/Extra Large
+              structure in Tenerifis.</li>
+            <li>Enter your items in the text area below, then click "Get a Quote".</li>
+          </ol>
+          <h3>Paste Items Here:</h3>
+          <textarea id="item-list" placeholder="Paste your items here..." spellcheck="false"></textarea>
 
-      <div id="result-box" style="background-color: rgba(0,0,0,0.4); padding: 1em; margin: 1em; border-radius: 8px; display: none;">
-        <h2>Quote (Scrollable):</h2>
-        <div id="modal-items"></div>
-        <div style="display: flex; gap: 20px; align-items: center;">
-          <div id="modal-total"></div>
-          <div>
-            <label>Description:</label>
-            <span id="description" style="margin-left: 10px; padding: 5px; background-color: rgba(0,0,0,0.2); border-radius: 3px; border: 1px solid #555; font-family: monospace; color: #ffd700;">Code generated by /quote</span>
+          <div id="result-box"
+            style="background-color: rgba(0,0,0,0.4); padding: 1em; margin: 1em; border-radius: 8px; display: none;">
+            <h2>Quote (Scrollable):</h2>
+            <div id="modal-items"></div>
+            <div style="display: flex; gap: 20px; align-items: center;">
+              <div id="modal-total"></div>
+              <div>
+                <label>Description:</label>
+                <span id="description"
+                  style="margin-left: 10px; padding: 5px; background-color: rgba(0,0,0,0.2); border-radius: 3px; border: 1px solid #555; font-family: monospace; color: #ffd700;">Code
+                  generated by /quote</span>
+              </div>
+            </div>
+            <div style="display: flex; gap: 10px;">
+              <button id="copyBtn" class="btn">Copy Total</button>
+              <button id="copyCodeBtn" class="btn">Copy Description</button>
+            </div>
           </div>
-        </div>
-        <div style="display: flex; gap: 10px;">
-          <button id="copyBtn" class="btn">Copy Total</button>
-          <button id="copyCodeBtn" class="btn">Copy Description</button>
-        </div>
-      </div>
-      <button id="calculate" class="btn">Get a Quote</button>
+          <button id="calculate" class="btn">Get a Quote</button>
 
-    </section>
+        </section>
 
-  </main>
+    </main>
 
-  <footer>
-    <p>All EVE Online materials are property of CCP Games. Site built by Sam Tavers, Quinn Munba, and Pip Kouvo</p>
-    <p>Appraisal API and functionality is provided by Fuzzworks</p>
-  </footer>
+    <footer>
+      <p>All EVE Online materials are property of CCP Games. Site built by Sam Tavers, Quinn Munba, and Pip Kouvo</p>
+      <p>Appraisal API and functionality is provided by Fuzzworks</p>
+    </footer>
 
-  <div id="popup" style="
+    <div id="popup" style="
     display: none;
     position: fixed;
     top: 0;
@@ -297,45 +339,37 @@
     z-index: 9999;
     opacity: 0;
     transition: 0.5s ease;">
-    Total Copied to Clipboard!
-  </div>
+      Total Copied to Clipboard!
+    </div>
 
 
-<script src="Scripts/Dropdown warnings.js"></script>
-<script src="Scripts/Reprocess & Market.js"></script>
-<script>
-// Load dynamic configuration
-fetch('/api/config')
-  .then(response => response.json())
-  .then(config => {
-    if (config.discord_invite) document.getElementById('discord-link').href = config.discord_invite;
-    if (config.app_domain) document.getElementById('admin-link').href = config.app_domain + '/login';
-    if (config.app_title) {
-      document.title = config.app_title;
-      const titleElem = document.getElementById('app-title');
-      if (titleElem) titleElem.textContent = config.app_title;
-    }
-    if (config.contract_recipient) {
-      const recipientElem = document.getElementById('contract-recipient');
-      if (recipientElem) recipientElem.textContent = `"${config.contract_recipient}"`;
-    }
-  })
-  .catch(error => console.error('Error loading config:', error));
+    <script src="Scripts/Dropdown warnings.js"></script>
+    <script src="Scripts/Reprocess & Market.js"></script>
+    <script>
+      // Load dynamic configuration
+      fetch('/api/config')
+        .then(response => response.json())
+        .then(config => {
+          document.getElementById('discord-link').href = config.discord_invite;
+          document.getElementById('admin-link').href = config.app_domain + '/login';
+        })
+        .catch(error => console.error('Error loading config:', error));
 
-// Clear form persistence and reset description on page load
-window.addEventListener('load', function() {
-    // Reset description field
-    const descField = document.getElementById('description');
-    if (descField) {
-        descField.textContent = 'Code generated by /quote';
-    }
-    
-    // Clear any cached form data that might interfere
-    const textarea = document.getElementById('item-list');
-    if (textarea && textarea.value.trim()) {
-        textarea.value = '';
-    }
-});
-</script>
-</body>
+      // Clear form persistence and reset description on page load
+      window.addEventListener('load', function () {
+        // Reset description field
+        const descField = document.getElementById('description');
+        if (descField) {
+          descField.textContent = 'Code generated by /quote';
+        }
+
+        // Clear any cached form data that might interfere
+        const textarea = document.getElementById('item-list');
+        if (textarea && textarea.value.trim()) {
+          textarea.value = '';
+        }
+      });
+    </script>
+  </body>
+
 </html>

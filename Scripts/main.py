@@ -298,9 +298,7 @@ def get_config():
     """Provides client-side configuration variables from environment settings."""
     return {
         "app_domain": os.getenv("APP_DOMAIN", "http://localhost:8000"),
-        "discord_invite": os.getenv("DISCORD_INVITE", "https://discord.gg/yFxsjw9"),
-        "app_title": os.getenv("APP_TITLE", "Munba Buyback"),
-        "contract_recipient": os.getenv("CONTRACT_RECIPIENT", "Munba Buyback")
+        "discord_invite": os.getenv("DISCORD_INVITE", "https://discord.gg/yFxsjw9")
     }
 
 # --- ESI Authentication Endpoints ---
