@@ -11,6 +11,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     fetch('jsons/reprocessables.json').then(r => r.json()),
     fetch('jsons/multipliers.json').then(r => r.json())
   ]);
+  
+  // Dynamically update the default rate display on index.html if present
+  const defaultRateSpan = document.getElementById('default-rate');
+  if (defaultRateSpan && multiplierMap && multiplierMap['_default'] !== undefined) {
+    const defaultPct = (parseFloat(multiplierMap['_default']) * 100).toFixed(1).replace(/\.0$/, '');
+    defaultRateSpan.textContent = `${defaultPct}%`;
+  }
   // #endregion
 
   // #region 2. State Variables
@@ -30,6 +37,7 @@ document.addEventListener("DOMContentLoaded", async () => {
    */
   function resolveMultiplier(typeID) {
     if (!multiplierMap) return 0.93;
+    const defaultMult = multiplierMap['_default'] !== undefined ? parseFloat(multiplierMap['_default']) : 0.93;
 
     // Helper: Case-insensitive lookup
     const check = (key) => {
@@ -72,7 +80,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const iName = idToNameMap[typeID];
     if (iName && (val = check(iName)) !== null) return val;
 
-    return 0.93; // Default
+    return defaultMult; // Default
   }
 
   /**
@@ -86,6 +94,7 @@ document.addEventListener("DOMContentLoaded", async () => {
    */
   function resolveMultiplierCorrected(typeID) {
       if (!multiplierMap) return 0.93;
+      const defaultMult = multiplierMap['_default'] !== undefined ? parseFloat(multiplierMap['_default']) : 0.93;
       const check = (key) => {
           if (!key) return null;
           if (multiplierMap[key] !== undefined) return parseFloat(multiplierMap[key]);
@@ -111,7 +120,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           if ((val = check(`group:${gid}`)) !== null) return val;
           if ((val = check(String(gid))) !== null) return val;
       }
-      return 0.93;
+      return defaultMult;
   }
   // #endregion
 

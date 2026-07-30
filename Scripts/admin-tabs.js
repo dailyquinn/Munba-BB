@@ -19,6 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const suggestionsBox = document.getElementById('suggestions');
     const modifierInput = document.getElementById('modifier-input');
     const addModifierBtn = document.getElementById('add-modifier-btn');
+    const defaultModifierInput = document.getElementById('default-modifier-input');
+    const saveDefaultBtn = document.getElementById('save-default-modifier-btn');
 
     // #endregion
 
@@ -244,7 +246,9 @@ document.addEventListener('DOMContentLoaded', () => {
         readableListBody.innerHTML = '';
 
         // Convert data to array for sorting
-        const entries = Object.entries(data).map(([key, value]) => {
+        const entries = Object.entries(data)
+            .filter(([key]) => key !== '_default') // Exclude default from list
+            .map(([key, value]) => {
             let id = key;
             let type = 'Item';
             let name = '';
@@ -325,6 +329,13 @@ document.addEventListener('DOMContentLoaded', () => {
             statusSpan.textContent = 'Loaded successfully';
             statusSpan.style.color = '#4CAF50';
             
+            // Populate default modifier input from _default key
+            if (defaultModifierInput && data['_default'] !== undefined) {
+                defaultModifierInput.value = (data['_default'] * 100).toFixed(1).replace(/\.0$/, '');
+            } else if (defaultModifierInput) {
+                defaultModifierInput.value = '93'; // Fallback if not set
+            }
+            
             renderReadableList(); // Render list after loading
         } catch (error) {
             console.error('Error loading multipliers:', error);
@@ -399,6 +410,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (saveBtn) saveBtn.addEventListener('click', saveMultipliers);
     if (reloadBtn) reloadBtn.addEventListener('click', loadMultipliers);
+
+    // Default modifier save handler
+    if (saveDefaultBtn) {
+        saveDefaultBtn.addEventListener('click', () => {
+            const pct = parseFloat(defaultModifierInput.value);
+            if (isNaN(pct) || pct < 0) {
+                alert('Please enter a valid percentage.');
+                return;
+            }
+            try {
+                let data = {};
+                try { data = JSON.parse(multipliersText.value); } catch (e) { data = {}; }
+                data['_default'] = parseFloat((pct / 100).toFixed(4));
+                multipliersText.value = JSON.stringify(data, null, 2);
+                saveMultipliers();
+            } catch (e) {
+                console.error('Error saving default modifier:', e);
+                alert('Error saving default modifier.');
+            }
+        });
+    }
 
     // Initial data load if the multipliers tab is active when the page loads.
     if (multipliersContent && multipliersContent.classList.contains('active')) {

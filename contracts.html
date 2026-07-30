@@ -363,6 +363,23 @@
 
                 <hr style="border-color: rgba(255,255,255,0.1); margin: 20px 0;">
 
+                <div class="default-modifier-form">
+                    <h3>Default Modifier</h3>
+                    <p style="font-size: 0.9em; color: #ccc; margin-bottom: 8px;">
+                        Applied to any item or group without a specific modifier above.
+                    </p>
+                    <div class="input-group">
+                        <div class="input-wrapper">
+                            <input type="number" id="default-modifier-input" class="input-field" placeholder="%" step="0.1"
+                                min="0" max="200" style="max-width: 120px;">
+                            <span style="color: #ccc; margin-left: 8px; font-size: 0.9em;">%</span>
+                        </div>
+                        <button id="save-default-modifier-btn">Save Default</button>
+                    </div>
+                </div>
+
+                <hr style="border-color: rgba(255,255,255,0.1); margin: 20px 0;">
+
                 <div style="display:flex; justify-content:space-between; align-items:flex-end;">
                     <h3 style="margin:0;">Raw JSON Editor</h3>
                     <div>
