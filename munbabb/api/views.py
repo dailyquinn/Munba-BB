@@ -21,10 +21,32 @@ contracts_cache = {
     'contracts': []
 }
 
+corp_name_cache = {"id": None, "name": None, "timestamp": 0}
+
+def get_admin_corp_name():
+    if not ADMIN_CORP_ID:
+        return os.getenv("CONTRACT_RECIPIENT", "Munba Buyback")
+    now = time.time()
+    if corp_name_cache["id"] == ADMIN_CORP_ID and corp_name_cache["name"] and (now - corp_name_cache["timestamp"] < 86400):
+        return corp_name_cache["name"]
+    try:
+        res = requests.get(f"https://esi.evetech.net/latest/corporations/{ADMIN_CORP_ID}/", timeout=5)
+        if res.ok:
+            name = res.json().get("name")
+            if name:
+                corp_name_cache["id"] = ADMIN_CORP_ID
+                corp_name_cache["name"] = name
+                corp_name_cache["timestamp"] = now
+                return name
+    except Exception as e:
+        pass
+    return os.getenv("CONTRACT_RECIPIENT", "Munba Buyback")
+
 def get_config(request):
     return JsonResponse({
         "app_domain": os.getenv("APP_DOMAIN", "http://localhost:8000"),
-        "discord_invite": os.getenv("DISCORD_INVITE", "https://discord.gg/yFxsjw9")
+        "discord_invite": os.getenv("DISCORD_INVITE", "https://discord.gg/yFxsjw9"),
+        "contract_recipient": get_admin_corp_name()
     })
 
 def build_auth_url():
