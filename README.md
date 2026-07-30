@@ -1,98 +1,115 @@
 # Munba Buyback
 
-Munba Buyback (derived from GDS-BB and RCI Buyback) is a web application for running an EVE Online corporation buyback program. It combines a static front-end for player interaction with a FastAPI back-end that pulls market prices, estimates contract values, and fetches outstanding contracts via EVE's ESI interface.
+Munba Buyback is a web application for running an EVE Online corporation buyback program. It combines an interactive front-end for player quotes and contract management with a Django + AllianceAuth + ESI back-end running inside Docker.
 
 ## Features
 
-- **Quote generator** (`index.html` + `Scripts/Reprocess & Market.js`)
-  - Accepts pasted item lists, reprocesses ore/ice using `jsons/reprocessing_map.json`.
-  - Queries Fuzzwork market prices and applies multipliers from `jsons/multipliers.json`.
-  - Returns per-item pricing, reprocessed material values, and total payout.
-  - Generates a unique quote code for contract validation.
+- **Quote Generator** (`index.html` + `Scripts/Reprocess & Market.js`)
+  - Accepts pasted item lists and evaluates reprocessable items (ore, ice, PI, etc.).
+  - Resolves item names and group definitions using the EVE Static Data Export (SDE).
+  - Calculates line-item totals and overall contract payout based on customizable multipliers.
+  - Dynamically displays current default buyback rates, contracting corporation name, page title, and location options configured via environment variables.
+  - Generates unique quote codes for contract verification.
 
 - **Admin Dashboard** (`contracts.html`)
-  - Requires EVE SSO login (restricted to admin corp).
-  - **Outstanding Contracts**: Displays corporation contracts via `Scripts/contractlist.js`.
-    - Validates contract contents against generated quotes using the quote code in the description.
-    - Estimates contract market value using `Scripts/contractvalue.js`.
-  - **Multiplier Editor**: GUI for editing `jsons/multipliers.json` via `Scripts/admin-tabs.js`.
+  - Requires EVE SSO login (restricted to members of the configured `ADMIN_CORP_ID`).
+  - **Outstanding Contracts**: Displays corporation contracts via ESI, validating contents against generated quotes.
+  - **Multiplier Editor**: Interactive GUI for managing item/group multipliers and setting the global default rate (`jsons/multipliers.json`).
+  - **Active Modifiers List**: Displays human-readable SDE names alongside raw JSON keys (`group:18` or `16633`).
 
-- **FastAPI back-end** (`Scripts/main.py`)
-  - `/api/market_prices/` – caches Jita buy prices in `market_prices.db`.
-  - `/api/quotes/` – stores and retrieves quote details for validation.
-  - `/login` & `/callback` – EVE SSO entry points.
-  - `/fetch_contracts/` – retrieves corp contracts and items via ESI.
-  - Serves static files from the repository root.
+- **Django Back-end** (`munbabb/`)
+  - `/api/config` – Provides dynamic application settings (app title, Discord invite, ESI-resolved corp recipient, location tables).
+  - `/api/sde/search` & `/api/sde/names` – EVE SDE item/group name resolution.
+  - `/api/save-multipliers` – Updates multiplier settings in `jsons/multipliers.json`.
+  - `/login` & `/callback` – EVE SSO OAuth authentication flow.
 
-- **Price cache maintenance**
-  - Background hourly refresh thread.
-  - `Scripts/export_typeids_to_db.py` seeds the SQLite database with EVE type IDs.
-  - `Scripts/force_refresh_prices.py` refreshes prices on demand.
-
-## Project layout
+## Project Structure
 
 ```
-GDS-BB/
-├── Scripts/
-│   ├── main.py                # FastAPI application
-│   ├── Esi.py                 # OAuth/ESI helpers
+Munba-BB/
+├── munbabb/                    # Django application root
+│   ├── api/                   # API views, models, and URL routing
+│   ├── munbabb/               # Project configuration (settings, WSGI, Celery)
+│   └── manage.py              # Django management utility
+├── Scripts/                   # Front-end JavaScript modules
+│   ├── Reprocess & Market.js  # Primary quote calculation logic
+│   ├── admin-tabs.js          # Admin dashboard & multiplier editor logic
+│   ├── contractlist.js        # ESI contract renderer
 │   ├── contractvalue.js       # Contract valuation logic
-│   ├── Reprocess & Market.js  # Quote calculator
-│   ├── contractlist.js        # Contract list renderer
-│   ├── admin-tabs.js          # Admin UI logic
-│   ├── Dropdown warnings.js   # UI helpers
-│   └── ... (DB utilities)
-├── jsons/                     # Type IDs, reprocessing maps, multipliers
-├── index.html                 # Buyback quote page
-├── contracts.html             # Outstanding contracts UI
-├── market_prices.db           # SQLite price cache
-├── invTypes2.csv              # Source for Type IDs (required for setup)
-├── requirements.txt           # Python dependencies
-└── Media/                     # Logos & background images
+│   └── Dropdown warnings.js   # UI location & fee warning handler
+├── jsons/                     # JSON configuration files
+│   ├── multipliers.json       # Active item/group/default multipliers
+│   └── reprocessables.json    # Reprocessing maps and item definitions
+├── Media/                     # Branding assets
+│   ├── logo.png               # Corporation / app logo
+│   └── background.png         # Main page background image
+├── data/                      # Persistent database directory (SQLite DB mounted via volume)
+├── index.html                 # Main buyback quote tool
+├── contracts.html             # Admin dashboard & settings manager
+├── Dockerfile                 # Container build definition
+├── docker-compose.example.yml # Template for Docker configuration
+└── requirements.txt           # Python package requirements
 ```
 
-## Setup
+## Setup & Deployment
 
-1. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
-2. **Environment variables** (used in `Scripts/Esi.py`)
-   ```bash
-   EVE_CLIENT_ID=<your_application_id>
-   EVE_CLIENT_SECRET=<your_secret>
-   EVE_REDIRECT_URI=http://localhost:8000/callback
-   ADMIN_CORP_ID=CorpID_of_the_BB
-   ```
-3. **Prepare market database**
-   ```bash
-   python Scripts/export_typeids_to_db.py    # populate type IDs
-   python Scripts/force_refresh_prices.py    # optional initial price load
-   ```
+The application is fully containerized with Docker and Docker Compose.
 
-## Running the app
+### 1. Configure Docker Compose
+
+Copy the example Docker Compose file to create your active configuration:
 
 ```bash
-uvicorn Scripts.main:app --host 0.0.0.0 --port 8000 --reload
+cp docker-compose.example.yml docker-compose.yml
 ```
-Visit `http://localhost:8000/index.html` for the quote tool.
-The “Outstanding Contracts” link triggers the EVE SSO flow and renders `contracts.html`.
 
-## Customization
+Edit `docker-compose.yml` and configure your environment variables:
 
-- Adjust buyback multipliers in `jsons/multipliers.json` (type ID → multiplier).
-- Add or remove reprocessable items via `jsons/reprocessables.json`.
-- Update reprocessing yields in `jsons/reprocessing_map.json`.
+| Variable | Description |
+|---|---|
+| `EVE_CLIENT_ID` | ESI Application Client ID from CCP Developers portal |
+| `EVE_CLIENT_SECRET` | ESI Application Secret Key |
+| `EVE_REDIRECT_URI` | OAuth callback URL (e.g. `http://localhost:8000/callback` or `https://your-domain.com/callback`) |
+| `ADMIN_CORP_ID` | EVE Corporation ID authorized for admin dashboard access (automatically resolves corp name via ESI) |
+| `APP_DOMAIN` | Base domain/URL of the deployment |
+| `DISCORD_INVITE` | Discord server invite link |
+| `APP_TITLE` | Application title displayed in header and browser tab (defaults to `Unknown Buyback`) |
+| `CONTRACT_RECIPIENT` | Fallback contract recipient string if `ADMIN_CORP_ID` is not set |
+| `LOCATIONS` | JSON array of drop-off locations with system name, structure type, and optional hauling fee |
 
-## Additional scripts
+#### Location Configuration Example
 
-- `Scripts/force_refresh_prices.py` – refreshes cached prices for all type IDs.
-- `Scripts/export_typeids_to_db.py` – imports type IDs from `invTypes2.csv` into the SQLite DB.
+```yaml
+- LOCATIONS=[{"system":"UALX-3","structure":"Keepstar","fee":0},{"system":"Tenerifis","structure":"L/XL Structure","fee":50000000}]
+```
 
-## Notes
+*Note: If `structure` is not applicable, pass `""` or `null` and it will be cleanly handled as an empty string.*
 
-- All EVE Online assets belong to CCP Games; project is for educational/fan use.
-- Front-end uses Fuzzwork's public market API—please respect rate limits.
+### 2. Build & Run Container
+
+Start the service using Docker Compose:
+
+```bash
+docker compose up -d --build
+```
+
+On initial startup, the container automatically applies database migrations and loads the EVE Static Data Export (SDE).
+
+### 3. Accessing the Application
+
+- **Quote Tool**: `http://localhost:8000/` or `http://localhost:8000/index.html`
+- **Admin Dashboard**: `http://localhost:8000/contracts.html` (requires EVE SSO login with an account in `ADMIN_CORP_ID`)
+
+## Customization & Administration
+
+- **Default Buyback Rate**: Set in the Admin Dashboard under **Edit Multipliers** > **Default Modifier**, or directly via `"_default"` in `jsons/multipliers.json`.
+- **Item & Group Multipliers**: Managed interactively in the Admin Dashboard, or by editing `jsons/multipliers.json` (`"34": 0.88` for items, `"group:18": 0.90` for item groups).
+- **Logos & Styling**: Replace images in `Media/logo.png` and `Media/background.png`.
+
+## Notes & Licensing
+
+- All EVE Online assets are property of Fenris Creations.
+- Front-end appraisal integration uses Fuzzwork's public market API.
 - GDS-BB provided for modification courtesy of Voidlegacy
 - Initial commit made from my last locally saved commit of RCI Buyback
 - Contributions are welcome!
