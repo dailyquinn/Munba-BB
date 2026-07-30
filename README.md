@@ -112,4 +112,4 @@ On initial startup, the container automatically applies database migrations and 
 - Front-end appraisal integration uses Fuzzwork's public market API.
 - GDS-BB provided for modification courtesy of Voidlegacy
 - Initial commit made from my last locally saved commit of RCI Buyback
-- Contributions are welcome!
+- Contributions and tips (ISK/Plex only, to Quinn Munba) are welcome!
