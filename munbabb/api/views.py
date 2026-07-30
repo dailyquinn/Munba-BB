@@ -24,7 +24,9 @@ contracts_cache = {
 def get_config(request):
     return JsonResponse({
         "app_domain": os.getenv("APP_DOMAIN", "http://localhost:8000"),
-        "discord_invite": os.getenv("DISCORD_INVITE", "https://discord.gg/yFxsjw9")
+        "discord_invite": os.getenv("DISCORD_INVITE", "https://discord.gg/yFxsjw9"),
+        "app_title": os.getenv("APP_TITLE", "Munba Buyback"),
+        "contract_recipient": os.getenv("CONTRACT_RECIPIENT", "Munba Buyback")
     })
 
 def build_auth_url():
