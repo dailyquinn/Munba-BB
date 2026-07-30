@@ -272,7 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td style="color: ${entry.type === 'Group' ? '#87cefa' : 'white'}">${entry.name}</td>
-                <td><span style="font-size:0.8em; opacity:0.7;">${entry.type} (${entry.id})</span></td>
+                <td><span style="font-size:0.8em; opacity:0.7;">${entry.key}</span></td>
                 <td><span class="modifier-tag">${(entry.value * 100).toFixed(0)}%</span></td>
                 <td>
                     <button class="delete-modifier-btn" data-key="${entry.key}" style="background:#f44336; border:none; color:white; border-radius:3px; padding:4px 8px; cursor:pointer;">&times;</button>
