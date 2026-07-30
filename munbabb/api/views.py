@@ -86,15 +86,21 @@ def api_callback_token(request):
     access_token = tokens.get("access_token")
     if access_token:
         try:
-            # Verify
-            v_res = requests.get("https://login.eveonline.com/oauth/verify", headers={"Authorization": f"Bearer {access_token}"})
-            if v_res.ok:
-                char_id = v_res.json().get("CharacterID")
-                # Get char details
-                c_res = requests.get(f"https://esi.evetech.net/latest/characters/{char_id}/")
-                if c_res.ok:
-                    corp_id = c_res.json().get("corporation_id")
-                    tokens["corp_id"] = corp_id
+            import base64
+            import json
+            parts = access_token.split(".")
+            if len(parts) >= 2:
+                payload = parts[1]
+                payload += '=' * (-len(payload) % 4)
+                decoded = base64.urlsafe_b64decode(payload)
+                data = json.loads(decoded)
+                sub = data.get('sub', '')
+                if sub.startswith('CHARACTER:EVE:'):
+                    char_id = sub.split(':')[-1]
+                    c_res = requests.get(f"https://esi.evetech.net/latest/characters/{char_id}/")
+                    if c_res.ok:
+                        corp_id = c_res.json().get("corporation_id")
+                        tokens["corp_id"] = corp_id
         except Exception:
             pass
     return JsonResponse(tokens)
