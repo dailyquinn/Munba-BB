@@ -8,6 +8,6 @@ source venv/bin/activate
 
 echo "Updating EVE Online SDE..."
 cd munbabb || exit
-python manage.py eve_sde_update
+python manage.py esde_load_sde
 
 echo "Done."
