@@ -1,3 +1,0 @@
-"""
-Alliance Auth Framework
-"""

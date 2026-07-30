@@ -1,3 +1,0 @@
-"""
-Initializing our tests
-"""

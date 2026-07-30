@@ -1,2 +1,0 @@
-class ESIClientStub:
-    pass

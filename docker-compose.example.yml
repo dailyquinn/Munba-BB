@@ -1,0 +1,27 @@
+services:
+  munba-buyback:
+    build: .
+    image: munba-buyback:latest
+    container_name: munba-buyback
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_PATH=/app/data/db.sqlite3
+      - EVE_CLIENT_ID=your_eve_client_id_here
+      - EVE_CLIENT_SECRET=your_eve_client_secret_here
+      - EVE_REDIRECT_URI=http://localhost:8000/callback or http://your-domain.here/callback
+      - ADMIN_CORP_ID=your_corp_id_here
+      - APP_DOMAIN=${APP_DOMAIN}
+      - DISCORD_INVITE=${DISCORD_INVITE}
+      - APP_TITLE=${APP_TITLE:-Munba Buyback}
+      - CONTRACT_RECIPIENT=${CONTRACT_RECIPIENT:-Munba Buyback}
+    volumes:
+      - ./data:/app/data
+      - ./jsons:/app/jsons
+    restart: unless-stopped
+    command: /bin/sh -c "(while true; do python munbabb/manage.py makemigrations; python munbabb/manage.py migrate; python munbabb/manage.py esde_load_sde; sleep 43200; done) & python munbabb/manage.py runserver 0.0.0.0:8000"
+    healthcheck:
+      test: [ "CMD", "python", "-c", "import requests; requests.get('http://localhost:8000')" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3

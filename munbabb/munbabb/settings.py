@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'django.contrib.sites',
     'esi',
+    'modeltranslation',
     'allianceauth',
     'allianceauth.authentication',
     'allianceauth.services',
@@ -81,6 +82,8 @@ DATABASES = {
 }
 
 LANGUAGE_CODE = 'en-us'
+LANGUAGES = [('en', 'English')]
+
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
