@@ -1,0 +1,232 @@
+{% extends "allianceauth/base-bs5.html" %}
+
+{% load aa_i18n %}
+{% load i18n %}
+
+{% block page_title %}
+    {% translate "Mumble" %}
+{% endblock page_title %}
+
+{% block header_nav_brand %}
+    {% trans "Mumble History" %} - {{ mumble_url }}
+{% endblock header_nav_brand %}
+
+{% block header_nav_collapse_left %}
+{% endblock header_nav_collapse_left %}
+
+{% block header_nav_collapse_right %}
+{% endblock header_nav_collapse_right %}
+
+{% block content %}
+    <div class="card col-lg-12 mb-3">
+        <div class="card-header">
+            <span class="card-title">{% translate "Server Connection History" %}</span>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table w-100" id="table-mumble-connection-history">
+                    <thead>
+                        <tr>
+                            <th class="text-start">{% translate "User" %}</th>
+                            <th class="text-start">{% translate "Displayed Name" %}</th>
+                            <th class="text-start">{% translate "Release" %}</th>
+                            <th class="text-start">{% translate "Version" %}</th>
+                            <th class="text-end">{% translate "Last Connect" %}</th>
+                            <th class="text-end">{% translate "Last Disconnect" %}</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">{% translate "Server Connection Breakdown" %}</span>
+                </div>
+
+                <div class="card-body">
+                    <canvas id="pieChart"></canvas> <!-- Canvas element for the pie chart -->
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">{% translate "Server Connection Breakdown" %}</span>
+                </div>
+
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table w-100" id="table-mumble-connection-stats">
+                            <thead>
+                                <tr>
+                                    <th class="text-start">{% translate "Version" %}</th>
+                                    <th class="text-end">{% translate "Number" %}</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block extra_javascript %}
+    {% include "bundles/datatables-js-bs5.html" %}
+    {% include "bundles/filterdropdown-js.html" %}
+    {% include "bundles/chart-js.html" %}
+    {% include "bundles/moment-js.html" with locale=True %}
+
+    {% get_datatables_language_static LANGUAGE_CODE as DT_LANG_PATH %}
+
+    <script>
+        $(document).ready(function () {
+            const MUMBLESTATS_DATETIME_FORMAT = 'LLL';
+
+            'use strict';
+
+            $("#table-mumble-connection-history").DataTable({
+                language: {url: '{{ DT_LANG_PATH }}'},
+                ajax: {
+                    url: '{% url "mumble:connection_history_data" %}',
+                    dataSrc: 'connection_history_data',
+                },
+                columns: [
+                    { data: 'user' },
+                    { data: 'display_name' },
+                    { data: 'release' },
+                    { data: 'version' },
+                    {
+                        data: 'last_connect',
+                        render: {
+                            _: (data) => {
+                                return data === null
+                                    ? ''
+                                    : moment(data)
+                                        .utc()
+                                        .format(MUMBLESTATS_DATETIME_FORMAT);
+                            },
+                            sort: (data) => {
+                                return data === null ? '' : data;
+                            }
+                        },
+                        className: 'text-end',
+                    },
+                    {
+                        data: 'last_disconnect',
+                        render: {
+                            _: (data) => {
+                                return data === null
+                                    ? ''
+                                    : moment(data)
+                                        .utc()
+                                        .format(MUMBLESTATS_DATETIME_FORMAT);
+                            },
+                            sort: (data) => {
+                                return data === null ? '' : data;
+                            }
+                        },
+                        className: 'text-end',
+                    },
+                ],
+                order: [[4, 'desc']],
+                processing: true,
+                stateSave: true,
+                stateDuration: 0,
+                filterDropDown: {
+                    columns: [
+                        {
+                            idx: 2,
+                        },
+                        {
+                            idx: 3,
+                        },
+                    ],
+                    bootstrap: true,
+                    bootstrap_version: 5,
+                },
+            });
+
+            $("#table-mumble-connection-stats").DataTable({
+                language: {url: '{{ DT_LANG_PATH }}'},
+                ajax: {
+                    url: '{% url "mumble:release_counts_data" %}',
+                    dataSrc: 'release_counts_data',
+                },
+                columns: [
+                    { data: 'release' },
+                    { data: 'user_count', className: 'text-end' },
+                ],
+                order: [[1, 'desc']],
+                processing: true,
+                stateSave: true,
+                stateDuration: 0,
+            });
+
+            // Initialize empty Pie chart
+            const elementBody = document.querySelector('body');
+            const elementBodyCss = getComputedStyle(elementBody);
+            const ctx = document.getElementById('pieChart').getContext('2d');
+            const pieChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: [], // Initially empty
+                    datasets: [
+                        {
+                            label: 'Server Connection Breakdown',
+                            data: [], // Initially empty
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)'
+                            ],
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    }
+                }
+            });
+
+            Chart.defaults.color = elementBodyCss.color;
+
+            // AJAX call to dynamically update the chart
+            $.ajax({
+                url: '{% url "mumble:release_pie_chart_data" %}', // Your Django view URL that returns chart data
+                method: "GET",
+                success: (data) => {
+                    // Replace chart data with the data from the AJAX response
+                    pieChart.data.labels = data.labels; // Set the new labels
+                    pieChart.data.datasets[0].data = data.values; // Set the new values
+
+                    // Update the chart to reflect the new data
+                    pieChart.update();
+                },
+                error: (xhr, status, error) => {
+                    console.error('Error fetching pie chart data:', status, error);
+                },
+            });
+        });
+    </script>
+{% endblock extra_javascript %}
+
+{% block extra_css %}
+    {% include "bundles/datatables-css-bs5.html" %}
+{% endblock extra_css %}

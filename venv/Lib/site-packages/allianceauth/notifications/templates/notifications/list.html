@@ -1,0 +1,50 @@
+{% extends "allianceauth/base-bs5.html" %}
+
+{% load static %}
+{% load i18n %}
+
+{% block page_title %}
+    {% translate "Notifications" %}
+{% endblock page_title %}
+
+{% block header_nav_brand %}
+    {% translate "Notifications" %}
+{% endblock header_nav_brand %}
+
+{% block header_nav_collapse_left %}
+    <li class="nav-item">
+        <a class="nav-link active" id="unread-tab" data-bs-toggle="tab" data-bs-target="#unread" type="button" role="tab" aria-controls="unread" aria-selected="true">
+            {% translate "Unread" %}
+            <span class="badge text-bg-secondary">{{ unread|length }}</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" id="read-tab" data-bs-toggle="tab" data-bs-target="#read" type="button" role="tab" aria-controls="read" aria-selected="false">
+            {% translate "Read" %}
+            <span class="badge text-bg-secondary">{{ read|length }}</span>
+        </a>
+    </li>
+{% endblock %}
+
+{% block header_nav_collapse_right %}
+    {% translate "Mark all notifications as read" as nav_item_title %}
+    {% url "notifications:mark_all_read" as nav_item_link %}
+    {% include "framework/header/nav-collapse-icon.html" with fa_icon="fa-solid fa-check-double" url=nav_item_link title=nav_item_title icon_on_mobile=True %}
+
+    {% translate "Delete all read notifications" as nav_item_title %}
+    {% url "notifications:delete_all_read" as nav_item_link %}
+    {% include "framework/header/nav-collapse-icon.html" with fa_icon="fa-solid fa-trash-can" url=nav_item_link title=nav_item_title icon_on_mobile=True %}
+{% endblock %}
+
+{% block content %}
+    <div class="tab-content">
+        <div class="tab-pane fade active show" id="unread">
+            {% include "notifications/list_partial.html" with notifications=unread %}
+        </div>
+
+        <div id="read" class="tab-pane fade">
+            {% include "notifications/list_partial.html" with notifications=read %}
+        </div>
+    </div>
+{% endblock %}

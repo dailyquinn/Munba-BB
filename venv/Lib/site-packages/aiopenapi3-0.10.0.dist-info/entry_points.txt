@@ -1,0 +1,2 @@
+[console_scripts]
+aiopenapi3 = aiopenapi3.cli:main

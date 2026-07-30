@@ -1,0 +1,20 @@
+[
+    {
+    "model": "analytics.AnalyticsTokens",
+    "pk": 1,
+    "fields": {
+        "name": "AA Team Public Google Analytics (V4)",
+        "type": "GA-V4",
+        "token": "G-6LYSMYK8DE",
+        "secret": "KLlpjLZ-SRGozS5f5wb_kw",
+        "send_stats": "False"
+        }
+    },
+    {
+        "model": "analytics.AnalyticsIdentifier",
+        "pk": 1,
+        "fields": {
+            "identifier": "ab33e241fbf042b6aa77c7655a768af7"
+        }
+    }
+]

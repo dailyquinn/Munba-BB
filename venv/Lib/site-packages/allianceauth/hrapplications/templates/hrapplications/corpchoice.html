@@ -1,0 +1,40 @@
+{% extends "allianceauth/base-bs5.html" %}
+
+{% load i18n %}
+
+{% block page_title %}
+    {% translate "Choose a Corp" %}
+{% endblock page_title %}
+
+{% block header_nav_brand %}
+    {% translate "HR Application Management" %}
+{% endblock header_nav_brand %}
+
+{% block content %}
+    <div>
+        {% translate "Choose a Corp" as page_header %}
+        {% include "framework/header/page-header.html" with title=page_header %}
+
+        {% if choices %}
+            <div class="card card-primary">
+                <div class="card-header">
+                    <div class="card-title mb-0">{% translate "Available Corps" %}</div>
+                </div>
+
+                <div class="card-body">
+                    <table class="table table-responsive">
+                        {% for choice in choices %}
+                            <tr>
+                                <td class="text-center">
+                                    <a href="{% url 'hrapplications:create_view' choice.0 %}" class="btn btn-primary" title="Apply">{{ choice.1 }}</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        {% else %}
+            <div class="alert alert-danger">{% translate "No corps are accepting applications at this time." %}</div>
+        {% endif %}
+    </div>
+{% endblock content %}

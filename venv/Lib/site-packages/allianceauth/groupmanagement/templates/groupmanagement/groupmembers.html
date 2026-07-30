@@ -1,0 +1,112 @@
+{% extends "allianceauth/base-bs5.html" %}
+
+{% load static %}
+{% load aa_i18n %}
+{% load i18n %}
+{% load evelinks %}
+{% load navactive %}
+
+{% block page_title %}
+    {% translate "Group Members" %}
+{% endblock page_title %}
+
+{% block header_nav_brand %}
+    {% translate "Group Members" %} - {{ group.name }}
+{% endblock header_nav_brand %}
+
+{% block header_nav_collapse_left %}
+    <li class="nav-item">
+        <a class="nav-link {% navactive request 'groupmanagement:management' %}" href="{% url 'groupmanagement:management' %}">{% translate "Back" %}</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+    {% if group.user_set %}
+        <div class="table-responsive">
+            <table class="table" id="tab_group_members">
+                <thead>
+                    <tr>
+                        <th>{% translate "Character" %}</th>
+                        <th>{% translate "Organization" %}</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for member in members %}
+                        <tr>
+                            <td>
+                                <img src="{{ member.main_char|character_portrait_url:32 }}" class="rounded-circle" style="margin-right: 1rem;" alt="{{ member.main_char.character_name }}">
+
+                                {% if member.main_char %}
+                                    <a href="{{ member.main_char|evewho_character_url }}" target="_blank">
+                                        {{ member.main_char.character_name }}
+                                    </a>
+                                {% else %}
+                                    {{ member.user.username }}
+                                {% endif %}
+
+                                {% if member.is_leader %}
+                                    <sup><i class="fa-solid fa-star" title="{% translate "Group leader" %}"></i></sup>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {% if member.main_char %}
+                                    <a href="{{ member.main_char|dotlan_corporation_url }}" target="_blank">
+                                        {{ member.main_char.corporation_name }}
+                                    </a><br>
+                                    {{ member.main_char.alliance_name|default_if_none:"" }}
+                                {% else %}
+                                    {% translate "(unknown)" %}
+                                {% endif %}
+                            </td>
+
+                            <td class="text-end">
+                                <a href="{% url 'groupmanagement:membership_remove' group.id member.user.id %}" class="btn btn-danger" title="{% translate "Remove from group" %}">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <p class="text-muted">
+                <i class="fa-solid fa-star"></i>: {% translate "Group leader" %}
+            </p>
+        </div>
+    {% else %}
+        <div class="alert alert-warning text-center">
+            {% translate "No group members to list." %}
+        </div>
+    {% endif %}
+
+{% endblock content %}
+
+{% block extra_javascript %}
+    {% include 'bundles/datatables-js-bs5.html' %}
+
+    {% get_datatables_language_static LANGUAGE_CODE as DT_LANG_PATH %}
+
+    <script>
+        $(document).ready(() => {
+            $('#tab_group_members').DataTable({
+                language: {url: '{{ DT_LANG_PATH }}'},
+                order: [[0, "asc"]],
+                columnDefs: [
+                    {
+                        "sortable": false,
+                        "targets": [2]
+                    },
+                ],
+                "stateSave": true,
+                "stateDuration": 0
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block extra_css %}
+    {% include 'bundles/datatables-css-bs5.html' %}
+{% endblock %}

@@ -1,0 +1,11 @@
+{# Template override to display the errors of django Forms when using `boostrap_form` form the `django-bootstrap5` #}
+{# library. #}
+{# See: https://github.com/zostera/django-bootstrap5/pull/767 #}
+
+{% if field_errors %}
+    <div id="{{ field.auto_id }}_error" class="invalid-feedback">
+        {% for text in field_errors %}
+            <div>{{ text }}</div>
+        {% endfor %}
+    </div>
+{% endif %}

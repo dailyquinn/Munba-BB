@@ -1,0 +1,67 @@
+{% extends "allianceauth/base-bs5.html" %}
+
+{% load i18n %}
+
+{% block page_title %}
+    {% translate "Fatlink Statistics" %}
+{% endblock page_title %}
+
+{% block header_nav_brand %}
+    {% translate "Fleet Activity Tracking" %}
+{% endblock header_nav_brand %}
+
+{% block content %}
+    <div>
+        <h1 class="page-header text-center mb-3">
+            {% blocktranslate %}Participation data statistics for {{ month }}, {{ year }}{% endblocktranslate %}
+        </h1>
+
+        <div class="text-end mb-3">
+            <a href="{% url "fatlink:statistics_month" previous_month|date:"Y" previous_month|date:"m" %}" class="btn btn-info">{% translate "Previous month" %}</a>
+
+            {% if next_month %}
+                <a href="{% url 'fatlink:statistics_month' next_month|date:"Y" next_month|date:"m"  %}" class="btn btn-info">{% translate "Next month" %}</a>
+            {% endif %}
+        </div>
+
+        {% if fatStats %}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <tr>
+                        <th scope="col" class="col-md-1"></th>
+                        <th scope="col" class="col-md-2 text-center">{% translate "Ticker" %}</th>
+                        <th scope="col" class="col-md-5 text-center">{% translate "Corp" %}</th>
+                        <th scope="col" class="col-md-2 text-center">{% translate "Members" %}</th>
+                        <th scope="col" class="col-md-2 text-center">{% translate "Fats" %}</th>
+                        <th scope="col" class="col-md-2 text-center">
+                            {% translate "Average fats" %}
+                            <i class="fa-solid fa-question" rel="tooltip" title="Fats / Characters"></i>
+                        </th>
+                    </tr>
+                    {% for corpStat in fatStats %}
+                        <tr>
+                            <td>
+                                <img src="{{ corpStat.corp.logo_url_32 }}" class="ra-avatar img-responsive" alt="{{ corpStat.corp.corporation_name }}">
+                            </td>
+                            <td class="text-center">
+                                <a href="{% url 'fatlink:statistics_corp' corpStat.corp.corporation_id %}">[{{ corpStat.corp.corporation_ticker }}]</a>
+                            </td>
+                            <td class="text-center">{{ corpStat.corp.corporation_name }}</td>
+                            <td class="text-center">{{ corpStat.corp.member_count }}</td>
+                            <td class="text-center">{{ corpStat.n_fats }}</td>
+                            <td class="text-center">{{ corpStat.avg_fat }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        {% endif %}
+    </div>
+{% endblock content %}
+
+{% block extra_javascript %}
+    <script>
+        $(document).ready(() => {
+            $("[rel=tooltip]").tooltip();
+        });
+    </script>
+{% endblock extra_javascript %}

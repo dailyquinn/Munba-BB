@@ -1,0 +1,60 @@
+{% load i18n %}
+{% load evelinks %}
+
+<div class="col-12 mb-3">
+    <div class="card h-100">
+        <div class="card-body">
+            {% translate "Upcoming Timers" as widget_title %}
+            {% include "framework/dashboard/widget-title.html" with title=widget_title %}
+
+            <div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="text-center">{% translate "Details" %}</th>
+                            <th class="text-center">{% translate "Timer" %}</th>
+                            <th class="text-center">{% translate "Type" %}</th>
+                            <th class="text-center">{% translate "System" %}</th>
+                            <th class="text-center">{% translate "EVE time" %}</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for timer in timers %}
+                            <tr>
+                                <td class="text-center">
+                                    {{ timer.details }}
+                                </td>
+                                <td class="text-center">
+                                    {{ timer.get_timer_type_display }}
+                                </td>
+                                <td class="text-center" nowrap>
+                                    {% if timer.objective == "Hostile" %}
+                                        <div class="badge text-bg-danger">
+                                            {% translate "Hostile" %}
+                                        </div>
+                                    {% endif %}
+                                    {% if timer.objective == "Friendly" %}
+                                        <div class="badge text-bg-primary">
+                                            {% translate "Friendly" %}
+                                        </div>
+                                    {% endif %}
+                                    {% if timer.objective == "Neutral" %}
+                                        <div class="badge text-bg-secondary">
+                                            {% translate "Neutral" %}
+                                        </div>
+                                    {% endif %}
+                                </td>
+                                <td class="text-center"><a href="{{ timer.system|dotlan_solar_system_url }}">
+                                    {{ timer.system }} {{ timer.planet_moon }}
+                                    </a>
+                                </td>
+                                <td class="text-center" nowrap>{{ timer.eve_time | date:"Y-m-d H:i" }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

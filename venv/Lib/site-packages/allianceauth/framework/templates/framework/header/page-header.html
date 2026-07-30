@@ -1,0 +1,15 @@
+{#Usage:#}
+{#    {% include "framework/header/page-header.html" with title="Foobar" subtitle="Barfoo" %}#}
+
+{% if title %}
+    <header class="aa-page-header mb-3">
+        <h1 class="page-header text-center">
+            {{ title }}
+
+            {% if subtitle %}
+                <br>
+                <small class="text-muted">{{ subtitle }}</small>
+            {% endif %}
+        </h1>
+    </header>
+{% endif %}

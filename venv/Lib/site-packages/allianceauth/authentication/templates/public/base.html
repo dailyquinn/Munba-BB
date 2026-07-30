@@ -1,0 +1,58 @@
+{% load theme_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" {% theme_html_tags %}>
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- End Required meta tags -->
+
+        <!-- Meta tags -->
+        {% include 'allianceauth/opengraph.html' %}
+        {% include 'allianceauth/icons.html' %}
+        <!-- Meta tags -->
+
+        <title>{% block title %}{% block page_title %}{% endblock page_title %} - {{ SITE_NAME }}{% endblock title %}</title>
+
+        {% theme_css %}
+
+        {% include 'bundles/fontawesome.html' %}
+        {% include 'bundles/auth-framework-css.html' %}
+
+        {% block extra_include %}
+        {% endblock %}
+
+        <style>
+            body {
+                background: url('{% static 'allianceauth/authentication/img/background.jpg' %}') no-repeat center center fixed;
+                -webkit-background-size: cover;
+                -moz-background-size: cover;
+                -o-background-size: cover;
+                background-size: cover;
+            }
+
+            .card-login {
+                background: rgba(48 48 48 / 0.7);
+                color: rgb(255 255 255);
+                padding-bottom: 21px;
+            }
+
+            #lang-select {
+                width: 40%;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            {% block extra_style %}
+            {% endblock %}
+        </style>
+    </head>
+
+    <body>
+        <div class="container" style="margin-top:150px;">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </body>
+</html>

@@ -1,0 +1,63 @@
+{% extends "allianceauth/base-bs5.html" %}
+{% load i18n %}
+
+{% block page_title %}
+    {% translate "Services Management" %}
+{% endblock page_title %}
+
+{% block header_nav_brand %}
+    {% translate "Available Services" %}
+{% endblock header_nav_brand %}
+
+{% block content %}
+    <div class="d-flex py-2 pt-0 bd-highlight justify-content-center flex-wrap">
+        {% for svc in service_ctrls %}
+            {{ svc }}
+        {% endfor %}
+    </div>
+
+    <div class="mt-3">
+        <h4 class="border-bottom">{% translate "Legend" %}</h4>
+        <div class="d-inline-flex bd-highlight justify-content-center flex-wrap">
+            <div class="d-inline-flex align-items-center m-2">
+                <span title="Activate" class="btn btn-warning btn-sm">
+                    <i class="fa-solid fa-check fa-fw"></i>
+                </span>
+                <p class="m-2 p-0 align-self-center">
+                    {% translate "Click to activate the service for your user." %}
+                </p>
+            </div>
+
+            <div class="d-inline-flex align-items-center m-2">
+                <span title="Set Password" class="btn btn-warning btn-sm">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </span>
+                <p class="m-2 p-0 align-self-center">
+                    {% translate "Click to manually set your password." %}
+                </p>
+            </div>
+
+            <div class="d-inline-flex align-items-center m-2">
+                <span title="Reset Password" class="btn btn-primary btn-sm">
+                    <i class="fa-solid fa-rotate fa-fw"></i>
+                </span>
+                <p class="m-2 p-0 align-self-center">
+                    {% translate "Click to randomly generate your password." %}
+                </p>
+            </div>
+
+            <div class="d-inline-flex align-items-center m-2">
+                <span title="Deactivate" class="btn btn-danger btn-sm">
+                    <i class="fa-solid fa-xmark fa-fw"></i>
+                </span>
+                <p class="m-2 p-0 align-self-center">
+                    {% translate "Click to deactivate the service for your user" %}
+                </p>
+            </div>
+        </div>
+
+        <p class="m-2 p-0 align-self-center">
+            {% translate "Some services provide different options. Hover over the buttons to see more." %}
+        </p>
+    </div>
+{% endblock content %}

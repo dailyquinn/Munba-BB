@@ -1,0 +1,25 @@
+{% load i18n %}
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.level_tag }} alert-dismissible d-flex fade show" role="alert">
+            <div>
+                {% if message.level_tag == "info" %}
+                    <i class="fa-solid fa-info-circle fa-xl"></i>
+                {% elif message.level_tag == "success" %}
+                    <i class="fa-solid fa-check-circle fa-xl"></i>
+                {% elif message.level_tag == "warning" %}
+                    <i class="fa-solid fa-exclamation-circle fa-xl"></i>
+                {% elif "danger" in message.level_tag %}
+                    <i class="fa-solid fa-exclamation-triangle fa-xl"></i>
+                {% endif %}
+            </div>
+
+            <div class="ms-2">
+                {{ message }}
+            </div>
+
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="{% translate 'Close' %}"></button>
+        </div>
+    {% endfor %}
+{% endif %}

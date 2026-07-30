@@ -1,0 +1,31 @@
+{% extends 'public/base.html' %}
+
+{% load django_bootstrap5 %}
+{% load i18n %}
+
+{% block page_title %}{% translate "Registration" %}{% endblock %}
+
+{% block extra_include %}
+    {% include 'bundles/bootstrap-css-bs5.html' %}
+    {% include 'bundles/fontawesome.html' %}
+    {% include 'bundles/bootstrap-js-bs5.html' %}
+{% endblock %}
+
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card card-login border-secondary p-3">
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+                        {% bootstrap_form form %}
+
+                        <button class="btn btn-primary btn-block" type="submit">{% translate "Register" %}</button>
+                    </form>
+
+                    {% include 'public/lang_select.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

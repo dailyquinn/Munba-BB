@@ -1,0 +1,53 @@
+{% extends "allianceauth/base-bs5.html" %}
+
+{% load django_bootstrap5 %}
+{% load i18n %}
+
+{% block page_title %}
+    {% translate "Create Fatlink" %}
+{% endblock page_title %}
+
+{% block header_nav_brand %}
+    {% translate "Fleet Activity Tracking" %}
+{% endblock header_nav_brand %}
+
+{% block content %}
+    <div>
+        {% translate "Create Fatlink" as page_header %}
+        {% include "framework/header/page-header.html" with title=page_header %}
+
+        <div>
+            {% if badrequest %}
+                <div class="alert alert-danger" role="alert">{% translate "Bad request!" %}</div>
+            {% endif %}
+
+            {% for message in errormessages %}
+                <div class="alert alert-danger" role="alert">{{ message }}</div>
+            {% endfor %}
+
+            <div class="card card-primary border-0">
+                <div class="card-header">
+                    <div class="card-title mb-0">
+                        {% translate "Fatlink details" %}
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="row justify-content-center">
+                        <div class="col-md-6">
+                            <form role="form" action="" method="POST">
+                                {% csrf_token %}
+                                {% bootstrap_form form %}
+
+                                <div class="form-group mt-3 clearfix">
+                                    {% translate "Create fatlink" as button_text %}
+                                    {% bootstrap_button button_class="btn btn-primary" content=button_text name="submit_fat" id="submit_fat" %}
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

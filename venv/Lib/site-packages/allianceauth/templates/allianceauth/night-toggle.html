@@ -1,0 +1,8 @@
+{% load i18n %}
+
+<li>
+    <a href="{% url 'nightmode' %}?next={{ request.path|urlencode }}">
+        <i class="fa-solid {% if NIGHT_MODE %}fa-toggle-on{% else %}fa-toggle-off{% endif %}" aria-hidden="true"></i>
+        {% translate "Night Mode" %}
+    </a>
+</li>

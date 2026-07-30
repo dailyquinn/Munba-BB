@@ -57,44 +57,50 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     // #endregion
 
-    /**
-     * Asynchronously loads item and group data from JSON files.
-     * This data is used for the autocomplete search functionality and for displaying human-readable names.
-     * It populates itemMap, idToNameMap, groupMap, and groupIdToNameMap.
-     */
     async function loadItemData() {
-        if (Object.keys(itemMap).length > 0) return; // Already loaded
+        if (!multipliersText.value) return;
         try {
-            // Load Items
-            const itemsResp = await fetch('jsons/type_ids.json');
-            if (itemsResp.ok) {
-                itemMap = await itemsResp.json();
-                // Create reverse map for readable list
-                for (const [name, id] of Object.entries(itemMap)) {
-                    idToNameMap[id] = name;
+            const data = JSON.parse(multipliersText.value);
+            const ids = [];
+            const group_ids = [];
+            for (let key in data) {
+                if (key.startsWith('group:')) {
+                    group_ids.push(parseInt(key.split(':')[1]));
+                } else {
+                    ids.push(parseInt(key));
                 }
             }
-
-            // Load Groups (Try group_ids.json first, then fallback)
-            const groupsResp = await fetch('jsons/group_ids.json');
-            if (groupsResp.ok) {
-                groupMap = groupIdToNameMap = await groupsResp.json(); // group_ids.json is now ID -> Name
-            } else {
-                console.warn('jsons/group_ids.json not found. Group search will be limited.');
+            if (ids.length === 0 && group_ids.length === 0) {
+                renderReadableList();
+                return;
             }
             
-            // Re-render list now that we have names
+            const response = await fetch('/api/sde/names', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ ids, group_ids })
+            });
+            if (response.ok) {
+                const nameData = await response.json();
+                for (let key in nameData) {
+                    if (key.startsWith('group:')) {
+                        groupIdToNameMap[key.split(':')[1]] = nameData[key];
+                    } else {
+                        idToNameMap[key] = nameData[key];
+                    }
+                }
+            }
             renderReadableList();
-
         } catch (e) {
-            console.error('Error loading search data:', e);
+            console.error('Error loading readable names:', e);
+            renderReadableList();
         }
     }
 
     // #region Autocomplete Search Logic
     // Attaches an event listener to the search input field to provide autocomplete suggestions.
     if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
+        searchInput.addEventListener('input', async (e) => {
             const query = e.target.value.toLowerCase();
             suggestionsBox.innerHTML = '';
             suggestionsBox.style.display = 'none';
@@ -102,41 +108,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (query.length < 2) return; // Only start searching after 2 characters
 
-            const matches = [];
+            try {
+                const response = await fetch(`/api/sde/search?q=${encodeURIComponent(query)}`);
+                if (!response.ok) return;
+                const matches = await response.json();
 
-            // Search Groups
-            for (const [id, name] of Object.entries(groupMap)) {
-                if (name.toLowerCase().includes(query)) {
-                    matches.push({ name, id: parseInt(id), type: 'group' });
+                // Display matches in the suggestions box
+                if (matches.length > 0) {
+                    suggestionsBox.style.display = 'block';
+                    matches.forEach(match => {
+                        const div = document.createElement('div');
+                        div.className = 'suggestion-item';
+                        div.innerHTML = `${match.name} <span class="suggestion-type">${match.type.toUpperCase()} (${match.id})</span>`;
+                        div.onclick = () => {
+                            searchInput.value = match.name;
+                            selectedEntry = match;
+                            suggestionsBox.style.display = 'none';
+                            // Check if current JSON has this value
+                            checkForExistingValue(match);
+                        };
+                        suggestionsBox.appendChild(div);
+                    });
                 }
-            }
-
-            // Search Items (Limit to 10 item matches to prevent lag)
-            let itemMatchesCount = 0;
-            for (const [name, id] of Object.entries(itemMap)) {
-                if (itemMatchesCount > 10) break;
-                if (name.toLowerCase().includes(query) || String(id) === query) {
-                    matches.push({ name, id, type: 'item' });
-                    itemMatchesCount++;
-                }
-            }
-
-            // Display matches in the suggestions box
-            if (matches.length > 0) {
-                suggestionsBox.style.display = 'block';
-                matches.forEach(match => {
-                    const div = document.createElement('div');
-                    div.className = 'suggestion-item';
-                    div.innerHTML = `${match.name} <span class="suggestion-type">${match.type.toUpperCase()} (${match.id})</span>`;
-                    div.onclick = () => {
-                        searchInput.value = match.name;
-                        selectedEntry = match;
-                        suggestionsBox.style.display = 'none';
-                        // Check if current JSON has this value
-                        checkForExistingValue(match);
-                    };
-                    suggestionsBox.appendChild(div);
-                });
+            } catch (err) {
+                console.error("Autocomplete search error:", err);
             }
         });
 

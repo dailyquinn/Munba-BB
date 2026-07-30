@@ -1,0 +1,31 @@
+{% extends "timerboard/form.html" %}
+{% load i18n %}
+
+{% block page_title %}
+    {% translate "Update Structure Timer" %}
+{% endblock page_title %}
+
+{% block page_header %}
+    {% translate "Update Structure Timer" %}
+{% endblock %}
+
+{% block submit_button_text %}
+    {% translate "Update Structure Timer" %}
+{% endblock %}
+
+{% block extra_javascript %}
+    {% include 'bundles/timerboard-js.html' %}
+    {% include 'bundles/jquery-datetimepicker-js.html' %}
+    {% include 'bundles/jquery-datetimepicker-css.html' %}
+
+    <script>
+        $(document).ready(() => {
+            $('input#id_absolute_time').datetimepicker({
+                setlocale: '{{ LANGUAGE_CODE }}',
+                mask: true,
+                format: 'Y-m-d H:i',
+                defaultDate: null
+            });
+        });
+    </script>
+{% endblock %}

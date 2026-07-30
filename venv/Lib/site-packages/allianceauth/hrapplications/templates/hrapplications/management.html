@@ -1,0 +1,215 @@
+{% extends "allianceauth/base-bs5.html" %}
+
+{% load django_bootstrap5 %}
+{% load i18n %}
+
+{% block page_title %}
+    {% translate "HR Application Management" %}
+{% endblock page_title %}
+
+{% block header_nav_brand %}
+    {% translate "HR Application Management" %}
+{% endblock header_nav_brand %}
+
+{% block content %}
+    <div>
+        {% translate "Personal Applications" as page_header %}
+        {% include "framework/header/page-header.html" with title=page_header %}
+
+        <div class="text-end mb-3">
+            {% if create %}
+                <a href="{% url 'hrapplications:create_view' %}">
+                    <button type="button" class="btn btn-success">{% translate "Create Application" %}</button>
+                </a>
+            {% else %}
+                <button type="button" class="btn btn-success" disabled>{% translate "Create Application" %}</button>
+            {% endif %}
+        </div>
+
+        {% if personal_apps %}
+            <div class="card card-default mb-3">
+                <div class="card-body">
+                    <table class="table table-condensed">
+                        <tr>
+                            <th class="text-center">{% translate "Username" %}</th>
+                            <th class="text-center">{% translate "Corporation" %}
+                            <th class="text-center">{% translate "Status" %}</th>
+                            <th class="text-center">{% translate "Actions" %}</th>
+                        </tr>
+
+                        {% for personal_app in personal_apps %}
+                            <tr>
+                                <td class="text-center">{{ personal_app.user.username }}</td>
+                                <td class="text-center">{{ personal_app.form.corp.corporation_name }}</td>
+                                <td class="text-center">
+                                    {% if personal_app.approved == None %}
+                                        <div class="badge text-bg-warning">{% translate "Pending" %}</div>
+                                    {% elif personal_app.approved == True %}
+                                        <div class="badge text-bg-success">{% translate "Approved" %}</div>
+                                    {% else %}
+                                        <div class="badge text-bg-danger">{% translate "Rejected" %}</div>
+                                    {% endif %}
+                                </td>
+                                <td class="text-center">
+                                    <a href="{% url 'hrapplications:personal_view' personal_app.id %}" class="btn btn-primary">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </a>
+
+                                    {% if personal_app.approved == None %}
+                                        <a href="{% url 'hrapplications:personal_removal' personal_app.id %}" class="btn btn-danger">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if perms.auth.human_resources %}
+            {% translate "Application Management" as page_header %}
+            {% include "framework/header/page-header.html" with title=page_header %}
+
+            <div class="text-end mb-3">
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modal-hr-search">
+                    {% translate "Search Applications" %}
+                </button>
+            </div>
+
+            <div class="card card-default">
+                <div class="card-body clearfix">
+                    <ul class="nav nav-tabs" id="application-list" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a
+                                class="nav-link active"
+                                id="pending"
+                                data-bs-toggle="tab"
+                                href="#tab-pending"
+                                role="tab"
+                                aria-controls="tab-pending"
+                                aria-selected="true"
+                            >
+                                {% translate "Pending" %}
+                            </a>
+                        </li>
+
+                        <li class="nav-item" role="presentation">
+                            <a
+                                class="nav-link"
+                                id="reviewed"
+                                data-bs-toggle="tab"
+                                href="#tab-reviewed"
+                                role="tab"
+                                aria-controls="tab-reviewed"
+                                aria-selected="false"
+                            >
+                                {% translate "Reviewed" %}
+                            </a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content" id="application-list-content">
+                        <div id="tab-pending" class="tab-pane fade show active" role="tabpanel" aria-labelledby="tab-pending">
+                            {% if applications %}
+                                <table class="table">
+                                    <tr>
+                                        <th class="text-center">{% translate "Date" %}</th>
+                                        <th class="text-center">{% translate "Username" %}</th>
+                                        <th class="text-center">{% translate "Main Character" %}</th>
+                                        <th class="text-center">{% translate "Corporation" %}</th>
+                                        <th class="text-center">{% translate "Status" %}</th>
+                                        <th class="text-center">{% translate "Actions" %}</th>
+                                    </tr>
+
+                                    {% for app in applications %}
+                                        <tr>
+                                            <td class="text-center">{{ app.created }}</td>
+                                            <td class="text-center">{{ app.user.username }}</td>
+                                            <td class="text-center">{{ app.main_character }}</td>
+                                            <td class="text-center">{{ app.form.corp.corporation_name }}</td>
+                                            <td class="text-center">
+                                                {% if app.approved == None %}
+                                                    {% if app.reviewer_str %}
+                                                        <div class="badge text-bg-info">{% translate "Reviewer:" %} {{ app.reviewer_str }}</div>
+                                                    {% else %}
+                                                        <div class="badge text-bg-warning">{% translate "Pending" %}</div>
+                                                    {% endif %}
+                                                {% elif app.approved == True %}
+                                                    <div class="badge text-bg-success">{% translate "Approved" %}</div>
+                                                {% else %}
+                                                    <div class="badge text-bg-danger">{% translate "Rejected" %}</div>
+                                                {% endif %}
+                                            </td>
+                                            <td class="text-center">
+                                                <a href="{% url 'hrapplications:view' app.id %}" class="btn btn-primary">
+                                                    <i class="fa-solid fa-eye"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            {% else %}
+                                <div class="alert alert-warning text-center">{% translate "No pending applications." %}</div>
+                            {% endif %}
+                        </div>
+
+                        <div id="tab-reviewed" class="tab-pane fade" role="tabpanel" aria-labelledby="tab-reviewed">
+                            {% if finished_applications %}
+                                <table class="table">
+                                    <tr>
+                                        <th class="text-center">{% translate "Date" %}</th>
+                                        <th class="text-center">{% translate "Username" %}</th>
+                                        <th class="text-center">{% translate "Main Character" %}</th>
+                                        <th class="text-center">{% translate "Corporation" %}</th>
+                                        <th class="text-center">{% translate "Status" %}</th>
+                                        <th class="text-center">{% translate "Actions" %}</th>
+                                    </tr>
+
+                                    {% for app in finished_applications %}
+                                        <tr>
+                                            <td class="text-center">{{ app.created }}</td>
+                                            <td class="text-center">{{ app.user.username }}</td>
+                                            <td class="text-center">{{ app.main_character }}</td>
+                                            <td class="text-center">{{ app.form.corp.corporation_name }}</td>
+                                            <td class="text-center">
+                                                {% if app.approved == None %}
+                                                    {% if app.reviewer_str %}
+                                                        <div class="badge text-bg-info">{% translate "Reviewer:" %} {{ app.reviewer_str }}</div>
+                                                    {% else %}
+                                                        <div class="badge text-bg-warning">{% translate "Pending" %}</div>
+                                                    {% endif %}
+                                                {% elif app.approved == True %}
+                                                    <div class="badge text-bg-success">{% translate "Approved" %}</div>
+                                                {% else %}
+                                                    <div class="badge text-bg-danger">{% translate "Rejected" %}</div>
+                                                {% endif %}
+                                            </td>
+                                            <td class="text-center">
+                                                <a href="{% url 'hrapplications:view' app.id %}" class="btn btn-primary">
+                                                    <i class="fa-solid fa-eye"></i>
+                                                </a>
+
+                                                {% if perms.hrapplications.delete_application %}
+                                                    <a href="{% url 'hrapplications:remove' app.id %}" class="btn btn-danger">
+                                                        <i class="fa-solid fa-trash-can"></i>
+                                                    </a>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            {% else %}
+                                <div class="alert alert-warning text-center">{% translate "No reviewed applications." %}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    {% include "hrapplications/partials/modals/search.html" %}
+{% endblock content %}

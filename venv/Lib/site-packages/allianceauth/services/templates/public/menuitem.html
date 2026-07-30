@@ -1,0 +1,12 @@
+{% load i18n %}
+{% load navactive %}
+
+<li>
+    <a class="{% navactive request item.navactive|join:' ' %}" href="{% url item.url_name %}">
+        <i class="{{ item.classes }}"></i> {% translate item.text %}
+
+        {% if item.count != None %}
+            <span class="badge">{{ item.count }}</span>
+        {% endif %}
+    </a>
+</li>

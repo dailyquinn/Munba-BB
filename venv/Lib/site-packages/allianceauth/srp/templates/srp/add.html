@@ -1,0 +1,74 @@
+{% extends "allianceauth/base-bs5.html" %}
+
+{% load django_bootstrap5 %}
+{% load i18n %}
+
+{% block page_title %}
+    {% translate "SRP Fleet Create" %}
+{% endblock page_title %}
+
+{% block header_nav_brand %}
+    {% translate "Ship Replacement Program" %}
+{% endblock header_nav_brand %}
+
+{% block extra_css %}
+    {% include 'bundles/jquery-datetimepicker-css.html' %}
+{% endblock extra_css %}
+
+{% block content %}
+    <div>
+        {% translate "Create SRP Fleet" as page_header %}
+        {% include "framework/header/page-header.html" with title=page_header %}
+
+        <div class="card card-primary border-0">
+            <div class="card-header">
+                <div class="card-title mb-0">
+                    {% translate "SRP fleet details" %}
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        {% if completed == False %}
+                            <form role="form" action="" method="POST">
+                                {% csrf_token %}
+
+                                {% bootstrap_form form %}
+
+                                <div class="form-group mt-3 clearfix">
+                                    {% translate "Create SRP fleet" as button_text %}
+                                    {% bootstrap_button button_class="btn btn-primary" content=button_text %}
+                                </div>
+                            </form>
+                        {% else %}
+                            <div class="aa-callout aa-callout-info" role="alert">
+                                <p>{% translate "Give this link to the line members." %}</p>
+                                <p>{{ SITE_URL }}{% url 'srp:request' completed_srp_code %}</p>
+                            </div>
+
+                            <div class="text-end">
+                                <a href="{% url 'srp:management' %}" class="btn btn-primary">{% translate "Continue" %}</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block extra_javascript %}
+    {% include 'bundles/jquery-datetimepicker-js.html' %}
+
+    <script>
+        $(document).ready(() => {
+            $('#id_fleet_time').datetimepicker({
+                setlocale: '{{ LANGUAGE_CODE }}',
+                mask: true,
+                format: 'Y-m-d H:i',
+                minDate: 0
+            });
+        });
+    </script>
+{% endblock %}

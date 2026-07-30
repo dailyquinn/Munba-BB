@@ -1,0 +1,49 @@
+{% extends "services/services_ctrl_base.html" %}
+
+{% load i18n %}
+
+{% block title %}
+    {{ service_name }}
+{% endblock %}
+
+{% block url %}
+    {{ server_name }}
+{% endblock %}
+
+{% block active %}
+    {% include "services/service_status.html" with username=discord_username %}
+{% endblock %}
+
+{% block user %}
+    {% if discord_username %}
+        {{ discord_username }}
+    {% endif %}
+{% endblock %}
+
+{% block controls %}
+    {% if not user_has_account %}
+        {% if urls.auth_activate %}
+            <a class="btn btn-warning" href="{% url urls.auth_activate %}" title="{% translate 'Activate' %}">
+                <i class="fa-solid fa-check fa-fw"></i>
+            </a>
+        {% endif %}
+    {% else %}
+        {% if urls.auth_reset %}
+            <a class="btn btn-primary" href="{% url urls.auth_reset %}" title="{% translate 'Reset Password' %}">
+                <i class="fa-solid fa-rotate fa-fw"></i>
+            </a>
+        {% endif %}
+
+        {% if urls.auth_deactivate %}
+            <a class="btn btn-danger" href="{% url urls.auth_deactivate %}" title="{% translate 'Deactivate' %}">
+                <i class="fa-solid fa-xmark fa-fw"></i>
+            </a>
+        {% endif %}
+    {% endif %}
+
+    {% if request.user.is_superuser %}
+        <a class="btn btn-primary" type="button" id="btnLinkDiscordServer" href="{% url urls.auth_add_bot %}" title="{% translate 'Link Discord Server' %}">
+            <i class="fa-solid fa-link fa-fw"></i>
+        </a>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends "allianceauth/base-bs5.html" %}
+{% load static %}
+{% load i18n %}
+{% load navactive %}
+
+{% block page_title %}{% translate "Groups Membership" %}{% endblock page_title %}
+{% block header_nav_brand %}{% translate "Groups Membership" %}{% endblock header_nav_brand %}
+
+{% block extra_css %}{% endblock extra_css %}
+
+{% block header_nav_collapse_left %}
+<li class="nav-item">
+    <a class="nav-link {% navactive request 'groupmanagement:management' %}" href="{% url 'groupmanagement:management' %}">{% translate "Join/Leave Requests" %}</a>
+</li>
+{% endblock header_nav_collapse_left %}
+
+{% block content %}
+    {% if groups %}
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>{% translate "Name" %}</th>
+                        <th>{% translate "Description" %}</th>
+                        <th>{% translate "Status" %}</th>
+                        <th style="white-space: nowrap;" class="text-center">{% translate "Member Count" %}</th>
+                        <th style="min-width: 170px;"></th>
+                    </tr>
+                </thead>
+
+                <tbody class="align-middle">
+                    {% for group in groups %}
+                        <tr>
+                            <td>
+                                <a href="{% url 'groupmanagement:membership' group.id %}">{{ group.name }}</a>
+                            </td>
+
+                            <td>{{ group.authgroup.description|linebreaks|urlize }}</td>
+
+                            <td>
+                                {% if group.authgroup.hidden %}
+                                    <span class="badge text-bg-info">{% translate "Hidden" %}</span>
+                                {% endif %}
+                                {% if group.authgroup.open %}
+                                    <span class="badge text-bg-success">{% translate "Open" %}</span>
+                                {% else %}
+                                    <span class="badge text-bg-secondary">{% translate "Requestable" %}</span>
+                                {% endif %}
+                            </td>
+
+                            <td class="text-center">
+                                {{ group.num_members }}
+                            </td>
+
+                            <td class="text-end">
+                                <a href="{% url 'groupmanagement:membership' group.id %}" class="btn btn-primary" title="{% translate "View Members" %}">
+                                    <i class="fa-regular fa-eye"></i>
+                                </a>
+
+                                <a href="{% url "groupmanagement:audit_log" group.id %}" class="btn btn-info" title="{% translate "Audit Members" %}">
+                                    <i class="fa-regular fa-rectangle-list"></i>
+                                </a>
+
+                                <a id="clipboard-copy" data-clipboard-text="{{ request.scheme }}://{{request.get_host}}{% url 'groupmanagement:request_add' group.id %}" class="btn btn-warning" title="{% translate "Copy Direct Join Link" %}">
+                                    <i class="fa-regular fa-clipboard"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert alert-warning text-center">
+            {% translate "No groups to list." %}
+        </div>
+    {% endif %}
+{% endblock content %}
+
+{% block extra_javascript %}
+    {% include "bundles/clipboard-js.html" %}
+
+    <script>
+        new ClipboardJS('#clipboard-copy');
+    </script>
+{% endblock extra_javascript %}

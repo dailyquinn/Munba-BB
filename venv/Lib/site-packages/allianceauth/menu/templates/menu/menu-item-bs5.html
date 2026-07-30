@@ -1,0 +1,56 @@
+{% load i18n %}
+{% load navactive %}
+
+
+<li class="d-flex flex-wrap m-2 p-2 pt-0 pb-0 mt-0 mb-0 me-0 pe-0">
+    <i
+        class="nav-link {{ item.classes }} fa-fw align-self-center me-3 {% if item.navactive %}{% navactive request item.navactive|join:' ' %}{% endif %}"
+        {% if item.is_folder %}
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#{{ item.html_id }}"
+            aria-expanded="false"
+            aria-controls=""
+        {% endif %}
+    ></i>
+    <a
+        class="nav-link flex-fill align-self-center me-auto {% if item.navactive %}{% navactive request item.navactive|join:' ' %}{% endif %}"
+        {% if item.is_folder %}
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#{{ item.html_id }}"
+            aria-expanded="false"
+            aria-controls=""
+        {% endif %}
+        href="{% if item.url_name %}{% url item.url_name %}{% else %}{{ item.url }}{% endif %}">
+        {% translate item.text %}
+    </a>
+
+    {% if item.count >= 1 %}
+        <span class="badge text-bg-primary m-2 align-self-center{% if not item.is_folder %} me-2{% endif %}">
+            {{ item.count }}
+        </span>
+    {% elif item.url %}
+        <span class="pill m-2 me-4 align-self-center fas fa-external-link-alt"></span>
+    {% endif %}
+
+    {% if item.is_folder %}
+        <span
+            class="pill m-2 align-self-center"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#{{ item.html_id }}"
+            aria-expanded="false"
+            aria-controls=""
+        >
+            <i class="fa-solid fa-chevron-right"></i>
+        </span>
+        <ul
+            class="collapse ps-1 w-100 border-start rounded-start border-light border-3"
+            id="{{ item.html_id }}">
+            {% for sub_item in item.children %}
+                {{ sub_item }}
+            {% endfor %}
+        </ul>
+    {% endif %}
+</li>

@@ -18,6 +18,6 @@ RUN mkdir -p /app/jsons
 EXPOSE 8000
 
 ENV PYTHONPATH=/app
-ENV DATABASE_PATH=/app/market_prices.db
+ENV DATABASE_PATH=/app/data/db.sqlite3
 
-CMD ["uvicorn", "Scripts.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["python", "munbabb/manage.py", "runserver", "0.0.0.0:8000"]

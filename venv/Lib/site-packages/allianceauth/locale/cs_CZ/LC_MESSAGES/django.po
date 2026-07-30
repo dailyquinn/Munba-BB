@@ -1,0 +1,3052 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# Tomas Skarecky <t.skarecky@gmail.com>, 2024
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-21 13:44+1000\n"
+"PO-Revision-Date: 2023-11-08 13:50+0000\n"
+"Last-Translator: Tomas Skarecky <t.skarecky@gmail.com>, 2024\n"
+"Language-Team: Czech (Czech Republic) (https://app.transifex.com/alliance-auth/teams/107430/cs_CZ/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: cs_CZ\n"
+"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
+
+#: allianceauth/analytics/apps.py:8
+msgid "Analytics"
+msgstr ""
+
+#: allianceauth/analytics/models.py:22
+msgid "Google Analytics Universal"
+msgstr "Google Analytics Universal"
+
+#: allianceauth/analytics/models.py:23
+msgid "Google Analytics V4"
+msgstr "Google Analytics V4"
+
+#: allianceauth/authentication/apps.py:9
+msgid "Authentication"
+msgstr ""
+
+#: allianceauth/authentication/constants.py:6
+msgid ""
+"This software has exceeded the error limit for ESI. If you are a user, "
+"please contact the maintainer of this software. If you are a "
+"developer/maintainer, please make a greater effort in the future to receive "
+"valid responses. For tips on how, come have a chat with us in ##3rd-party-"
+"dev-and-esi on the EVE Online Discord. https://www.eveonline.com/discord"
+msgstr ""
+
+#: allianceauth/authentication/decorators.py:52
+msgid "A main character is required to perform that action. Add one below."
+msgstr "Pro provedení akce je potřeba hlavní postava. Přidejte ji níže"
+
+#: allianceauth/authentication/forms.py:12
+msgid "Email"
+msgstr "Email"
+
+#: allianceauth/authentication/forms.py:62
+#, python-format
+msgid "You are not allowed to add or remove these restricted groups: %s"
+msgstr ""
+"Nemáte oprávnění k přidávání a odebírání těchto skupin s omezeným "
+"přístupem:%s"
+
+#: allianceauth/authentication/models.py:72
+#: allianceauth/project_template/project_name/settings/base.py:104
+msgid "English"
+msgstr "Angličtina"
+
+#: allianceauth/authentication/models.py:73
+msgid "Czech"
+msgstr ""
+
+#: allianceauth/authentication/models.py:74
+#: allianceauth/project_template/project_name/settings/base.py:106
+msgid "German"
+msgstr "Němčina"
+
+#: allianceauth/authentication/models.py:75
+#: allianceauth/project_template/project_name/settings/base.py:107
+msgid "Spanish"
+msgstr "Španělština"
+
+#: allianceauth/authentication/models.py:76
+#: allianceauth/project_template/project_name/settings/base.py:108
+msgid "Italian"
+msgstr "Italština"
+
+#: allianceauth/authentication/models.py:77
+#: allianceauth/project_template/project_name/settings/base.py:109
+msgid "Japanese"
+msgstr "Japonština"
+
+#: allianceauth/authentication/models.py:78
+#: allianceauth/project_template/project_name/settings/base.py:110
+msgid "Korean"
+msgstr "Korejština"
+
+#: allianceauth/authentication/models.py:79
+#: allianceauth/project_template/project_name/settings/base.py:111
+msgid "French"
+msgstr "Francouzština"
+
+#: allianceauth/authentication/models.py:80
+#: allianceauth/project_template/project_name/settings/base.py:114
+msgid "Russian"
+msgstr "Ruština"
+
+#: allianceauth/authentication/models.py:81
+#: allianceauth/project_template/project_name/settings/base.py:112
+msgid "Dutch"
+msgstr ""
+
+#: allianceauth/authentication/models.py:82
+#: allianceauth/project_template/project_name/settings/base.py:113
+msgid "Polish"
+msgstr ""
+
+#: allianceauth/authentication/models.py:83
+#: allianceauth/project_template/project_name/settings/base.py:115
+msgid "Ukrainian"
+msgstr "Ukrajinština"
+
+#: allianceauth/authentication/models.py:84
+#: allianceauth/project_template/project_name/settings/base.py:116
+msgid "Simplified Chinese"
+msgstr ""
+
+#: allianceauth/authentication/models.py:100
+#: allianceauth/menu/templates/menu/menu-user.html:67
+msgid "Language"
+msgstr "Jazyk"
+
+#: allianceauth/authentication/models.py:105
+#: allianceauth/templates/allianceauth/night-toggle.html:6
+msgid "Night Mode"
+msgstr "Noční režim"
+
+#: allianceauth/authentication/models.py:109
+#: allianceauth/theme/templates/theme/theme_select.html:4
+msgid "Theme"
+msgstr "Motiv"
+
+#: allianceauth/authentication/models.py:126
+#, python-format
+msgid "State changed to: %s"
+msgstr "Status změněn na: %s"
+
+#: allianceauth/authentication/models.py:127
+#, python-format
+msgid "Your user's state is now: %(state)s"
+msgstr "Váš uživatelský status je nyní: %(state)s"
+
+#: allianceauth/authentication/templates/authentication/dashboard.html:5
+#: allianceauth/authentication/templates/authentication/dashboard.html:7
+#: allianceauth/menu/templates/menu/sortable-side-menu.html:14
+#: allianceauth/templates/allianceauth/side-menu.html:10
+msgid "Dashboard"
+msgstr ""
+
+#: allianceauth/authentication/templates/authentication/dashboard_characters.html:5
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkstatisticscorpview.html:33
+#: allianceauth/hrapplications/templates/hrapplications/view.html:54
+msgid "Characters"
+msgstr "Postavy"
+
+#: allianceauth/authentication/templates/authentication/dashboard_characters.html:11
+#: allianceauth/authentication/templates/authentication/dashboard_characters.html:12
+#: allianceauth/templates/allianceauth/top-menu-rh-default.html:4
+msgid "Add Character"
+msgstr "Přidat postavu"
+
+#: allianceauth/authentication/templates/authentication/dashboard_characters.html:14
+#: allianceauth/authentication/templates/authentication/dashboard_characters.html:15
+#: allianceauth/templates/allianceauth/top-menu-rh-default.html:8
+msgid "Change Main"
+msgstr "Změnit postavu"
+
+#: allianceauth/authentication/templates/authentication/dashboard_characters.html:22
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkview.html:89
+#: allianceauth/groupmanagement/templates/groupmanagement/groupmembership.html:23
+#: allianceauth/groupmanagement/templates/groupmanagement/groups.html:32
+#: allianceauth/hrapplications/templates/hrapplications/view.html:61
+#: allianceauth/permissions_tool/templates/permissions_tool/overview.html:33
+msgid "Name"
+msgstr "Jméno"
+
+#: allianceauth/authentication/templates/authentication/dashboard_characters.html:23
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkstatisticsview.html:33
+msgid "Corp"
+msgstr "Korporace"
+
+#: allianceauth/authentication/templates/authentication/dashboard_characters.html:24
+#: allianceauth/corputils/templates/corputils/corpstats.html:126
+#: allianceauth/hrapplications/templates/hrapplications/view.html:63
+msgid "Alliance"
+msgstr "Aliance"
+
+#: allianceauth/authentication/templates/authentication/dashboard_groups.html:5
+msgid "Membership"
+msgstr "Členství"
+
+#: allianceauth/authentication/templates/authentication/dashboard_groups.html:10
+msgid "State:"
+msgstr "Stav:"
+
+#: allianceauth/authentication/templates/authentication/tokens.html:7
+#: allianceauth/authentication/templates/authentication/tokens.html:11
+#: allianceauth/menu/templates/menu/menu-user.html:133
+#: allianceauth/menu/templates/menu/menu-user.html:136
+#: allianceauth/templates/allianceauth/top-menu-user-dropdown.html:62
+msgid "Token Management"
+msgstr "Správa Tokenů"
+
+#: allianceauth/authentication/templates/authentication/tokens.html:17
+msgid ""
+"This page is a best attempt, but backups or database logs can still contain "
+"your tokens. Always revoke tokens on "
+"https://developers.eveonline.com/authorized-apps where possible."
+msgstr ""
+
+#: allianceauth/authentication/templates/authentication/tokens.html:23
+msgid "Scopes"
+msgstr ""
+
+#: allianceauth/authentication/templates/authentication/tokens.html:24
+#: allianceauth/hrapplications/templates/hrapplications/management.html:37
+#: allianceauth/hrapplications/templates/hrapplications/management.html:124
+#: allianceauth/hrapplications/templates/hrapplications/management.html:168
+#: allianceauth/hrapplications/templates/hrapplications/searchview.html:35
+#: allianceauth/hrapplications/templates/hrapplications/view.html:94
+#: allianceauth/srp/templates/srp/data.html:81
+#: allianceauth/srp/templates/srp/management.html:51
+msgid "Actions"
+msgstr "Akce"
+
+#: allianceauth/authentication/templates/authentication/tokens.html:25
+#: allianceauth/corputils/templates/corputils/corpstats.html:124
+#: allianceauth/corputils/templates/corputils/corpstats.html:164
+#: allianceauth/corputils/templates/corputils/corpstats.html:211
+#: allianceauth/corputils/templates/corputils/search.html:17
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkmodify.html:36
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkview.html:41
+#: allianceauth/groupmanagement/templates/groupmanagement/audit.html:30
+#: allianceauth/groupmanagement/templates/groupmanagement/groupmembers.html:29
+#: allianceauth/groupmanagement/templates/groupmanagement/index.html:55
+#: allianceauth/groupmanagement/templates/groupmanagement/index.html:118
+msgid "Character"
+msgstr "Postava"
+
+#: allianceauth/authentication/templates/public/login.html:6
+#: allianceauth/templates/allianceauth/top-menu-user-dropdown.html:69
+msgid "Login"
+msgstr "Přihlášení"
+
+#: allianceauth/authentication/templates/public/login.html:10
+msgid "Login with Eve SSO"
+msgstr "Přihlášení pomocí EVE SSO"
+
+#: allianceauth/authentication/templates/public/middle_box.html:25
+msgid "For information on SSO, ESI and security read the CCP Dev Blog"
+msgstr "Více informací o SSO, ESI a bezpečnosti najdete na blogu CCP Dev"
+
+#: allianceauth/authentication/templates/public/middle_box.html:27
+msgid "Introducing ESI - A New API For EVE Online"
+msgstr "Představení ESI - Nové API pro Eve Online"
+
+#: allianceauth/authentication/templates/public/middle_box.html:33
+msgid "Manage ESI Applications"
+msgstr "Správa ESI aplikací"
+
+#: allianceauth/authentication/templates/public/register.html:6
+msgid "Registration"
+msgstr "Registrace"
+
+#: allianceauth/authentication/templates/public/register.html:23
+msgid "Register"
+msgstr "Registrace"
+
+#: allianceauth/authentication/templates/registration/activate.html:6
+msgid "Invalid or expired activation link."
+msgstr "Nevalidní, nebo expirovaný aktivační odkaz."
+
+#: allianceauth/authentication/views.py:159
+#, python-format
+msgid ""
+"Cannot change main character to %(char)s: character owned by a different "
+"account."
+msgstr ""
+"Není možné změnit hlavní postavu na %(char)s: postava patří pod jiný účet."
+
+#: allianceauth/authentication/views.py:166
+#, python-format
+msgid "Changed main character to %s"
+msgstr "Hlavní postava změněna na %s"
+
+#: allianceauth/authentication/views.py:180
+#, python-format
+msgid "Added %(name)s to your account."
+msgstr "%(name)spřidána k vačenu účtu"
+
+#: allianceauth/authentication/views.py:182
+#, python-format
+msgid "Failed to add %(name)s to your account: they already have an account."
+msgstr "Přidání %(name)sk vašemu účtu se nezdařilo: již mají účet"
+
+#: allianceauth/authentication/views.py:227
+msgid ""
+"Unable to authenticate as the selected character. Please log in with the "
+"main character associated with this account."
+msgstr ""
+"Není možné váš ověřit pomocí vybrané postavu. Prosím přihlaste se pomocí "
+"hlavní postavy spojené s tímto účtem."
+
+#: allianceauth/authentication/views.py:294
+msgid "Registration token has expired."
+msgstr "Registrační token expiroval"
+
+#: allianceauth/authentication/views.py:355
+msgid ""
+"Sent confirmation email. Please follow the link to confirm your email "
+"address."
+msgstr ""
+"Byl vám odeslán potvrzovací email. Otevřete prosím odkaz pro potvrzení "
+"emailové adresy. "
+
+#: allianceauth/authentication/views.py:361
+msgid "Confirmed your email address. Please login to continue."
+msgstr "Emailová adresa potvrzena. Přihlaste se prosím."
+
+#: allianceauth/authentication/views.py:367
+msgid "Registration of new accounts is not allowed at this time."
+msgstr "Momentálně není povolena registrace nových účtů."
+
+#: allianceauth/corputils/apps.py:8 allianceauth/corputils/auth_hooks.py:12
+msgid "Corporation Stats"
+msgstr "Statistiky korporace"
+
+#: allianceauth/corputils/templates/corputils/base.html:6
+#: allianceauth/corputils/templates/corputils/base.html:10
+msgid "Corporation Member Data"
+msgstr ""
+
+#: allianceauth/corputils/templates/corputils/base.html:16
+msgid "Corporations"
+msgstr "Korporace"
+
+#: allianceauth/corputils/templates/corputils/base.html:31
+msgid "Add corporation"
+msgstr "Přidat korporaci"
+
+#: allianceauth/corputils/templates/corputils/base.html:47
+msgid "Search all corporations..."
+msgstr "Vyhledat všechny korporace"
+
+#: allianceauth/corputils/templates/corputils/corpstats.html:46
+msgid "Mains"
+msgstr "Hlavní postavy"
+
+#: allianceauth/corputils/templates/corputils/corpstats.html:60
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkstatisticsview.html:34
+msgid "Members"
+msgstr "Členové"
+
+#: allianceauth/corputils/templates/corputils/corpstats.html:74
+msgid "Unregistered"
+msgstr ""
+
+#: allianceauth/corputils/templates/corputils/corpstats.html:80
+msgid "Last update:"
+msgstr "Poslední aktualizace:"
+
+#: allianceauth/corputils/templates/corputils/corpstats.html:86
+msgid "Update Now"
+msgstr "Aktualizovat"
+
+#: allianceauth/corputils/templates/corputils/corpstats.html:101
+msgid "Main character"
+msgstr "Hlavní postava"
+
+#: allianceauth/corputils/templates/corputils/corpstats.html:102
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkmodify.html:29
+msgid "Registered characters"
+msgstr "Registrované postavy"
+
+#: allianceauth/corputils/templates/corputils/corpstats.html:125
+#: allianceauth/corputils/templates/corputils/search.html:18
+#: allianceauth/groupmanagement/templates/groupmanagement/audit.html:31
+#: allianceauth/hrapplications/templates/hrapplications/management.html:35
+#: allianceauth/hrapplications/templates/hrapplications/management.html:122
+#: allianceauth/hrapplications/templates/hrapplications/management.html:166
+#: allianceauth/hrapplications/templates/hrapplications/searchview.html:33
+#: allianceauth/hrapplications/templates/hrapplications/view.html:62
+msgid "Corporation"
+msgstr "Korporace"
+
+#: allianceauth/corputils/templates/corputils/corpstats.html:142
+#: allianceauth/corputils/templates/corputils/corpstats.html:178
+#: allianceauth/corputils/templates/corputils/corpstats.html:191
+#: allianceauth/corputils/templates/corputils/corpstats.html:223
+#: allianceauth/corputils/templates/corputils/search.html:31
+msgid "Killboard"
+msgstr ""
+
+#: allianceauth/corputils/templates/corputils/corpstats.html:166
+#: allianceauth/corputils/templates/corputils/search.html:20
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkstatisticscorpview.html:32
+#: allianceauth/hrapplications/templates/hrapplications/management.html:121
+#: allianceauth/hrapplications/templates/hrapplications/management.html:165
+#: allianceauth/hrapplications/templates/hrapplications/searchview.html:32
+#: allianceauth/hrapplications/templates/hrapplications/view.html:42
+msgid "Main Character"
+msgstr "Hlavní postava"
+
+#: allianceauth/corputils/templates/corputils/corpstats.html:167
+#: allianceauth/corputils/templates/corputils/search.html:21
+msgid "Main Corporation"
+msgstr "Hlavní korporace"
+
+#: allianceauth/corputils/templates/corputils/corpstats.html:168
+#: allianceauth/corputils/templates/corputils/search.html:22
+msgid "Main Alliance"
+msgstr "Hlavní aliance"
+
+#: allianceauth/corputils/templates/corputils/search.html:9
+msgid "Search Results"
+msgstr "Výslekdy vyhledávání"
+
+#: allianceauth/corputils/templates/corputils/search.html:19
+msgid "zKillboard"
+msgstr "zKillboard"
+
+#: allianceauth/corputils/views.py:54
+msgid "Selected corp already has a statistics module."
+msgstr "Vybraná korporace již má statistický modul"
+
+#: allianceauth/corputils/views.py:56
+msgid "Failed to gather corporation statistics with selected token."
+msgstr "Nepodařilo se získat statistiky korporace pomocí vybraného tokenu."
+
+#: allianceauth/crontab/apps.py:16
+msgid "Crontab"
+msgstr ""
+
+#: allianceauth/crontab/models.py:13
+msgid "Minute Offset"
+msgstr ""
+
+#: allianceauth/crontab/models.py:14
+msgid "Hour Offset"
+msgstr ""
+
+#: allianceauth/crontab/models.py:15
+msgid "Day of Month Offset"
+msgstr ""
+
+#: allianceauth/crontab/models.py:16
+msgid "Month of Year Offset"
+msgstr ""
+
+#: allianceauth/crontab/models.py:17
+msgid "Day of Week Offset"
+msgstr ""
+
+#: allianceauth/custom_css/apps.py:13 allianceauth/custom_css/models.py:36
+#: allianceauth/custom_css/models.py:37 allianceauth/custom_css/models.py:47
+msgid "Custom CSS"
+msgstr ""
+
+#: allianceauth/custom_css/models.py:25
+msgid "Your custom CSS"
+msgstr ""
+
+#: allianceauth/custom_css/models.py:26
+msgid "This CSS will be added to the site after the default CSS."
+msgstr ""
+
+#: allianceauth/eveonline/apps.py:8
+msgid "EVE Online"
+msgstr ""
+
+#: allianceauth/eveonline/autogroups/apps.py:8
+msgid "EVE Online Autogroups"
+msgstr ""
+
+#: allianceauth/fleetactivitytracking/apps.py:8
+#: allianceauth/fleetactivitytracking/auth_hooks.py:10
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/characternotexisting.html:10
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkcreate.html:11
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkmodify.html:10
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkpersonalmonthlystatisticsview.html:10
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkpersonalstatisticsview.html:10
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkstatisticscorpview.html:10
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkstatisticsview.html:10
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkview.html:10
+msgid "Fleet Activity Tracking"
+msgstr ""
+
+#: allianceauth/fleetactivitytracking/forms.py:6 allianceauth/srp/form.py:8
+#: allianceauth/srp/templates/srp/management.html:42
+msgid "Fleet Name"
+msgstr "Jméno flotily"
+
+#: allianceauth/fleetactivitytracking/forms.py:7
+msgid "Duration of fat-link"
+msgstr ""
+
+#: allianceauth/fleetactivitytracking/forms.py:7
+msgid "Duration of the fat-link in minutes"
+msgstr ""
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/characternotexisting.html:6
+msgid "Fleet Participation"
+msgstr "Účast na flotile"
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/characternotexisting.html:15
+msgid "Character not found!"
+msgstr "Postava nenalezena!"
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/characternotexisting.html:35
+msgid "Character not registered!"
+msgstr "Postava není registrována!"
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/characternotexisting.html:38
+msgid "This character is not associated with an auth account."
+msgstr "Tato postava není přiřazena k auth účtu."
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/characternotexisting.html:39
+msgid "Add it here"
+msgstr "Přidat zde"
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/characternotexisting.html:40
+msgid "before attempting to click fleet attendance links."
+msgstr ""
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkcreate.html:7
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkcreate.html:16
+msgid "Create Fatlink"
+msgstr "Vytvoř Fatlink"
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkcreate.html:21
+msgid "Bad request!"
+msgstr "Chybný požadavek!"
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkcreate.html:31
+msgid "Fatlink details"
+msgstr "Detaily fatlinku"
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkcreate.html:43
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkview.html:79
+msgid "Create fatlink"
+msgstr "vytvoř Fatlink"
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkmodify.html:6
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkview.html:6
+msgid "Fatlink view"
+msgstr "Zobraz Fatlink"
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkmodify.html:16
+msgid "Edit fatlink"
+msgstr "Uprav Fatlink"
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkmodify.html:21
+msgid "Are you sure?"
+msgstr "Jste si jistý?"
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkmodify.html:22
+msgid "Delete fat"
+msgstr "Smazat Fatlink"
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkmodify.html:35
+#: allianceauth/groupmanagement/templates/groupmanagement/groups.html:36
+#: allianceauth/hrapplications/templates/hrapplications/view.html:41
+#: allianceauth/services/modules/mumble/templates/services/mumble/mumble_connection_history.html:31
+msgid "User"
+msgstr "Uživatel"
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkmodify.html:37
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkview.html:42
+#: allianceauth/optimer/form.py:13 allianceauth/timerboard/form.py:37
+#: allianceauth/timerboard/templates/timerboard/dashboard.timers.html:17
+#: allianceauth/timerboard/templates/timerboard/timertable.html:10
+msgid "System"
+msgstr "Systém"
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkmodify.html:38
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkpersonalmonthlystatisticsview.html:44
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkview.html:43
+msgid "Ship"
+msgstr "Loď"
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkmodify.html:39
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkpersonalmonthlystatisticsview.html:75
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkview.html:44
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkview.html:92
+#: allianceauth/optimer/templates/optimer/dashboard.ops.html:17
+#: allianceauth/templates/allianceauth/top-menu.html:23
+#: allianceauth/timerboard/templates/timerboard/dashboard.timers.html:18
+#: allianceauth/timerboard/templates/timerboard/timertable.html:12
+msgid "EVE time"
+msgstr ""
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkmodify.html:49
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkview.html:52
+msgid "Docked in"
+msgstr ""
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkpersonalmonthlystatisticsview.html:6
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkpersonalstatisticsview.html:6
+msgid "Personal fatlink statistics"
+msgstr ""
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkpersonalmonthlystatisticsview.html:16
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkstatisticscorpview.html:16
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkstatisticsview.html:16
+#, python-format
+msgid "Participation data statistics for %(month)s, %(year)s"
+msgstr ""
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkpersonalmonthlystatisticsview.html:22
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkstatisticscorpview.html:20
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkstatisticsview.html:20
+msgid "Previous month"
+msgstr "Předchozí měsíc"
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkpersonalmonthlystatisticsview.html:25
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkstatisticscorpview.html:23
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkstatisticsview.html:23
+msgid "Next month"
+msgstr "Následující měsíc"
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkpersonalmonthlystatisticsview.html:33
+#, python-format
+msgid "%(user)s has collected one link this month."
+msgid_plural "%(user)s has collected %(links)s links this month."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkpersonalmonthlystatisticsview.html:45
+msgid "Times used"
+msgstr ""
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkpersonalmonthlystatisticsview.html:62
+#, python-format
+msgid "%(user)s has created one link this month."
+msgid_plural "%(user)s has created %(links)s links this month."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkpersonalmonthlystatisticsview.html:73
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkview.html:40
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkview.html:91
+msgid "Fleet"
+msgstr "Flotila"
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkpersonalmonthlystatisticsview.html:74
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkview.html:90
+#: allianceauth/timerboard/templates/timerboard/timertable.html:14
+msgid "Creator"
+msgstr "Tvůrce"
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkpersonalmonthlystatisticsview.html:76
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkview.html:93
+#: allianceauth/optimer/form.py:18
+#: allianceauth/optimer/templates/optimer/fleetoptable.html:15
+msgid "Duration"
+msgstr "Trvání"
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkpersonalmonthlystatisticsview.html:77
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkview.html:94
+msgid "Edit"
+msgstr "Upravit"
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkpersonalstatisticsview.html:16
+#, python-format
+msgid "Participation data statistics for %(year)s"
+msgstr "Statistika účasti za %(year)s"
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkpersonalstatisticsview.html:20
+msgid "Previous year"
+msgstr "Předchozí rok"
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkpersonalstatisticsview.html:23
+msgid "Next year"
+msgstr "Následující rok"
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkpersonalstatisticsview.html:30
+msgid "Month"
+msgstr "Měsíc"
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkpersonalstatisticsview.html:31
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkstatisticscorpview.html:34
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkstatisticsview.html:35
+msgid "Fats"
+msgstr ""
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkstatisticscorpview.html:6
+msgid "Fatlink Corp Statistics"
+msgstr ""
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkstatisticscorpview.html:36
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkstatisticsview.html:37
+msgid "Average fats"
+msgstr ""
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkstatisticsview.html:6
+msgid "Fatlink Statistics"
+msgstr ""
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkstatisticsview.html:32
+msgid "Ticker"
+msgstr ""
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkview.html:15
+msgid "Participation data"
+msgstr "Data účasatníků"
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkview.html:23
+msgid "Most recent clicked fatlinks"
+msgstr ""
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkview.html:29
+msgid "Personal statistics"
+msgstr ""
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkview.html:63
+msgid "No fleet activity on record."
+msgstr ""
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkview.html:72
+msgid "Most recent fatlinks"
+msgstr ""
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkview.html:76
+msgid "View statistics"
+msgstr ""
+
+#: allianceauth/fleetactivitytracking/templates/fleetactivitytracking/fatlinkview.html:119
+msgid "No created fatlinks on record."
+msgstr ""
+
+#: allianceauth/fleetactivitytracking/views.py:218
+msgid "Character does not exist"
+msgstr ""
+
+#: allianceauth/fleetactivitytracking/views.py:221
+msgid "User does not exist"
+msgstr ""
+
+#: allianceauth/fleetactivitytracking/views.py:299
+msgid "Fleet participation registered."
+msgstr ""
+
+#: allianceauth/fleetactivitytracking/views.py:318
+msgid "FAT link has expired."
+msgstr ""
+
+#: allianceauth/fleetactivitytracking/views.py:323
+#, python-brace-format
+msgid ""
+"Cannot register the fleet participation for {character.character_name}. The "
+"character needs to be online."
+msgstr ""
+
+#: allianceauth/framework/apps.py:16
+msgid "Framework"
+msgstr ""
+
+#: allianceauth/groupmanagement/apps.py:8
+#: allianceauth/groupmanagement/auth_hooks.py:18
+#: allianceauth/groupmanagement/templates/groupmanagement/groups.html:18
+msgid "Group Management"
+msgstr ""
+
+#: allianceauth/groupmanagement/auth_hooks.py:51
+#: allianceauth/permissions_tool/templates/permissions_tool/overview.html:35
+msgid "Groups"
+msgstr ""
+
+#: allianceauth/groupmanagement/forms.py:18
+#: allianceauth/permissions_tool/templates/permissions_tool/overview.html:34
+msgid "Users"
+msgstr ""
+
+#: allianceauth/groupmanagement/forms.py:52
+msgid "This name has been reserved and can not be used for groups."
+msgstr ""
+
+#: allianceauth/groupmanagement/forms.py:62
+msgid "(auto)"
+msgstr ""
+
+#: allianceauth/groupmanagement/forms.py:71
+msgid "There already exists a group with that name."
+msgstr ""
+
+#: allianceauth/groupmanagement/models.py:104
+msgid ""
+"Internal group, users cannot see, join or request to join this "
+"group.<br>Used for groups such as Members, Corp_*, Alliance_* "
+"etc.<br><b>Overrides Hidden and Open options when selected.</b>"
+msgstr ""
+
+#: allianceauth/groupmanagement/models.py:112
+msgid "Group is hidden from users but can still join with the correct link."
+msgstr ""
+
+#: allianceauth/groupmanagement/models.py:118
+msgid ""
+"Group is open and users will be automatically added upon request.<br>If the "
+"group is not open users will need their request manually approved."
+msgstr ""
+
+#: allianceauth/groupmanagement/models.py:125
+msgid ""
+"Group is public. Any registered user is able to join this group, with "
+"visibility based on the other options set for this group.<br>Auth will not "
+"remove users from this group automatically when they are no longer "
+"authenticated."
+msgstr ""
+
+#: allianceauth/groupmanagement/models.py:134
+msgid ""
+"Group is restricted. This means that adding or removing users for this group"
+" requires a superuser admin."
+msgstr ""
+
+#: allianceauth/groupmanagement/models.py:143
+msgid ""
+"Group leaders can process requests for this group. Use the "
+"<code>auth.group_management</code> permission to allow a user to manage all "
+"groups.<br>"
+msgstr ""
+
+#: allianceauth/groupmanagement/models.py:153
+msgid ""
+"Members of leader groups can process requests for this group. Use the "
+"<code>auth.group_management</code> permission to allow a user to manage all "
+"groups.<br>"
+msgstr ""
+
+#: allianceauth/groupmanagement/models.py:162
+msgid ""
+"States listed here will have the ability to join this group provided they "
+"have the proper permissions.<br>"
+msgstr ""
+
+#: allianceauth/groupmanagement/models.py:170
+msgid ""
+"Short description <i>(max. 512 characters)</i> of the group shown to users."
+msgstr ""
+
+#: allianceauth/groupmanagement/models.py:177
+msgid "Can request non-public groups"
+msgstr ""
+
+#: allianceauth/groupmanagement/models.py:208
+msgid "name"
+msgstr ""
+
+#: allianceauth/groupmanagement/models.py:211
+msgid "Name that can not be used for groups."
+msgstr ""
+
+#: allianceauth/groupmanagement/models.py:214
+msgid "reason"
+msgstr ""
+
+#: allianceauth/groupmanagement/models.py:214
+msgid "Reason why this name is reserved."
+msgstr ""
+
+#: allianceauth/groupmanagement/models.py:217
+msgid "created by"
+msgstr ""
+
+#: allianceauth/groupmanagement/models.py:222
+msgid "created at"
+msgstr ""
+
+#: allianceauth/groupmanagement/models.py:222
+msgid "Date when this entry was created"
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/audit.html:9
+#: allianceauth/groupmanagement/templates/groupmanagement/audit.html:13
+msgid "Audit Log"
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/audit.html:18
+#: allianceauth/groupmanagement/templates/groupmanagement/groupmembers.html:19
+#: allianceauth/permissions_tool/templates/permissions_tool/audit.html:22
+#: allianceauth/timerboard/templates/timerboard/index_button.html:4
+msgid "Back"
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/audit.html:28
+msgid "Date/Time"
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/audit.html:29
+msgid "Requestor"
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/audit.html:32
+#: allianceauth/optimer/templates/optimer/dashboard.ops.html:15
+#: allianceauth/timerboard/templates/timerboard/dashboard.timers.html:16
+msgid "Type"
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/audit.html:33
+#: allianceauth/notifications/templates/notifications/list_partial.html:8
+#: allianceauth/optimer/templates/optimer/fleetoptable.html:20
+#: allianceauth/timerboard/templates/timerboard/timertable.html:17
+msgid "Action"
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/audit.html:34
+msgid "Actor"
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/audit.html:48
+msgid "Removed"
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/audit.html:60
+msgid "All times displayed are EVE/UTC."
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/audit.html:67
+msgid "No entries found for this group."
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/groupmembers.html:10
+#: allianceauth/groupmanagement/templates/groupmanagement/groupmembers.html:14
+msgid "Group Members"
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/groupmembers.html:30
+#: allianceauth/groupmanagement/templates/groupmanagement/index.html:56
+#: allianceauth/groupmanagement/templates/groupmanagement/index.html:119
+#: allianceauth/permissions_tool/templates/permissions_tool/audit.html:33
+msgid "Organization"
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/groupmembers.html:50
+#: allianceauth/groupmanagement/templates/groupmanagement/groupmembers.html:76
+msgid "Group leader"
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/groupmembers.html:61
+#: allianceauth/groupmanagement/templates/groupmanagement/index.html:85
+#: allianceauth/groupmanagement/templates/groupmanagement/index.html:148
+#: allianceauth/permissions_tool/templates/permissions_tool/audit_row.html:18
+msgid "(unknown)"
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/groupmembers.html:66
+msgid "Remove from group"
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/groupmembers.html:81
+msgid "No group members to list."
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/groupmembership.html:6
+#: allianceauth/groupmanagement/templates/groupmanagement/groupmembership.html:7
+msgid "Groups Membership"
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/groupmembership.html:13
+msgid "Join/Leave Requests"
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/groupmembership.html:24
+#: allianceauth/groupmanagement/templates/groupmanagement/groups.html:33
+#: allianceauth/optimer/templates/optimer/fleetoptable.html:10
+msgid "Description"
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/groupmembership.html:25
+#: allianceauth/hrapplications/templates/hrapplications/management.html:36
+#: allianceauth/hrapplications/templates/hrapplications/management.html:123
+#: allianceauth/hrapplications/templates/hrapplications/management.html:167
+#: allianceauth/hrapplications/templates/hrapplications/searchview.html:34
+#: allianceauth/srp/templates/srp/data.html:79
+msgid "Status"
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/groupmembership.html:26
+msgid "Member Count"
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/groupmembership.html:42
+msgid "Hidden"
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/groupmembership.html:45
+#: allianceauth/templates/allianceauth/admin-status/overview.html:53
+msgid "Open"
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/groupmembership.html:47
+msgid "Requestable"
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/groupmembership.html:56
+msgid "View Members"
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/groupmembership.html:60
+msgid "Audit Members"
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/groupmembership.html:64
+msgid "Copy Direct Join Link"
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/groupmembership.html:75
+msgid "No groups to list."
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/groups.html:8
+#: allianceauth/groupmanagement/templates/groupmanagement/groups.html:12
+msgid "Available Groups"
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/groups.html:35
+msgid "Leaders"
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/groups.html:37
+#: allianceauth/groupmanagement/templates/groupmanagement/index.html:57
+#: allianceauth/groupmanagement/templates/groupmanagement/index.html:120
+#: allianceauth/permissions_tool/templates/permissions_tool/audit.html:30
+#: allianceauth/services/modules/openfire/forms.py:6
+msgid "Group"
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/groups.html:70
+msgid "Leave"
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/groups.html:73
+#: allianceauth/groupmanagement/templates/groupmanagement/groups.html:88
+msgid "Request pending"
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/groups.html:80
+msgid "Join"
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/groups.html:84
+msgid "Request"
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/groups.html:93
+msgid "Retract"
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/groups.html:103
+msgid "No groups available."
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/index.html:9
+#: allianceauth/groupmanagement/templates/groupmanagement/index.html:13
+msgid "Groups Management"
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/index.html:19
+msgid "Join Requests"
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/index.html:30
+msgid "Leave Requests"
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/index.html:41
+#: allianceauth/groupmanagement/templates/groupmanagement/menu.html:9
+msgid "Group Membership"
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/index.html:93
+#: allianceauth/groupmanagement/templates/groupmanagement/index.html:156
+msgid "Accept"
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/index.html:96
+#: allianceauth/groupmanagement/templates/groupmanagement/index.html:160
+#: allianceauth/hrapplications/templates/hrapplications/view.html:104
+msgid "Reject"
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/index.html:106
+msgid "No group add requests."
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/index.html:169
+msgid "No group leave requests."
+msgstr ""
+
+#: allianceauth/groupmanagement/templates/groupmanagement/menu.html:6
+msgid "Group Requests"
+msgstr ""
+
+#: allianceauth/groupmanagement/views.py:166
+#, python-format
+msgid "Removed user %(user)s from group %(group)s."
+msgstr ""
+
+#: allianceauth/groupmanagement/views.py:168
+msgid "User does not exist in that group"
+msgstr ""
+
+#: allianceauth/groupmanagement/views.py:171
+msgid "Group does not exist"
+msgstr ""
+
+#: allianceauth/groupmanagement/views.py:198
+#, python-format
+msgid "Accepted application from %(mainchar)s to %(group)s."
+msgstr ""
+
+#: allianceauth/groupmanagement/views.py:204
+#: allianceauth/groupmanagement/views.py:235
+#, python-format
+msgid ""
+"An unhandled error occurred while processing the application from "
+"%(mainchar)s to %(group)s."
+msgstr ""
+
+#: allianceauth/groupmanagement/views.py:229
+#, python-format
+msgid "Rejected application from %(mainchar)s to %(group)s."
+msgstr ""
+
+#: allianceauth/groupmanagement/views.py:264
+#, python-format
+msgid "Accepted application from %(mainchar)s to leave %(group)s."
+msgstr ""
+
+#: allianceauth/groupmanagement/views.py:269
+#: allianceauth/groupmanagement/views.py:301
+#, python-format
+msgid ""
+"An unhandled error occurred while processing the application from "
+"%(mainchar)s to leave %(group)s."
+msgstr ""
+
+#: allianceauth/groupmanagement/views.py:295
+#, python-format
+msgid "Rejected application from %(mainchar)s to leave %(group)s."
+msgstr ""
+
+#: allianceauth/groupmanagement/views.py:348
+#: allianceauth/groupmanagement/views.py:358
+msgid "You cannot join that group"
+msgstr ""
+
+#: allianceauth/groupmanagement/views.py:353
+msgid "You are already a member of that group."
+msgstr ""
+
+#: allianceauth/groupmanagement/views.py:370
+msgid "You already have a pending application for that group."
+msgstr ""
+
+#: allianceauth/groupmanagement/views.py:379
+#, python-format
+msgid "Applied to group %(group)s."
+msgstr ""
+
+#: allianceauth/groupmanagement/views.py:389
+msgid "You cannot leave that group"
+msgstr ""
+
+#: allianceauth/groupmanagement/views.py:393
+msgid "You are not a member of that group"
+msgstr ""
+
+#: allianceauth/groupmanagement/views.py:405
+msgid "You already have a pending leave request for that group."
+msgstr ""
+
+#: allianceauth/groupmanagement/views.py:421
+#, python-format
+msgid "Applied to leave group %(group)s."
+msgstr ""
+
+#: allianceauth/groupmanagement/views.py:438
+msgid "You cannot retract that request"
+msgstr ""
+
+#: allianceauth/groupmanagement/views.py:450
+#, python-format
+msgid "Retracted application to group %(group)s."
+msgstr ""
+
+#: allianceauth/groupmanagement/views.py:458
+msgid "You have no open request for that group."
+msgstr ""
+
+#: allianceauth/hrapplications/apps.py:8
+msgid "HR Applications"
+msgstr ""
+
+#: allianceauth/hrapplications/auth_hooks.py:15
+msgid "Applications"
+msgstr ""
+
+#: allianceauth/hrapplications/forms.py:6
+#: allianceauth/hrapplications/templates/hrapplications/view.html:115
+msgid "Comment"
+msgstr ""
+
+#: allianceauth/hrapplications/forms.py:10
+msgid "Search String"
+msgstr ""
+
+#: allianceauth/hrapplications/templates/hrapplications/corpchoice.html:6
+#: allianceauth/hrapplications/templates/hrapplications/corpchoice.html:15
+msgid "Choose a Corp"
+msgstr ""
+
+#: allianceauth/hrapplications/templates/hrapplications/corpchoice.html:10
+#: allianceauth/hrapplications/templates/hrapplications/create.html:11
+#: allianceauth/hrapplications/templates/hrapplications/management.html:7
+#: allianceauth/hrapplications/templates/hrapplications/management.html:11
+#: allianceauth/hrapplications/templates/hrapplications/searchview.html:7
+#: allianceauth/hrapplications/templates/hrapplications/searchview.html:11
+#: allianceauth/hrapplications/templates/hrapplications/view.html:11
+msgid "HR Application Management"
+msgstr ""
+
+#: allianceauth/hrapplications/templates/hrapplications/corpchoice.html:21
+msgid "Available Corps"
+msgstr ""
+
+#: allianceauth/hrapplications/templates/hrapplications/corpchoice.html:37
+msgid "No corps are accepting applications at this time."
+msgstr ""
+
+#: allianceauth/hrapplications/templates/hrapplications/create.html:7
+#: allianceauth/hrapplications/templates/hrapplications/create.html:17
+msgid "Apply To"
+msgstr ""
+
+#: allianceauth/hrapplications/templates/hrapplications/create.html:23
+msgid "Application form"
+msgstr ""
+
+#: allianceauth/hrapplications/templates/hrapplications/create.html:57
+msgid "Submit"
+msgstr ""
+
+#: allianceauth/hrapplications/templates/hrapplications/management.html:16
+msgid "Personal Applications"
+msgstr ""
+
+#: allianceauth/hrapplications/templates/hrapplications/management.html:22
+#: allianceauth/hrapplications/templates/hrapplications/management.html:25
+msgid "Create Application"
+msgstr ""
+
+#: allianceauth/hrapplications/templates/hrapplications/management.html:34
+#: allianceauth/hrapplications/templates/hrapplications/management.html:120
+#: allianceauth/hrapplications/templates/hrapplications/management.html:164
+#: allianceauth/hrapplications/templates/hrapplications/searchview.html:31
+#: allianceauth/services/templates/services/service_username.html:4
+msgid "Username"
+msgstr ""
+
+#: allianceauth/hrapplications/templates/hrapplications/management.html:46
+#: allianceauth/hrapplications/templates/hrapplications/management.html:95
+#: allianceauth/hrapplications/templates/hrapplications/management.html:138
+#: allianceauth/hrapplications/templates/hrapplications/management.html:182
+#: allianceauth/hrapplications/templates/hrapplications/searchview.html:46
+#: allianceauth/hrapplications/templates/hrapplications/view.html:25
+#: allianceauth/srp/templates/srp/data.html:118
+#: allianceauth/srp/templates/srp/management.html:85
+msgid "Pending"
+msgstr ""
+
+#: allianceauth/hrapplications/templates/hrapplications/management.html:48
+#: allianceauth/hrapplications/templates/hrapplications/management.html:141
+#: allianceauth/hrapplications/templates/hrapplications/management.html:185
+#: allianceauth/hrapplications/templates/hrapplications/searchview.html:48
+#: allianceauth/hrapplications/templates/hrapplications/view.html:21
+#: allianceauth/srp/templates/srp/data.html:110
+msgid "Approved"
+msgstr ""
+
+#: allianceauth/hrapplications/templates/hrapplications/management.html:50
+#: allianceauth/hrapplications/templates/hrapplications/management.html:143
+#: allianceauth/hrapplications/templates/hrapplications/management.html:187
+#: allianceauth/hrapplications/templates/hrapplications/searchview.html:50
+#: allianceauth/srp/templates/srp/data.html:114
+msgid "Rejected"
+msgstr ""
+
+#: allianceauth/hrapplications/templates/hrapplications/management.html:72
+msgid "Application Management"
+msgstr ""
+
+#: allianceauth/hrapplications/templates/hrapplications/management.html:78
+#: allianceauth/hrapplications/templates/hrapplications/searchview.html:23
+msgid "Search Applications"
+msgstr ""
+
+#: allianceauth/hrapplications/templates/hrapplications/management.html:109
+msgid "Reviewed"
+msgstr ""
+
+#: allianceauth/hrapplications/templates/hrapplications/management.html:119
+#: allianceauth/hrapplications/templates/hrapplications/management.html:163
+msgid "Date"
+msgstr ""
+
+#: allianceauth/hrapplications/templates/hrapplications/management.html:136
+#: allianceauth/hrapplications/templates/hrapplications/management.html:180
+#: allianceauth/hrapplications/templates/hrapplications/view.html:29
+msgid "Reviewer:"
+msgstr ""
+
+#: allianceauth/hrapplications/templates/hrapplications/management.html:155
+msgid "No pending applications."
+msgstr ""
+
+#: allianceauth/hrapplications/templates/hrapplications/management.html:205
+msgid "No reviewed applications."
+msgstr ""
+
+#: allianceauth/hrapplications/templates/hrapplications/partials/modals/search.html:11
+msgid "Application Search"
+msgstr ""
+
+#: allianceauth/hrapplications/templates/hrapplications/partials/modals/search.html:14
+#: allianceauth/hrapplications/templates/hrapplications/view.html:162
+#: allianceauth/templates/allianceauth/messages-bs5.html:22
+#: allianceauth/templates/allianceauth/messages.html:6
+msgid "Close"
+msgstr ""
+
+#: allianceauth/hrapplications/templates/hrapplications/partials/modals/search.html:24
+msgid "Search"
+msgstr ""
+
+#: allianceauth/hrapplications/templates/hrapplications/searchview.html:17
+msgid "Application Search Results"
+msgstr ""
+
+#: allianceauth/hrapplications/templates/hrapplications/searchview.html:30
+msgid "Application ID"
+msgstr ""
+
+#: allianceauth/hrapplications/templates/hrapplications/view.html:7
+#: allianceauth/hrapplications/templates/hrapplications/view.html:16
+msgid "View Application"
+msgstr ""
+
+#: allianceauth/hrapplications/templates/hrapplications/view.html:23
+msgid "Denied"
+msgstr ""
+
+#: allianceauth/hrapplications/templates/hrapplications/view.html:35
+msgid "Applicant"
+msgstr ""
+
+#: allianceauth/hrapplications/templates/hrapplications/view.html:101
+msgid "Approve"
+msgstr ""
+
+#: allianceauth/hrapplications/templates/hrapplications/view.html:107
+msgid "Delete"
+msgstr ""
+
+#: allianceauth/hrapplications/templates/hrapplications/view.html:110
+msgid "Mark in Progress"
+msgstr ""
+
+#: allianceauth/hrapplications/templates/hrapplications/view.html:124
+#: allianceauth/services/forms.py:17
+msgid "Comments"
+msgstr ""
+
+#: allianceauth/hrapplications/templates/hrapplications/view.html:143
+msgid "No comments"
+msgstr ""
+
+#: allianceauth/hrapplications/templates/hrapplications/view.html:159
+msgid "Add Comment"
+msgstr ""
+
+#: allianceauth/hrapplications/templates/hrapplications/view.html:172
+msgid "Add comment"
+msgstr ""
+
+#: allianceauth/menu/admin.py:63
+#, python-format
+msgid "Add %s menu item"
+msgstr ""
+
+#: allianceauth/menu/admin.py:71
+#, python-format
+msgid "Change %s menu item"
+msgstr ""
+
+#: allianceauth/menu/admin.py:82
+msgid "children"
+msgstr ""
+
+#: allianceauth/menu/admin.py:90 allianceauth/menu/models.py:22
+msgid "text"
+msgstr ""
+
+#: allianceauth/menu/admin.py:96
+msgid "user defined"
+msgstr ""
+
+#: allianceauth/menu/admin.py:100
+msgid "visible"
+msgstr ""
+
+#: allianceauth/menu/apps.py:16
+msgid "Menu"
+msgstr ""
+
+#: allianceauth/menu/constants.py:16
+msgid "app"
+msgstr ""
+
+#: allianceauth/menu/constants.py:17 allianceauth/menu/models.py:38
+msgid "folder"
+msgstr ""
+
+#: allianceauth/menu/constants.py:18
+msgid "link"
+msgstr ""
+
+#: allianceauth/menu/filters.py:12
+msgid "type"
+msgstr ""
+
+#: allianceauth/menu/models.py:23
+msgid "Text to show on menu"
+msgstr ""
+
+#: allianceauth/menu/models.py:28
+msgid "order"
+msgstr ""
+
+#: allianceauth/menu/models.py:29
+msgid "Order of the menu. Lowest First"
+msgstr ""
+
+#: allianceauth/menu/models.py:39
+msgid "Folder this item is in (optional)"
+msgstr ""
+
+#: allianceauth/menu/models.py:43
+msgid "is hidden"
+msgstr ""
+
+#: allianceauth/menu/models.py:45
+msgid ""
+"Hide this menu item.If this item is a folder all items under it will be "
+"hidden too"
+msgstr ""
+
+#: allianceauth/menu/models.py:60
+msgid "icon classes"
+msgstr ""
+
+#: allianceauth/menu/models.py:62
+msgid ""
+"Font Awesome classes to show as icon on menu, e.g. <code>fa-solid fa-"
+"house</code>"
+msgstr ""
+
+#: allianceauth/menu/models.py:68
+msgid "url"
+msgstr ""
+
+#: allianceauth/menu/models.py:69
+msgid "External URL this menu items will link to"
+msgstr ""
+
+#: allianceauth/menu/templates/admin/menu/menuitem/change_list.html:10
+msgid "Add folder"
+msgstr ""
+
+#: allianceauth/menu/templates/menu/menu-notification-block.html:12
+#: allianceauth/notifications/apps.py:8
+#: allianceauth/notifications/templates/notifications/list.html:7
+#: allianceauth/notifications/templates/notifications/list.html:11
+#: allianceauth/templates/allianceauth/notifications_menu_item.html:6
+msgid "Notifications"
+msgstr ""
+
+#: allianceauth/menu/templates/menu/menu-user.html:77
+msgid "Super User"
+msgstr ""
+
+#: allianceauth/menu/templates/menu/menu-user.html:83
+#: allianceauth/menu/templates/menu/menu-user.html:86
+msgid "Alliance Auth Documentation"
+msgstr ""
+
+#: allianceauth/menu/templates/menu/menu-user.html:94
+#: allianceauth/menu/templates/menu/menu-user.html:97
+msgid "Alliance Auth Discord"
+msgstr ""
+
+#: allianceauth/menu/templates/menu/menu-user.html:105
+#: allianceauth/menu/templates/menu/menu-user.html:108
+msgid "Alliance Auth Git"
+msgstr ""
+
+#: allianceauth/menu/templates/menu/menu-user.html:118
+#: allianceauth/menu/templates/menu/menu-user.html:121
+#: allianceauth/templates/allianceauth/top-menu-admin.html:9
+msgid "Admin"
+msgstr ""
+
+#: allianceauth/menu/templates/menu/menu-user.html:144
+#: allianceauth/menu/templates/menu/menu-user.html:147
+msgid "Sign Out"
+msgstr ""
+
+#: allianceauth/menu/templates/menu/menu-user.html:155
+#: allianceauth/menu/templates/menu/menu-user.html:158
+#: allianceauth/templates/allianceauth/top-menu-rh-default.html:13
+#: allianceauth/templates/allianceauth/top-menu-rh-default.html:14
+msgid "Sign In"
+msgstr ""
+
+#: allianceauth/notifications/models.py:22
+msgid "danger"
+msgstr ""
+
+#: allianceauth/notifications/models.py:23
+msgid "warning"
+msgstr ""
+
+#: allianceauth/notifications/models.py:24
+msgid "info"
+msgstr ""
+
+#: allianceauth/notifications/models.py:25
+msgid "success"
+msgstr ""
+
+#: allianceauth/notifications/templates/notifications/list.html:17
+msgid "Unread"
+msgstr ""
+
+#: allianceauth/notifications/templates/notifications/list.html:24
+msgid "Read"
+msgstr ""
+
+#: allianceauth/notifications/templates/notifications/list.html:31
+msgid "Mark all notifications as read"
+msgstr ""
+
+#: allianceauth/notifications/templates/notifications/list.html:35
+msgid "Delete all read notifications"
+msgstr ""
+
+#: allianceauth/notifications/templates/notifications/list_partial.html:6
+msgid "Timestamp"
+msgstr ""
+
+#: allianceauth/notifications/templates/notifications/list_partial.html:7
+msgid "Title"
+msgstr ""
+
+#: allianceauth/notifications/templates/notifications/list_partial.html:28
+msgid "No notifications."
+msgstr ""
+
+#: allianceauth/notifications/templates/notifications/view.html:5
+#: allianceauth/notifications/templates/notifications/view.html:9
+msgid "View Notification"
+msgstr ""
+
+#: allianceauth/notifications/views.py:52
+msgid "You are not authorized to view that notification."
+msgstr ""
+
+#: allianceauth/notifications/views.py:68
+msgid "Deleted notification."
+msgstr ""
+
+#: allianceauth/notifications/views.py:75
+msgid "Failed to locate notification."
+msgstr ""
+
+#: allianceauth/notifications/views.py:83
+msgid "Marked all notifications as read."
+msgstr ""
+
+#: allianceauth/notifications/views.py:91
+msgid "Deleted all read notifications."
+msgstr ""
+
+#: allianceauth/optimer/apps.py:8 allianceauth/optimer/auth_hooks.py:12
+msgid "Fleet Operations"
+msgstr ""
+
+#: allianceauth/optimer/form.py:12
+#: allianceauth/optimer/templates/optimer/fleetoptable.html:11
+msgid "Doctrine"
+msgstr ""
+
+#: allianceauth/optimer/form.py:14
+#: allianceauth/optimer/templates/optimer/fleetoptable.html:13
+msgid "Start Time"
+msgstr ""
+
+#: allianceauth/optimer/form.py:15
+#: allianceauth/optimer/templates/optimer/fleetoptable.html:9
+msgid "Operation Name"
+msgstr ""
+
+#: allianceauth/optimer/form.py:16
+msgid "Operation Type"
+msgstr ""
+
+#: allianceauth/optimer/form.py:17
+#: allianceauth/srp/templates/srp/management.html:45
+msgid "Fleet Commander"
+msgstr ""
+
+#: allianceauth/optimer/form.py:22 allianceauth/srp/form.py:14
+#: allianceauth/srp/templates/srp/data.html:70
+msgid "Additional Info"
+msgstr ""
+
+#: allianceauth/optimer/form.py:23
+msgid "(Optional) Describe the operation with a couple of short words."
+msgstr ""
+
+#: allianceauth/optimer/templates/optimer/add.html:8
+#: allianceauth/optimer/templates/optimer/management.html:16
+msgid "Create Operation"
+msgstr ""
+
+#: allianceauth/optimer/templates/optimer/add.html:12
+#: allianceauth/optimer/templates/optimer/management.html:11
+#: allianceauth/optimer/templates/optimer/update.html:12
+msgid "Fleet Operation Timers"
+msgstr ""
+
+#: allianceauth/optimer/templates/optimer/add.html:21
+msgid "Create Fleet Operation"
+msgstr ""
+
+#: allianceauth/optimer/templates/optimer/add.html:27
+#: allianceauth/optimer/templates/optimer/update.html:27
+msgid "Fleet operation details"
+msgstr ""
+
+#: allianceauth/optimer/templates/optimer/add.html:40
+msgid "Create fleet operation"
+msgstr ""
+
+#: allianceauth/optimer/templates/optimer/dashboard.ops.html:7
+msgid "Upcoming Fleets"
+msgstr ""
+
+#: allianceauth/optimer/templates/optimer/dashboard.ops.html:14
+msgid "Operation"
+msgstr ""
+
+#: allianceauth/optimer/templates/optimer/dashboard.ops.html:16
+#: allianceauth/optimer/templates/optimer/fleetoptable.html:12
+msgid "Form Up System"
+msgstr ""
+
+#: allianceauth/optimer/templates/optimer/fleetoptable.html:14
+#: allianceauth/timerboard/templates/timerboard/timertable.html:13
+msgid "Local Time"
+msgstr ""
+
+#: allianceauth/optimer/templates/optimer/fleetoptable.html:16
+msgid "FC"
+msgstr ""
+
+#: allianceauth/optimer/templates/optimer/management.html:7
+msgid "Fleet Operation Management"
+msgstr ""
+
+#: allianceauth/optimer/templates/optimer/management.html:26
+#: allianceauth/timerboard/templates/timerboard/view.html:30
+msgid "Current EVE time:"
+msgstr ""
+
+#: allianceauth/optimer/templates/optimer/management.html:34
+msgid "Next Fleet Operations"
+msgstr ""
+
+#: allianceauth/optimer/templates/optimer/management.html:42
+#: allianceauth/timerboard/templates/timerboard/view.html:61
+msgid "No upcoming timers."
+msgstr ""
+
+#: allianceauth/optimer/templates/optimer/management.html:50
+msgid "Past Fleet Operations"
+msgstr ""
+
+#: allianceauth/optimer/templates/optimer/management.html:58
+#: allianceauth/timerboard/templates/timerboard/view.html:79
+msgid "No past timers."
+msgstr ""
+
+#: allianceauth/optimer/templates/optimer/update.html:8
+#: allianceauth/optimer/templates/optimer/update.html:21
+msgid "Update Fleet Operation"
+msgstr ""
+
+#: allianceauth/optimer/templates/optimer/update.html:40
+msgid "Update fleet operation"
+msgstr ""
+
+#: allianceauth/optimer/views.py:91
+#, python-format
+msgid "Created operation timer for %(opname)s."
+msgstr ""
+
+#: allianceauth/optimer/views.py:120
+#, python-format
+msgid "Removed operation timer for %(opname)s."
+msgstr ""
+
+#: allianceauth/optimer/views.py:171
+#, python-format
+msgid "Saved changes to operation timer for %(opname)s."
+msgstr ""
+
+#: allianceauth/permissions_tool/apps.py:8
+#: allianceauth/permissions_tool/templates/permissions_tool/audit.html:7
+#: allianceauth/permissions_tool/templates/permissions_tool/audit.html:11
+#: allianceauth/permissions_tool/templates/permissions_tool/audit.html:17
+#: allianceauth/permissions_tool/templates/permissions_tool/overview.html:11
+msgid "Permissions Audit"
+msgstr ""
+
+#: allianceauth/permissions_tool/templates/permissions_tool/audit.html:32
+msgid "User / Character"
+msgstr ""
+
+#: allianceauth/permissions_tool/templates/permissions_tool/overview.html:7
+msgid "Permissions Overview"
+msgstr ""
+
+#: allianceauth/permissions_tool/templates/permissions_tool/overview.html:18
+msgid "Showing only applied permissions"
+msgstr ""
+
+#: allianceauth/permissions_tool/templates/permissions_tool/overview.html:19
+msgid "Show All"
+msgstr ""
+
+#: allianceauth/permissions_tool/templates/permissions_tool/overview.html:21
+msgid "Showing all permissions"
+msgstr ""
+
+#: allianceauth/permissions_tool/templates/permissions_tool/overview.html:22
+msgid "Show Applied"
+msgstr ""
+
+#: allianceauth/permissions_tool/templates/permissions_tool/overview.html:30
+msgid "App"
+msgstr ""
+
+#: allianceauth/permissions_tool/templates/permissions_tool/overview.html:31
+msgid "Model"
+msgstr ""
+
+#: allianceauth/permissions_tool/templates/permissions_tool/overview.html:32
+msgid "Code Name"
+msgstr ""
+
+#: allianceauth/permissions_tool/templates/permissions_tool/overview.html:36
+msgid "States"
+msgstr ""
+
+#: allianceauth/services/abstract.py:72
+msgid "That service account already exists"
+msgstr ""
+
+#: allianceauth/services/abstract.py:103
+#, python-brace-format
+msgid "Successfully set your {self.service_name} password"
+msgstr ""
+
+#: allianceauth/services/apps.py:8 allianceauth/services/auth_hooks.py:12
+msgid "Services"
+msgstr ""
+
+#: allianceauth/services/forms.py:6
+msgid "Name of Fleet:"
+msgstr ""
+
+#: allianceauth/services/forms.py:7
+msgid "Fleet Commander:"
+msgstr ""
+
+#: allianceauth/services/forms.py:8
+msgid "Fleet Comms:"
+msgstr ""
+
+#: allianceauth/services/forms.py:9
+msgid "Fleet Type:"
+msgstr ""
+
+#: allianceauth/services/forms.py:10
+msgid "Ship Priorities:"
+msgstr ""
+
+#: allianceauth/services/forms.py:11
+msgid "Formup Location:"
+msgstr ""
+
+#: allianceauth/services/forms.py:12
+msgid "Formup Time:"
+msgstr ""
+
+#: allianceauth/services/forms.py:13
+msgid "Expected Duration:"
+msgstr ""
+
+#: allianceauth/services/forms.py:14
+msgid "Purpose:"
+msgstr ""
+
+#: allianceauth/services/forms.py:15
+msgid "Reimbursable?*"
+msgstr ""
+
+#: allianceauth/services/forms.py:15 allianceauth/services/forms.py:16
+msgid "Yes"
+msgstr ""
+
+#: allianceauth/services/forms.py:15 allianceauth/services/forms.py:16
+msgid "No"
+msgstr ""
+
+#: allianceauth/services/forms.py:16
+msgid "Important?*"
+msgstr ""
+
+#: allianceauth/services/forms.py:21 allianceauth/services/forms.py:31
+msgid "Password"
+msgstr ""
+
+#: allianceauth/services/forms.py:26 allianceauth/services/forms.py:36
+msgid "Password must be at least 8 characters long."
+msgstr ""
+
+#: allianceauth/services/modules/discord/apps.py:8
+msgid "Discord Service"
+msgstr ""
+
+#: allianceauth/services/modules/discord/models.py:187
+msgid "Discord Account Disabled"
+msgstr ""
+
+#: allianceauth/services/modules/discord/models.py:189
+msgid ""
+"Your Discord account was disabled automatically by Auth. If you think this "
+"was a mistake, please contact an admin."
+msgstr ""
+
+#: allianceauth/services/modules/discord/templates/services/discord/discord_service_ctrl.html:26
+#: allianceauth/services/modules/mumble/templates/services/mumble/mumble_service_ctrl.html:22
+msgid "Activate"
+msgstr ""
+
+#: allianceauth/services/modules/discord/templates/services/discord/discord_service_ctrl.html:32
+#: allianceauth/services/modules/mumble/templates/services/mumble/mumble_service_ctrl.html:34
+msgid "Reset Password"
+msgstr ""
+
+#: allianceauth/services/modules/discord/templates/services/discord/discord_service_ctrl.html:38
+#: allianceauth/services/modules/mumble/templates/services/mumble/mumble_service_ctrl.html:40
+msgid "Deactivate"
+msgstr ""
+
+#: allianceauth/services/modules/discord/templates/services/discord/discord_service_ctrl.html:45
+msgid "Link Discord Server"
+msgstr ""
+
+#: allianceauth/services/modules/discord/views.py:30
+msgid "Deactivated Discord account."
+msgstr ""
+
+#: allianceauth/services/modules/discord/views.py:36
+#: allianceauth/services/modules/discord/views.py:59
+msgid "An error occurred while processing your Discord account."
+msgstr ""
+
+#: allianceauth/services/modules/discord/views.py:102
+msgid "Your Discord account has been successfully activated."
+msgstr ""
+
+#: allianceauth/services/modules/discord/views.py:108
+msgid ""
+"An error occurred while trying to activate your Discord account. Please try "
+"again."
+msgstr ""
+
+#: allianceauth/services/modules/discourse/apps.py:8
+msgid "Discourse Service"
+msgstr ""
+
+#: allianceauth/services/modules/discourse/templates/services/discourse/discourse_service_ctrl.html:5
+msgid "Discourse"
+msgstr ""
+
+#: allianceauth/services/modules/discourse/templates/services/discourse/discourse_service_ctrl.html:18
+msgid "SSO login active"
+msgstr ""
+
+#: allianceauth/services/modules/discourse/templates/services/discourse/discourse_service_ctrl.html:23
+msgid "Go to forums"
+msgstr ""
+
+#: allianceauth/services/modules/discourse/views.py:29
+msgid "You are not authorized to access Discourse."
+msgstr ""
+
+#: allianceauth/services/modules/discourse/views.py:34
+msgid "You must have a main character set to access Discourse."
+msgstr ""
+
+#: allianceauth/services/modules/discourse/views.py:44
+msgid ""
+"No SSO payload or signature. Please contact support if this problem "
+"persists."
+msgstr ""
+
+#: allianceauth/services/modules/discourse/views.py:54
+#: allianceauth/services/modules/discourse/views.py:62
+msgid "Invalid payload. Please contact support if this problem persists."
+msgstr ""
+
+#: allianceauth/services/modules/example/apps.py:8
+msgid "Example Service"
+msgstr ""
+
+#: allianceauth/services/modules/ips4/apps.py:8
+msgid "IPS4 Service"
+msgstr ""
+
+#: allianceauth/services/modules/ips4/views.py:31
+msgid "Activated IPSuite4 account."
+msgstr ""
+
+#: allianceauth/services/modules/ips4/views.py:39
+#: allianceauth/services/modules/ips4/views.py:60
+#: allianceauth/services/modules/ips4/views.py:81
+#: allianceauth/services/modules/ips4/views.py:101
+msgid "An error occurred while processing your IPSuite4 account."
+msgstr ""
+
+#: allianceauth/services/modules/ips4/views.py:52
+msgid "Reset IPSuite4 password."
+msgstr ""
+
+#: allianceauth/services/modules/ips4/views.py:78
+msgid "Set IPSuite4 password."
+msgstr ""
+
+#: allianceauth/services/modules/ips4/views.py:98
+msgid "Deactivated IPSuite4 account."
+msgstr ""
+
+#: allianceauth/services/modules/mumble/apps.py:8
+msgid "Mumble Service"
+msgstr ""
+
+#: allianceauth/services/modules/mumble/templates/services/mumble/mumble_connection_history.html:7
+msgid "Mumble"
+msgstr ""
+
+#: allianceauth/services/modules/mumble/templates/services/mumble/mumble_connection_history.html:11
+msgid "Mumble History"
+msgstr ""
+
+#: allianceauth/services/modules/mumble/templates/services/mumble/mumble_connection_history.html:23
+msgid "Server Connection History"
+msgstr ""
+
+#: allianceauth/services/modules/mumble/templates/services/mumble/mumble_connection_history.html:32
+msgid "Displayed Name"
+msgstr ""
+
+#: allianceauth/services/modules/mumble/templates/services/mumble/mumble_connection_history.html:33
+msgid "Release"
+msgstr ""
+
+#: allianceauth/services/modules/mumble/templates/services/mumble/mumble_connection_history.html:34
+#: allianceauth/services/modules/mumble/templates/services/mumble/mumble_connection_history.html:68
+msgid "Version"
+msgstr ""
+
+#: allianceauth/services/modules/mumble/templates/services/mumble/mumble_connection_history.html:35
+msgid "Last Connect"
+msgstr ""
+
+#: allianceauth/services/modules/mumble/templates/services/mumble/mumble_connection_history.html:36
+msgid "Last Disconnect"
+msgstr ""
+
+#: allianceauth/services/modules/mumble/templates/services/mumble/mumble_connection_history.html:48
+#: allianceauth/services/modules/mumble/templates/services/mumble/mumble_connection_history.html:60
+msgid "Server Connection Breakdown"
+msgstr ""
+
+#: allianceauth/services/modules/mumble/templates/services/mumble/mumble_connection_history.html:69
+msgid "Number"
+msgstr ""
+
+#: allianceauth/services/modules/mumble/templates/services/mumble/mumble_service_ctrl.html:28
+#: allianceauth/services/templates/services/service_password.html:26
+msgid "Set Password"
+msgstr ""
+
+#: allianceauth/services/modules/mumble/templates/services/mumble/mumble_service_ctrl.html:46
+msgid "Connect"
+msgstr ""
+
+#: allianceauth/services/modules/mumble/templates/services/mumble/mumble_service_ctrl.html:52
+msgid "Mumble Connection History"
+msgstr ""
+
+#: allianceauth/services/modules/openfire/apps.py:8
+msgid "Openfire Service"
+msgstr ""
+
+#: allianceauth/services/modules/openfire/auth_hooks.py:27
+msgid "Jabber"
+msgstr ""
+
+#: allianceauth/services/modules/openfire/auth_hooks.py:80
+#: allianceauth/services/modules/openfire/templates/services/openfire/broadcast.html:7
+#: allianceauth/services/modules/openfire/templates/services/openfire/broadcast.html:11
+#: allianceauth/services/modules/openfire/templates/services/openfire/broadcast.html:19
+msgid "Jabber Broadcast"
+msgstr ""
+
+#: allianceauth/services/modules/openfire/auth_hooks.py:95
+msgid "Fleet Broadcast Formatter"
+msgstr ""
+
+#: allianceauth/services/modules/openfire/forms.py:7
+msgid "Message"
+msgstr ""
+
+#: allianceauth/services/modules/openfire/templates/services/openfire/broadcast.html:28
+msgid "Broadcast Sent!!"
+msgstr ""
+
+#: allianceauth/services/modules/openfire/templates/services/openfire/broadcast.html:38
+msgid "Broadcast"
+msgstr ""
+
+#: allianceauth/services/modules/openfire/views.py:35
+msgid "Activated Jabber account."
+msgstr ""
+
+#: allianceauth/services/modules/openfire/views.py:43
+#: allianceauth/services/modules/openfire/views.py:56
+#: allianceauth/services/modules/openfire/views.py:76
+#: allianceauth/services/modules/openfire/views.py:147
+msgid "An error occurred while processing your Jabber account."
+msgstr ""
+
+#: allianceauth/services/modules/openfire/views.py:69
+msgid "Reset Jabber password."
+msgstr ""
+
+#: allianceauth/services/modules/openfire/views.py:115
+#, python-format
+msgid "Sent Jabber broadcast to %s"
+msgstr ""
+
+#: allianceauth/services/modules/openfire/views.py:144
+msgid "Set jabber password."
+msgstr ""
+
+#: allianceauth/services/modules/phpbb3/apps.py:8
+msgid "phpBB3 Service"
+msgstr ""
+
+#: allianceauth/services/modules/phpbb3/views.py:34
+msgid "Activated forum account."
+msgstr ""
+
+#: allianceauth/services/modules/phpbb3/views.py:42
+#: allianceauth/services/modules/phpbb3/views.py:56
+#: allianceauth/services/modules/phpbb3/views.py:78
+#: allianceauth/services/modules/phpbb3/views.py:101
+msgid "An error occurred while processing your forum account."
+msgstr ""
+
+#: allianceauth/services/modules/phpbb3/views.py:53
+msgid "Deactivated forum account."
+msgstr ""
+
+#: allianceauth/services/modules/phpbb3/views.py:70
+msgid "Reset forum password."
+msgstr ""
+
+#: allianceauth/services/modules/phpbb3/views.py:98
+msgid "Set forum password."
+msgstr ""
+
+#: allianceauth/services/modules/smf/apps.py:8
+msgid "SMF Service"
+msgstr ""
+
+#: allianceauth/services/modules/smf/views.py:52
+msgid "Activated SMF account."
+msgstr ""
+
+#: allianceauth/services/modules/smf/views.py:65
+#: allianceauth/services/modules/smf/views.py:81
+#: allianceauth/services/modules/smf/views.py:102
+#: allianceauth/services/modules/smf/views.py:124
+msgid "An error occurred while processing your SMF account."
+msgstr ""
+
+#: allianceauth/services/modules/smf/views.py:78
+msgid "Deactivated SMF account."
+msgstr ""
+
+#: allianceauth/services/modules/smf/views.py:95
+msgid "Reset SMF password."
+msgstr ""
+
+#: allianceauth/services/modules/smf/views.py:121
+msgid "Set SMF password."
+msgstr ""
+
+#: allianceauth/services/modules/teamspeak3/apps.py:8
+msgid "TeamSpeak 3 Service"
+msgstr ""
+
+#: allianceauth/services/modules/teamspeak3/forms.py:14
+#, python-format
+msgid "Unable to locate user %s on server"
+msgstr ""
+
+#: allianceauth/services/modules/teamspeak3/templates/admin/teamspeak3/authts/change_list.html:10
+msgid "Update TeamSpeak3 groups"
+msgstr ""
+
+#: allianceauth/services/modules/teamspeak3/templates/services/teamspeak3/teamspeak3_service_ctrl.html:6
+msgid "Teamspeak 3"
+msgstr ""
+
+#: allianceauth/services/modules/teamspeak3/templates/services/teamspeak3/teamspeakjoin.html:6
+msgid "Verify TeamSpeak3"
+msgstr ""
+
+#: allianceauth/services/modules/teamspeak3/templates/services/teamspeak3/teamspeakjoin.html:10
+msgid "Verify TeamSpeak3 Identity"
+msgstr ""
+
+#: allianceauth/services/modules/teamspeak3/templates/services/teamspeak3/teamspeakjoin.html:15
+msgid "Join Server"
+msgstr ""
+
+#: allianceauth/services/modules/teamspeak3/templates/services/teamspeak3/teamspeakjoin.html:23
+#: allianceauth/services/templates/services/service_credentials.html:30
+#: allianceauth/srp/templates/srp/add.html:51
+msgid "Continue"
+msgstr ""
+
+#: allianceauth/services/modules/teamspeak3/views.py:35
+msgid "Activated TeamSpeak3 account."
+msgstr ""
+
+#: allianceauth/services/modules/teamspeak3/views.py:38
+#: allianceauth/services/modules/teamspeak3/views.py:74
+#: allianceauth/services/modules/teamspeak3/views.py:100
+msgid "An error occurred while processing your TeamSpeak3 account."
+msgstr ""
+
+#: allianceauth/services/modules/teamspeak3/views.py:71
+msgid "Deactivated TeamSpeak3 account."
+msgstr ""
+
+#: allianceauth/services/modules/teamspeak3/views.py:97
+msgid "Reset TeamSpeak3 permission key."
+msgstr ""
+
+#: allianceauth/services/modules/xenforo/apps.py:8
+msgid "Xenforo Service"
+msgstr ""
+
+#: allianceauth/services/modules/xenforo/views.py:30
+msgid "Activated XenForo account."
+msgstr ""
+
+#: allianceauth/services/modules/xenforo/views.py:40
+#: allianceauth/services/modules/xenforo/views.py:52
+#: allianceauth/services/modules/xenforo/views.py:73
+#: allianceauth/services/modules/xenforo/views.py:94
+msgid "An error occurred while processing your XenForo account."
+msgstr ""
+
+#: allianceauth/services/modules/xenforo/views.py:50
+msgid "Deactivated XenForo account."
+msgstr ""
+
+#: allianceauth/services/modules/xenforo/views.py:65
+msgid "Reset XenForo account password."
+msgstr ""
+
+#: allianceauth/services/modules/xenforo/views.py:91
+msgid "Changed XenForo password."
+msgstr ""
+
+#: allianceauth/services/templates/services/fleetformattertool.html:6
+#: allianceauth/services/templates/services/fleetformattertool.html:10
+msgid "Fleet Formatter Tool"
+msgstr ""
+
+#: allianceauth/services/templates/services/fleetformattertool.html:18
+msgid "Fleet Details"
+msgstr ""
+
+#: allianceauth/services/templates/services/fleetformattertool.html:37
+msgid "Format"
+msgstr ""
+
+#: allianceauth/services/templates/services/service_confirm_delete.html:6
+#: allianceauth/services/templates/services/service_confirm_delete.html:16
+#, python-format
+msgid "Delete %(service_name)s Account?"
+msgstr ""
+
+#: allianceauth/services/templates/services/service_confirm_delete.html:10
+#: allianceauth/services/templates/services/service_credentials.html:10
+#: allianceauth/services/templates/services/service_password.html:11
+#: allianceauth/services/templates/services/services.html:9
+msgid "Available Services"
+msgstr ""
+
+#: allianceauth/services/templates/services/service_confirm_delete.html:24
+#, python-format
+msgid ""
+"Are you sure you want to delete your %(service_name)s account %(object)s?"
+msgstr ""
+
+#: allianceauth/services/templates/services/service_credentials.html:6
+#: allianceauth/services/templates/services/service_credentials.html:16
+#, python-format
+msgid "%(service_name)s Credentials"
+msgstr ""
+
+#: allianceauth/services/templates/services/service_password.html:7
+#, python-format
+msgid "%(service_name)s Password Change"
+msgstr ""
+
+#: allianceauth/services/templates/services/service_password.html:17
+#, python-format
+msgid "Set %(service_name)s Password"
+msgstr ""
+
+#: allianceauth/services/templates/services/service_status.html:5
+msgid "Enabled"
+msgstr ""
+
+#: allianceauth/services/templates/services/service_status.html:7
+#: allianceauth/srp/templates/srp/management.html:76
+msgid "Disabled"
+msgstr ""
+
+#: allianceauth/services/templates/services/services.html:5
+msgid "Services Management"
+msgstr ""
+
+#: allianceauth/services/templates/services/services.html:20
+msgid "Legend"
+msgstr ""
+
+#: allianceauth/services/templates/services/services.html:27
+msgid "Click to activate the service for your user."
+msgstr ""
+
+#: allianceauth/services/templates/services/services.html:36
+msgid "Click to manually set your password."
+msgstr ""
+
+#: allianceauth/services/templates/services/services.html:45
+msgid "Click to randomly generate your password."
+msgstr ""
+
+#: allianceauth/services/templates/services/services.html:54
+msgid "Click to deactivate the service for your user"
+msgstr ""
+
+#: allianceauth/services/templates/services/services.html:60
+msgid ""
+"Some services provide different options. Hover over the buttons to see more."
+msgstr ""
+
+#: allianceauth/srp/apps.py:8 allianceauth/srp/auth_hooks.py:14
+msgid "Ship Replacement"
+msgstr ""
+
+#: allianceauth/srp/form.py:9
+#: allianceauth/srp/templates/srp/management.html:43
+msgid "Fleet Time"
+msgstr ""
+
+#: allianceauth/srp/form.py:10
+#: allianceauth/srp/templates/srp/management.html:44
+msgid "Fleet Doctrine"
+msgstr ""
+
+#: allianceauth/srp/form.py:16
+msgid "Killboard Link (zkillboard.com or kb.evetools.org)"
+msgstr ""
+
+#: allianceauth/srp/form.py:34
+msgid "Invalid Link. Please use zkillboard.com or kb.evetools.org"
+msgstr ""
+
+#: allianceauth/srp/form.py:46
+msgid "Invalid Link. Please post a direct link to a killmail."
+msgstr ""
+
+#: allianceauth/srp/form.py:53
+msgid "After Action Report Link"
+msgstr ""
+
+#: allianceauth/srp/templates/srp/add.html:7
+msgid "SRP Fleet Create"
+msgstr ""
+
+#: allianceauth/srp/templates/srp/add.html:11
+#: allianceauth/srp/templates/srp/data.html:12
+#: allianceauth/srp/templates/srp/management.html:11
+#: allianceauth/srp/templates/srp/request.html:11
+#: allianceauth/srp/templates/srp/update.html:11
+msgid "Ship Replacement Program"
+msgstr ""
+
+#: allianceauth/srp/templates/srp/add.html:20
+msgid "Create SRP Fleet"
+msgstr ""
+
+#: allianceauth/srp/templates/srp/add.html:26
+msgid "SRP fleet details"
+msgstr ""
+
+#: allianceauth/srp/templates/srp/add.html:40
+msgid "Create SRP fleet"
+msgstr ""
+
+#: allianceauth/srp/templates/srp/add.html:46
+msgid "Give this link to the line members."
+msgstr ""
+
+#: allianceauth/srp/templates/srp/data.html:8
+#: allianceauth/srp/templates/srp/data.html:37
+msgid "SRP Fleet Data"
+msgstr ""
+
+#: allianceauth/srp/templates/srp/data.html:17
+msgid "View Fleets"
+msgstr ""
+
+#: allianceauth/srp/templates/srp/data.html:24
+msgid "Mark Incomplete"
+msgstr ""
+
+#: allianceauth/srp/templates/srp/data.html:28
+msgid "Mark Completed"
+msgstr ""
+
+#: allianceauth/srp/templates/srp/data.html:46
+#: allianceauth/srp/templates/srp/data.html:140
+msgid "Total Losses:"
+msgstr ""
+
+#: allianceauth/srp/templates/srp/data.html:47
+#: allianceauth/srp/templates/srp/data.html:141
+#: allianceauth/srp/templates/srp/management.html:34
+msgid "Total ISK Cost:"
+msgstr ""
+
+#: allianceauth/srp/templates/srp/data.html:58
+#: allianceauth/srp/templates/srp/data.html:152
+msgid "Are you sure you want to delete SRP requests?"
+msgstr ""
+
+#: allianceauth/srp/templates/srp/data.html:68
+msgid "Pilot Name"
+msgstr ""
+
+#: allianceauth/srp/templates/srp/data.html:69
+msgid "Killboard Link"
+msgstr ""
+
+#: allianceauth/srp/templates/srp/data.html:71
+msgid "Ship Type"
+msgstr ""
+
+#: allianceauth/srp/templates/srp/data.html:72
+msgid "Killboard Loss Amt"
+msgstr ""
+
+#: allianceauth/srp/templates/srp/data.html:74
+msgid "SRP ISK Cost"
+msgstr ""
+
+#: allianceauth/srp/templates/srp/data.html:75
+msgid "Click value to edit Enter to save & next ESC to cancel"
+msgstr ""
+
+#: allianceauth/srp/templates/srp/data.html:78
+msgid "Post Time"
+msgstr ""
+
+#: allianceauth/srp/templates/srp/data.html:100
+#: allianceauth/srp/templates/srp/management.html:68
+msgid "Link"
+msgstr ""
+
+#: allianceauth/srp/templates/srp/data.html:161
+msgid "No SRP requests for this fleet."
+msgstr ""
+
+#: allianceauth/srp/templates/srp/management.html:7
+msgid "SRP Management"
+msgstr ""
+
+#: allianceauth/srp/templates/srp/management.html:18
+msgid "View All"
+msgstr ""
+
+#: allianceauth/srp/templates/srp/management.html:25
+msgid "Add SRP Fleet"
+msgstr ""
+
+#: allianceauth/srp/templates/srp/management.html:46
+msgid "Fleet AAR"
+msgstr ""
+
+#: allianceauth/srp/templates/srp/management.html:47
+msgid "Fleet SRP Code"
+msgstr ""
+
+#: allianceauth/srp/templates/srp/management.html:48
+msgid "Fleet ISK Cost"
+msgstr ""
+
+#: allianceauth/srp/templates/srp/management.html:49
+msgid "SRP Status"
+msgstr ""
+
+#: allianceauth/srp/templates/srp/management.html:50
+msgid "Pending Requests"
+msgstr ""
+
+#: allianceauth/srp/templates/srp/management.html:89
+msgid "Completed"
+msgstr ""
+
+#: allianceauth/srp/templates/srp/management.html:106
+msgid "Are you sure you want to delete this SRP code and its contents?"
+msgstr ""
+
+#: allianceauth/srp/templates/srp/management.html:127
+msgid "No SRP fleets created."
+msgstr ""
+
+#: allianceauth/srp/templates/srp/request.html:7
+msgid "SRP Request"
+msgstr ""
+
+#: allianceauth/srp/templates/srp/request.html:16
+msgid "Create SRP Request"
+msgstr ""
+
+#: allianceauth/srp/templates/srp/request.html:22
+msgid "Your SRP request"
+msgstr ""
+
+#: allianceauth/srp/templates/srp/request.html:35
+msgid "Create SRP request"
+msgstr ""
+
+#: allianceauth/srp/templates/srp/update.html:7
+#: allianceauth/srp/templates/srp/update.html:16
+msgid "Update AAR Link"
+msgstr ""
+
+#: allianceauth/srp/templates/srp/update.html:22
+msgid "After Action Report"
+msgstr ""
+
+#: allianceauth/srp/templates/srp/update.html:31
+msgid "SRP Fleet Does Not Exist"
+msgstr ""
+
+#: allianceauth/srp/templates/srp/update.html:40
+msgid "Update AAR link"
+msgstr ""
+
+#: allianceauth/srp/views.py:85
+#, python-format
+msgid "Created SRP fleet %(fleetname)s."
+msgstr ""
+
+#: allianceauth/srp/views.py:103
+#, python-format
+msgid "Removed SRP fleet %(fleetname)s."
+msgstr ""
+
+#: allianceauth/srp/views.py:115
+#, python-format
+msgid "Disabled SRP fleet %(fleetname)s."
+msgstr ""
+
+#: allianceauth/srp/views.py:127
+#, python-format
+msgid "Enabled SRP fleet %(fleetname)s."
+msgstr ""
+
+#: allianceauth/srp/views.py:140
+#, python-format
+msgid "Marked SRP fleet %(fleetname)s as completed."
+msgstr ""
+
+#: allianceauth/srp/views.py:153
+#, python-format
+msgid "Marked SRP fleet %(fleetname)s as incomplete."
+msgstr ""
+
+#: allianceauth/srp/views.py:165
+#, python-format
+msgid "Unable to locate SRP code with ID %(srpfleetid)s"
+msgstr ""
+
+#: allianceauth/srp/views.py:179
+msgid "This kill mail has already been posted."
+msgstr ""
+
+#: allianceauth/srp/views.py:200
+msgid ""
+"Your SRP request Killmail link is invalid. Please make sure you are using "
+"zKillboard."
+msgstr ""
+
+#: allianceauth/srp/views.py:212
+#, python-format
+msgid "Submitted SRP request for your %(ship)s."
+msgstr ""
+
+#: allianceauth/srp/views.py:216
+#, python-format
+msgid ""
+"Character %(charid)s does not belong to your Auth account. Please add the "
+"API key for this character and try again"
+msgstr ""
+
+#: allianceauth/srp/views.py:236 allianceauth/srp/views.py:262
+#: allianceauth/srp/views.py:300
+msgid "No SRP requests selected"
+msgstr ""
+
+#: allianceauth/srp/views.py:247 allianceauth/srp/views.py:285
+msgid "Unable to locate selected SRP request."
+msgstr ""
+
+#: allianceauth/srp/views.py:250
+#, python-format
+msgid "Deleted %(numrequests)s SRP requests"
+msgstr ""
+
+#: allianceauth/srp/views.py:288
+#, python-format
+msgid "Approved %(numrequests)s SRP requests"
+msgstr ""
+
+#: allianceauth/srp/views.py:320
+msgid "Unable to locate selected SRP request"
+msgstr ""
+
+#: allianceauth/srp/views.py:323
+#, python-format
+msgid "Rejected %(numrequests)s SRP requests."
+msgstr ""
+
+#: allianceauth/srp/views.py:336
+#, python-format
+msgid "Unable to locate SRP request with ID %(requestid)s"
+msgstr ""
+
+#: allianceauth/srp/views.py:360
+#, python-format
+msgid "Saved changes to SRP fleet %(fleetname)s"
+msgstr ""
+
+#: allianceauth/templates/allianceauth/admin-status/esi_check.html:4
+msgid "Your Server received an ESI error response code of "
+msgstr ""
+
+#: allianceauth/templates/allianceauth/admin-status/overview.html:11
+msgid "second"
+msgstr ""
+
+#: allianceauth/templates/allianceauth/admin-status/overview.html:12
+msgid "seconds"
+msgstr ""
+
+#: allianceauth/templates/allianceauth/admin-status/overview.html:13
+msgid "minute"
+msgstr ""
+
+#: allianceauth/templates/allianceauth/admin-status/overview.html:14
+msgid "minutes"
+msgstr ""
+
+#: allianceauth/templates/allianceauth/admin-status/overview.html:15
+msgid "hour"
+msgstr ""
+
+#: allianceauth/templates/allianceauth/admin-status/overview.html:16
+msgid "hours"
+msgstr ""
+
+#: allianceauth/templates/allianceauth/admin-status/overview.html:17
+msgid "N/A"
+msgstr ""
+
+#: allianceauth/templates/allianceauth/admin-status/overview.html:18
+msgid "ERROR"
+msgstr ""
+
+#: allianceauth/templates/allianceauth/admin-status/overview.html:19
+msgid "running"
+msgstr ""
+
+#: allianceauth/templates/allianceauth/admin-status/overview.html:20
+msgid "queued"
+msgstr ""
+
+#: allianceauth/templates/allianceauth/admin-status/overview.html:21
+msgid "succeeded"
+msgstr ""
+
+#: allianceauth/templates/allianceauth/admin-status/overview.html:22
+msgid "retried"
+msgstr ""
+
+#: allianceauth/templates/allianceauth/admin-status/overview.html:23
+msgid "failed"
+msgstr ""
+
+#: allianceauth/templates/allianceauth/admin-status/overview.html:29
+msgid "Debug mode"
+msgstr ""
+
+#: allianceauth/templates/allianceauth/admin-status/overview.html:34
+msgid ""
+"Debug mode is currently turned on!<br>Make sure to turn it off as soon as "
+"you are finished testing."
+msgstr ""
+
+#: allianceauth/templates/allianceauth/admin-status/overview.html:46
+msgid "Alliance Auth Notifications"
+msgstr ""
+
+#: allianceauth/templates/allianceauth/admin-status/overview.html:58
+msgid "No notifications at this time"
+msgstr ""
+
+#: allianceauth/templates/allianceauth/admin-status/overview.html:67
+msgid "Powered by GitLab"
+msgstr ""
+
+#: allianceauth/templates/allianceauth/admin-status/overview.html:73
+msgid "Support Discord"
+msgstr ""
+
+#: allianceauth/templates/allianceauth/admin-status/overview.html:87
+#: allianceauth/templates/allianceauth/admin-status/overview.html:91
+msgid "Software Version"
+msgstr ""
+
+#: allianceauth/templates/allianceauth/admin-status/overview.html:94
+msgid "Current"
+msgstr ""
+
+#: allianceauth/templates/allianceauth/admin-status/overview.html:101
+msgid "Latest Stable"
+msgstr ""
+
+#: allianceauth/templates/allianceauth/admin-status/overview.html:106
+msgid "Update available"
+msgstr ""
+
+#: allianceauth/templates/allianceauth/admin-status/overview.html:114
+msgid "Latest Pre-Release"
+msgstr ""
+
+#: allianceauth/templates/allianceauth/admin-status/overview.html:119
+msgid "Pre-Release available"
+msgstr ""
+
+#: allianceauth/templates/allianceauth/admin-status/overview.html:129
+msgid "Task Queue"
+msgstr ""
+
+#: allianceauth/templates/allianceauth/admin-status/overview.html:134
+msgid ""
+"\n"
+"                            Status of <span id=\"total-task-count\">?</span> processed tasks • last <span id=\"celery-uptime\">?</span>\n"
+"                        "
+msgstr ""
+
+#: allianceauth/templates/allianceauth/top-menu-admin.html:19
+msgid "AA Documentation"
+msgstr ""
+
+#: allianceauth/templates/allianceauth/top-menu-admin.html:26
+msgid "AA Support Discord"
+msgstr ""
+
+#: allianceauth/templates/allianceauth/top-menu-user-dropdown.html:10
+#: allianceauth/templates/allianceauth/top-menu-user-dropdown.html:16
+msgid "User Menu"
+msgstr ""
+
+#: allianceauth/templates/allianceauth/top-menu-user-dropdown.html:67
+msgid "Logout"
+msgstr ""
+
+#: allianceauth/templates/allianceauth/top-menu.html:8
+msgid "Toggle navigation"
+msgstr ""
+
+#: allianceauth/theme/templates/theme/theme_select.html:11
+msgid "Select Theme"
+msgstr ""
+
+#: allianceauth/timerboard/apps.py:8
+#: allianceauth/timerboard/templates/timerboard/form.html:10
+#: allianceauth/timerboard/templates/timerboard/timer_confirm_delete.html:10
+#: allianceauth/timerboard/templates/timerboard/view.html:14
+msgid "Structure Timers"
+msgstr ""
+
+#: allianceauth/timerboard/form.py:36
+#: allianceauth/timerboard/templates/timerboard/dashboard.timers.html:14
+#: allianceauth/timerboard/templates/timerboard/timertable.html:8
+msgid "Details"
+msgstr ""
+
+#: allianceauth/timerboard/form.py:38
+msgid "Planet/Moon"
+msgstr ""
+
+#: allianceauth/timerboard/form.py:39
+msgid "Structure Type"
+msgstr ""
+
+#: allianceauth/timerboard/form.py:40
+msgid "Timer Type"
+msgstr ""
+
+#: allianceauth/timerboard/form.py:41
+#: allianceauth/timerboard/templates/timerboard/timertable.html:9
+msgid "Objective"
+msgstr ""
+
+#: allianceauth/timerboard/form.py:42
+msgid "Absolute Timer"
+msgstr ""
+
+#: allianceauth/timerboard/form.py:43
+msgid "Date and Time"
+msgstr ""
+
+#: allianceauth/timerboard/form.py:44
+msgid "Days Remaining"
+msgstr ""
+
+#: allianceauth/timerboard/form.py:45
+msgid "Hours Remaining"
+msgstr ""
+
+#: allianceauth/timerboard/form.py:47
+msgid "Minutes Remaining"
+msgstr ""
+
+#: allianceauth/timerboard/form.py:48
+msgid "Important"
+msgstr ""
+
+#: allianceauth/timerboard/form.py:49
+msgid "Corp-Restricted"
+msgstr ""
+
+#: allianceauth/timerboard/models.py:15
+#: allianceauth/timerboard/templates/timerboard/dashboard.timers.html:39
+msgid "Friendly"
+msgstr ""
+
+#: allianceauth/timerboard/models.py:16
+#: allianceauth/timerboard/templates/timerboard/dashboard.timers.html:34
+msgid "Hostile"
+msgstr ""
+
+#: allianceauth/timerboard/models.py:17
+#: allianceauth/timerboard/templates/timerboard/dashboard.timers.html:44
+msgid "Neutral"
+msgstr ""
+
+#: allianceauth/timerboard/models.py:24
+msgid "POCO"
+msgstr ""
+
+#: allianceauth/timerboard/models.py:25
+msgid "Orbital Skyhook"
+msgstr ""
+
+#: allianceauth/timerboard/models.py:26
+msgid "Sovereignty Hub"
+msgstr ""
+
+#: allianceauth/timerboard/models.py:27
+msgid "TCU"
+msgstr ""
+
+#: allianceauth/timerboard/models.py:28
+msgid "POS [S]"
+msgstr ""
+
+#: allianceauth/timerboard/models.py:29
+msgid "POS [M]"
+msgstr ""
+
+#: allianceauth/timerboard/models.py:30
+msgid "POS [L]"
+msgstr ""
+
+#: allianceauth/timerboard/models.py:31
+msgid "Astrahus"
+msgstr ""
+
+#: allianceauth/timerboard/models.py:32
+msgid "Fortizar"
+msgstr ""
+
+#: allianceauth/timerboard/models.py:33
+msgid "Keepstar"
+msgstr ""
+
+#: allianceauth/timerboard/models.py:34
+msgid "Raitaru"
+msgstr ""
+
+#: allianceauth/timerboard/models.py:35
+msgid "Azbel"
+msgstr ""
+
+#: allianceauth/timerboard/models.py:36
+msgid "Sotiyo"
+msgstr ""
+
+#: allianceauth/timerboard/models.py:37
+msgid "Athanor"
+msgstr ""
+
+#: allianceauth/timerboard/models.py:38
+msgid "Tatara"
+msgstr ""
+
+#: allianceauth/timerboard/models.py:39
+msgid "Cyno Beacon"
+msgstr ""
+
+#: allianceauth/timerboard/models.py:40
+msgid "Cyno Jammer"
+msgstr ""
+
+#: allianceauth/timerboard/models.py:41
+msgid "Ansiblex Jump Gate"
+msgstr ""
+
+#: allianceauth/timerboard/models.py:42
+msgid "Mercenary Den"
+msgstr ""
+
+#: allianceauth/timerboard/models.py:43
+msgid "Moon Mining Cycle"
+msgstr ""
+
+#: allianceauth/timerboard/models.py:44
+msgid "Metenox Moon Drill"
+msgstr ""
+
+#: allianceauth/timerboard/models.py:45
+msgid "Other"
+msgstr ""
+
+#: allianceauth/timerboard/models.py:52
+msgid "Not Specified"
+msgstr ""
+
+#: allianceauth/timerboard/models.py:53
+msgid "Shield"
+msgstr ""
+
+#: allianceauth/timerboard/models.py:54
+msgid "Armor"
+msgstr ""
+
+#: allianceauth/timerboard/models.py:55
+msgid "Hull"
+msgstr ""
+
+#: allianceauth/timerboard/models.py:56
+msgid "Final"
+msgstr ""
+
+#: allianceauth/timerboard/models.py:57
+msgid "Anchoring"
+msgstr ""
+
+#: allianceauth/timerboard/models.py:58
+msgid "Unanchoring"
+msgstr ""
+
+#: allianceauth/timerboard/models.py:59
+msgid "Abandoned"
+msgstr ""
+
+#: allianceauth/timerboard/models.py:60
+msgid "Theft"
+msgstr ""
+
+#: allianceauth/timerboard/templates/timerboard/dashboard.timers.html:7
+#: allianceauth/timerboard/templates/timerboard/view.html:52
+msgid "Upcoming Timers"
+msgstr ""
+
+#: allianceauth/timerboard/templates/timerboard/dashboard.timers.html:15
+msgid "Timer"
+msgstr ""
+
+#: allianceauth/timerboard/templates/timerboard/form.html:25
+msgid "Structure Timer Details"
+msgstr ""
+
+#: allianceauth/timerboard/templates/timerboard/timer_confirm_delete.html:6
+#: allianceauth/timerboard/templates/timerboard/timer_confirm_delete.html:15
+msgid "Delete Timer"
+msgstr ""
+
+#: allianceauth/timerboard/templates/timerboard/timer_confirm_delete.html:26
+#, python-format
+msgid "Are you sure you want to delete timer \"%(object)s\"?"
+msgstr ""
+
+#: allianceauth/timerboard/templates/timerboard/timer_create_form.html:5
+#: allianceauth/timerboard/templates/timerboard/timer_create_form.html:13
+msgid "Create Timer"
+msgstr ""
+
+#: allianceauth/timerboard/templates/timerboard/timer_create_form.html:9
+#: allianceauth/timerboard/templates/timerboard/view.html:20
+msgid "Create Structure Timer"
+msgstr ""
+
+#: allianceauth/timerboard/templates/timerboard/timer_update_form.html:5
+#: allianceauth/timerboard/templates/timerboard/timer_update_form.html:9
+#: allianceauth/timerboard/templates/timerboard/timer_update_form.html:13
+msgid "Update Structure Timer"
+msgstr ""
+
+#: allianceauth/timerboard/templates/timerboard/timertable.html:11
+msgid "Structure"
+msgstr ""
+
+#: allianceauth/timerboard/templates/timerboard/view.html:10
+msgid "Structure Timer Management"
+msgstr ""
+
+#: allianceauth/timerboard/templates/timerboard/view.html:39
+msgid "Corporation Timers"
+msgstr ""
+
+#: allianceauth/timerboard/templates/timerboard/view.html:70
+msgid "Past Timers"
+msgstr ""
+
+#: allianceauth/timerboard/views.py:175
+#, python-format
+msgid "Added new timer in %(system)s at %(time)s."
+msgstr ""
+
+#: allianceauth/timerboard/views.py:186
+msgid "Saved changes to the timer."
+msgstr ""
+
+#: allianceauth/views.py:55
+msgid "Bad Request"
+msgstr ""
+
+#: allianceauth/views.py:57 allianceauth/views.py:87
+msgid ""
+"Auth encountered an error processing your request, please try again. If the "
+"error persists, please contact the administrators."
+msgstr ""
+
+#: allianceauth/views.py:65
+msgid "Permission Denied"
+msgstr ""
+
+#: allianceauth/views.py:67
+msgid ""
+"You do not have permission to access the requested page. If you believe this"
+" is in error please contact the administrators."
+msgstr ""
+
+#: allianceauth/views.py:75
+msgid "Page Not Found"
+msgstr ""
+
+#: allianceauth/views.py:77
+msgid ""
+"Page does not exist. If you believe this is in error please contact the "
+"administrators. "
+msgstr ""
+
+#: allianceauth/views.py:85
+msgid "Internal Server Error"
+msgstr ""

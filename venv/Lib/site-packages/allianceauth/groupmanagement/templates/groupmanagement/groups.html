@@ -1,0 +1,124 @@
+{% extends "allianceauth/base-bs5.html" %}
+
+{% load static %}
+{% load aa_i18n %}
+{% load i18n %}
+
+{% block page_title %}
+    {% translate "Available Groups" %}
+{% endblock page_title %}
+
+{% block header_nav_brand %}
+    {% translate "Available Groups" %}
+{% endblock header_nav_brand %}
+
+{% if manager_perms %}
+    {% block header_nav_collapse_left %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'groupmanagement:management' %}">{% translate "Group Management" %}
+                {% if req_count %}
+                    <span class="badge text-bg-secondary">{{ req_count }}</span>
+                {% endif %}
+            </a>
+        </li>
+    {% endblock %}
+{% endif %}
+
+{% block content %}
+    {% if groups %}
+        <table class="table" id="groupsTable" >
+            <thead>
+                <tr>
+                    <th>{% translate "Name" %}</th>
+                    <th>{% translate "Description" %}</th>
+                    <th>
+                        {% translate "Leaders" %}<br>
+                        <span class="my-1 me-1 fw-lighter badge text-bg-primary">{% translate "User" %}</span>
+                        <span class="my-1 me-1 fw-lighter badge text-bg-secondary">{% translate "Group" %}</span>
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody class>
+                {% for g in groups %}
+                    <tr>
+                        <td>{{ g.group.name }}</td>
+                        <td>
+                            {% if g.group.authgroup.description %}
+                                {{ g.group.authgroup.description|linebreaks|urlize }}
+                            {%  endif %}
+                        </td>
+                        <td style="max-width: 30%;">
+                            {% if g.group.authgroup.group_leaders.all.count %}
+                                {% for leader in g.group.authgroup.group_leaders.all %}
+                                    {% if leader.profile.main_character %}
+                                        <span class="my-1 me-1 badge text-bg-primary">{{leader.profile.main_character}}</span>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                            {% if g.group.authgroup.group_leader_groups.all.count %}
+                                {% for group in g.group.authgroup.group_leader_groups.all %}
+                                    <span class="my-1 me-1 badge text-bg-secondary">{{group.name}}</span>
+                                {% endfor %}
+                            {% endif %}
+                        </td>
+                        <td class="text-end">
+                            {% if g.group in user_groups %}
+                                {% if not g.request %}
+                                    <a href="{% url 'groupmanagement:request_leave' g.group.id %}" class="btn btn-danger">
+                                        {% translate "Leave" %}
+                                    </a>
+                                {% else %}
+                                    <button type="button" class="btn btn-secondary cursor-help me-1" data-bs-tooltip="aa-tooltip" title="{% translate 'Request pending' %}">
+                                        <i class="fa-regular fa-hourglass-half"></i>
+                                    </button>
+                                {% endif %}
+                            {% elif not g.request %}
+                                {% if g.group.authgroup.open %}
+                                    <a href="{% url 'groupmanagement:request_add' g.group.id %}" class="btn btn-success">
+                                        {% translate "Join" %}
+                                    </a>
+                                {% else %}
+                                    <a href="{% url 'groupmanagement:request_add' g.group.id %}" class="btn btn-primary">
+                                        {% translate "Request" %}
+                                    </a>
+                                {% endif %}
+                            {% else %}
+                                <button type="button" class="btn btn-secondary cursor-help me-1" data-bs-tooltip="aa-tooltip" title="{% translate 'Request pending' %}">
+                                    <i class="fa-regular fa-hourglass-half"></i>
+                                </button>
+
+                                <a href="{% url 'groupmanagement:request_retract' g.group.id %}" class="btn btn-danger">
+                                    {% translate "Retract" %}
+                                </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="alert alert-warning text-center">
+            {% translate "No groups available." %}
+        </div>
+    {% endif %}
+{% endblock content %}
+
+{% block extra_javascript %}
+    {% include 'bundles/datatables-js-bs5.html' %}
+
+    {% get_datatables_language_static LANGUAGE_CODE as DT_LANG_PATH %}
+
+    <script>
+        $(document).ready(() => {
+            $('#groupsTable').DataTable({
+                language: {url: '{{ DT_LANG_PATH }}'},
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block extra_css %}
+    {% include 'bundles/datatables-css-bs5.html' %}
+{% endblock %}

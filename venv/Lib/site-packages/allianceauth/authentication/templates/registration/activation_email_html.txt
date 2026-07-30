@@ -1,0 +1,19 @@
+<p>
+    You're receiving this email because someone has entered this email address while registering for an account on {{ site.domain }}
+</p>
+
+<p>
+    If this was you, please click on the link below to confirm your email address:
+<p>
+
+<p>
+    <a href="{{ scheme }}://{{ url }}">Confirm email address</a>
+</p>
+
+<p>
+    This link will expire in {{ expiration_days }} day(s).
+</p>
+
+<p>
+    If this was not you, it is safe to ignore this email.
+</p>

@@ -1,0 +1,121 @@
+{% extends "allianceauth/base-bs5.html" %}
+
+{% load aa_i18n %}
+{% load i18n %}
+
+{% block page_title %}
+    {% translate "Permissions Overview" %}
+{% endblock page_title %}
+
+{% block header_nav_brand %}
+    {% translate "Permissions Audit" %}
+{% endblock header_nav_brand %}
+
+{% block content %}
+    <div>
+        <p>
+            {% if request.GET.all != 'yes' %}
+                {% translate "Showing only applied permissions" %}
+                <a href="{% url 'permissions_tool:overview' %}?all=yes" class="btn btn-primary">{% translate "Show All" %}</a>
+            {% else %}
+                {% translate "Showing all permissions" %}
+                <a href="{% url 'permissions_tool:overview' %}?all=no" class="btn btn-primary">{% translate "Show Applied" %}</a>
+            {% endif %}
+        </p>
+
+        <div class="table-responsive">
+            <table class="table table-striped w-100" id="tab_permissions_overview">
+                <thead>
+                    <tr>
+                        <th scope="col">{% translate "App" %}</th>
+                        <th scope="col">{% translate "Model" %}</th>
+                        <th scope="col">{% translate "Code Name" %}</th>
+                        <th scope="col">{% translate "Name" %}</th>
+                        <th scope="col">{% translate "Users" %}</th>
+                        <th scope="col">{% translate "Groups" %}</th>
+                        <th scope="col">{% translate "States" %}</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for perm in permissions %}
+                        <tr>
+                            <td>{{ perm.permission.content_type.app_label }}</td>
+                            <td>{{ perm.permission.content_type.model }}</td>
+                            <td>
+                                <a href="{% url "permissions_tool:audit" app_label=perm.permission.content_type.app_label model=perm.permission.content_type.model codename=perm.permission.codename %}">
+                                    {{ perm.permission.codename }}
+                                </a>
+                            </td>
+                            <td>{{ perm.permission.name }}</td>
+                            <td class="{% if perm.users > 0 %}info{% endif %}text-end">{{ perm.users }}</td>
+                            <td class="{% if perm.groups > 0 %}info{% endif %}text-end">{{ perm.groups }} ({{ perm.group_users }})</td>
+                            <td class="{% if perm.states > 0 %}info{% endif %}text-end">{{ perm.states }} ({{ perm.state_users }})</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block extra_javascript %}
+    {% include "bundles/datatables-js-bs5.html" %}
+    {% include "bundles/filterdropdown-js.html" %}
+
+    {% get_datatables_language_static LANGUAGE_CODE as DT_LANG_PATH %}
+
+    <script>
+        $(document).ready(() => {
+            const groupColumn = 0;
+
+            $('#tab_permissions_overview').DataTable({
+                language: {url: '{{ DT_LANG_PATH }}'},
+                columnDefs: [{
+                    "visible": false,
+                    "targets": groupColumn
+                }],
+                order: [
+                    [groupColumn, 'asc'],
+                    [1, 'asc'],
+                    [2, 'asc']
+                ],
+                filterDropDown: {
+                    columns: [
+                        {
+                            idx: 0
+                        },
+                        {
+                            idx: 1
+                        }
+                    ],
+                    bootstrap: true,
+                    bootstrap_version: 5
+                },
+                "stateSave": true,
+                "stateDuration": 0,
+                drawCallback: function(settings) {
+                    const api = this.api();
+                    const rows = api.rows({
+                        page: 'current'
+                    }).nodes();
+                    let last = null;
+
+                    api.column(groupColumn, {
+                        page: 'current'
+                    }).data().each((group, i) => {
+                        if (last !== group) {
+                            $(rows).eq(i).before(`<tr class="h5 table-primary"><td colspan="6">${group}</td></tr>`);
+
+                            last = group;
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+{% endblock extra_javascript %}
+
+{% block extra_css %}
+    {% include "bundles/datatables-css-bs5.html" %}
+{% endblock extra_css %}

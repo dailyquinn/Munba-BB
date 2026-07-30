@@ -1,0 +1,41 @@
+{% load i18n %}
+{% load evelinks %}
+
+<div class="col-12 mb-3">
+    <div class="card h-100">
+        <div class="card-body">
+            {% translate "Upcoming Fleets" as widget_title %}
+            {% include "framework/dashboard/widget-title.html" with title=widget_title %}
+
+            <div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="text-center">{% translate "Operation" %}</th>
+                            <th class="text-center">{% translate "Type" %}</th>
+                            <th class="text-center">{% translate "Form Up System" %}</th>
+                            <th class="text-center">{% translate "EVE time" %}</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for ops in timers %}
+                            <tr>
+                                <td class="text-center">
+                                    {{ ops.operation_name }}
+                                </td>
+                                <td class="text-center">
+                                    {{ ops.type }}
+                                </td>
+                                <td class="text-center">
+                                    <a href="{{ ops.system|dotlan_solar_system_url }}">{{ ops.system }}</a>
+                                </td>
+                                <td class="text-center" nowrap>{{ ops.start | date:"Y-m-d H:i" }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

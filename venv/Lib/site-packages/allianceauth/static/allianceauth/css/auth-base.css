@@ -1,0 +1,207 @@
+body {
+    margin-bottom: 32px;
+}
+
+.navbar-brand {
+    height: 58px;
+    padding: 19px;
+}
+
+.auth-navbar-top {
+    margin-bottom: 0;
+}
+
+.auth-side-navbar-collapse {
+    padding-left: 0;
+}
+
+#wrapper {
+    padding: 0;
+    width: 100%;
+}
+
+#site-body-wrapper {
+    margin-right: 0;
+}
+
+/* Horizontal list group */
+ul.list-group.list-group-horizontal {
+    display: table;
+    width: 100%;
+}
+
+ul.list-group.list-group-horizontal > li.list-group-item {
+    display: table-cell;
+    max-width: 0;
+}
+
+.flex-center-horizontal {
+    justify-content: center;
+}
+
+@media all {
+    /* style nav tabs in dark mode */
+    .template-dark-mode .nav-tabs > li.active > a {
+        background-color: rgb(70 69 69) !important;
+        color: rgb(255 255 255) !important;
+    }
+
+    .panel-tabs-aa {
+        border-top: none;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+
+    /* style group headers within a table */
+    .template-light-mode .tr-group {
+        background-color: rgb(230 230 230) !important;
+        font-weight: bold;
+    }
+
+    .template-dark-mode .tr-group {
+        background-color: rgb(105 105 105) !important;
+        font-weight: bold;
+    }
+
+    /* default style for tables */
+    .template-light-mode .table-aa > thead > tr > th {
+        border-bottom: 1px solid rgb(242 242 242);
+    }
+
+    .template-dark-mode .table-aa > thead > tr > th {
+        border-bottom: 1px solid rgb(70 69 69);
+    }
+
+    .table-aa > thead > tr > th {
+        vertical-align: middle;
+    }
+
+    .template-light-mode .table-aa > tbody > tr > td {
+        border-bottom: 1px solid rgb(242 242 242);
+    }
+
+    .template-dark-mode .table-aa > tbody > tr > td {
+        border-bottom: 1px solid rgb(70 69 69);
+    }
+
+    .table-aa > tbody > tr > td {
+        vertical-align: middle;
+    }
+
+    .table-aa > tbody > tr:last-child {
+        border-bottom: none;
+    }
+
+    .progress .progress-bar {
+        font-size: 13px;
+        line-height: 21px;
+    }
+}
+
+/* highlight active menu items
+------------------------------------------------------------------------------------- */
+@media all {
+    .template-light-mode .nav-pills > li > a.active {
+        background-color: rgb(236 240 241);
+    }
+
+    .template-dark-mode .nav-pills > li > a.active {
+        background-color: rgb(48 48 48);
+    }
+}
+
+/* user menu
+------------------------------------------------------------------------------------- */
+@media all {
+    img {
+        height: auto;
+        max-width: 100%;
+    }
+
+    .navbar-nav > li.top-user-menu.with-main-character > .dropdown-menu {
+        padding-top: 0.5rem;
+    }
+
+    .navbar-nav > li.top-user-menu a {
+        padding: 14px;
+    }
+
+    .dropdown-menu > li > a {
+        clear: both;
+        color: rgb(123 138 139);
+        display: block;
+        font-weight: 400;
+        line-height: 1.42857;
+        padding: 3px 20px;
+        white-space: nowrap;
+    }
+
+    .top-user-menu {
+        color: rgb(255 255 255);
+    }
+
+    .top-menu-bar-language-select form {
+        border-bottom: 1px solid transparent;
+        border-top: 1px solid transparent;
+        box-shadow: inset 0 1px 0 rgb(255 255 255), 0 1px 0 rgb(255 255 255);
+        margin: 7.5px 5px;
+        padding: 10px 15px;
+    }
+}
+
+@media all and (max-width: 768px) {
+    .navbar-nav .open .dropdown-menu .dropdown-header,
+    .navbar-nav .open .dropdown-menu > li > a {
+        padding: 5px 15px 5px 25px;
+    }
+}
+
+@media all and (min-width: 768px) {
+    .top-user-menu {
+        color: rgb(123 138 139);
+    }
+
+    .top-menu-bar-language-select form {
+        border: 0;
+        box-shadow: none;
+        margin-left: 0;
+        margin-right: 0;
+        padding-bottom: 0;
+        padding-top: 0;
+        width: auto;
+    }
+}
+
+/* EVE time in navbar
+------------------------------------------------------------------------------------- */
+@media all {
+    .nav-item-eve-time .eve-time-wrapper {
+        color: rgb(255 255 255);
+        display: block;
+        line-height: 21px;
+        padding: 10px 15px;
+        position: relative;
+    }
+}
+
+@media all and (min-width: 768px) {
+    .nav-item-eve-time .eve-time-wrapper {
+        padding-bottom: 19.5px;
+        padding-top: 19.5px;
+    }
+}
+
+/* Small devices (tablets, 768px and up)
+------------------------------------------------------------------------------------- */
+@media (min-width: 768px) {
+    /* class for vertically aligning columns in a bootstrap row */
+    .row.vertical-flexbox-row2 {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .row.vertical-flexbox-row2 > [class*="col-"] {
+        display: flex;
+        flex-direction: column;
+    }
+}

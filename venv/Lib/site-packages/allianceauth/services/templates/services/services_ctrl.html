@@ -1,0 +1,39 @@
+{% extends "services/services_ctrl_base.html" %}
+
+{% load i18n %}
+
+{% block title %}
+    {{ service_name }}
+{% endblock %}
+
+{% block url %}
+    <a href="{{ service_url }}">{{ service_url }}</a>
+{% endblock %}
+
+{% block controls %}
+    {% if username == "" %}
+        {% if urls.auth_activate %}
+            <a href="{% url urls.auth_activate %}" title="Activate" class="btn btn-warning">
+                <i class="fa-solid fa-check fa-fw"></i>
+            </a>
+        {% endif %}
+    {% else %}
+        {% if urls.auth_set_password %}
+            <a href="{% url urls.auth_set_password %}" title="Set Password" class="btn btn-warning">
+                <i class="fa-solid fa-pen-to-square"></i>
+            </a>
+        {% endif %}
+
+        {% if urls.auth_reset_password %}
+            <a href="{% url urls.auth_reset_password %}" title="Reset Password" class="btn btn-primary">
+                <i class="fa-solid fa-rotate fa-fw"></i>
+            </a>
+        {% endif %}
+
+        {% if urls.auth_deactivate %}
+            <a href="{% url urls.auth_deactivate %}" title="Deactivate" class="btn btn-danger">
+                <i class="fa-solid fa-xmark fa-fw"></i>
+            </a>
+        {% endif %}
+    {% endif %}
+{% endblock %}

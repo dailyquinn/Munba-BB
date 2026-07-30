@@ -1,0 +1,43 @@
+{% extends 'public/base.html' %}
+
+{% load i18n %}
+
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.level_tag}}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+
+            <div class="card card-login border-secondary p-3">
+                <div class="card-body">
+                    <div class="text-center">
+                        {% block middle_box_content %}
+                        {% endblock %}
+                    </div>
+                </div>
+
+                {% include 'public/lang_select.html' %}
+
+                <p class="text-center mt-3">
+                    {% translate "For information on SSO, ESI and security read the CCP Dev Blog" %}<br>
+                    <a class="text-reset" href="https://www.eveonline.com/news/view/introducing-esi" target="_blank" rel="noopener noreferrer">
+                        {% translate "Introducing ESI - A New API For EVE Online" %}
+                    </a>
+                </p>
+
+                <p class="text-center">
+                    <a class="text-reset" href="https://developers.eveonline.com/authorized-apps" target="_blank" rel="noopener noreferrer">
+                        {% translate "Manage ESI Applications" %}
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_include %}
+    {% include 'bundles/bootstrap-js-bs5.html' %}
+{% endblock %}

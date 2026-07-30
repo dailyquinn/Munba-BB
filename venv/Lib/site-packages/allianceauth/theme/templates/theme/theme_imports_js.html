@@ -1,0 +1,16 @@
+{% load static %}
+<!-- allianceauth.theme.{{ theme.name }} JS -->
+{% if theme.js_template %}
+    {% include theme.js_template %}
+{% else %}
+    {% for x in theme.js %}
+        <script
+            {% if x.js_type %}type="{{ x.js_type }}"{% endif %}
+            src="{{ x.url }}"
+            integrity="{{ x.integrity }}"
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        ></script>
+    {% endfor %}
+{% endif %}
+<!-- allianceauth.theme.{{ theme.name }} JS Ends-->

@@ -1,0 +1,58 @@
+.checkbox label::after,
+.radio label::after {
+    clear: both;
+    content: "";
+    display: table;
+}
+
+.checkbox .cr,
+.radio .cr {
+    border: 1px solid rgb(169 169 169);
+    border-radius: 0.25em;
+    display: inline-block;
+    float: left;
+    height: 1.3em;
+    margin-right: 0.5em;
+    position: relative;
+    width: 1.3em;
+}
+
+.radio .cr {
+    border-radius: 50%;
+}
+
+.checkbox .cr .cr-icon,
+.radio .cr .cr-icon {
+    font-size: 0.8em;
+    left: 20%;
+    line-height: 0;
+    position: absolute;
+    top: 50%;
+}
+
+.radio .cr .cr-icon {
+    margin-left: 0.04em;
+}
+
+.checkbox label input[type="checkbox"],
+.radio label input[type="radio"] {
+    display: none;
+}
+
+.checkbox label input[type="checkbox"] + .cr > .cr-icon,
+.radio label input[type="radio"] + .cr > .cr-icon {
+    opacity: 0;
+    transform: scale(3) rotateZ(-20deg);
+    transition: all 0.3s ease-in;
+}
+
+.checkbox label input[type="checkbox"]:checked + .cr > .cr-icon,
+.radio label input[type="radio"]:checked + .cr > .cr-icon {
+    opacity: 1;
+    transform: scale(1) rotateZ(0deg);
+}
+
+.checkbox label input[type="checkbox"]:disabled + .cr,
+.radio label input[type="radio"]:disabled + .cr {
+    opacity: 0.5;
+}

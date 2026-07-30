@@ -1,0 +1,44 @@
+{% load i18n %}
+<div id="aa-dashboard-panel-characters" class="col-12 col-xl-8 mb-3">
+    <div class="card h-100">
+        <div class="card-body">
+            {% translate "Characters" as widget_title %}
+            {% include "framework/dashboard/widget-title.html" with title=widget_title %}
+
+            <div>
+                <div style="height: 300px; overflow-y:auto;">
+                    <div class="d-flex">
+                        <a href="{% url 'authentication:add_character' %}" class="btn btn-primary flex-fill m-1" title="{% translate 'Add Character' %}">
+                            <span class="d-md-inline m-2">{% translate 'Add Character' %}</span>
+                        </a>
+                        <a href="{% url 'authentication:change_main_character' %}" class="btn btn-primary flex-fill m-1" title="{% translate 'Change Main' %}">
+                            <span class="d-md-inline m-2">{% translate 'Change Main' %}</span>
+                        </a>
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="text-center"></th>
+                                <th class="text-center">{% translate "Name" %}</th>
+                                <th class="text-center">{% translate "Corp" %}</th>
+                                <th class="text-center">{% translate "Alliance" %}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for char in characters %}
+                                <tr>
+                                    <td class="text-center">
+                                        <img class="ra-avatar rounded-circle" src="{{ char.portrait_url_32 }}" alt="{{ char.character_name }}">
+                                    </td>
+                                    <td class="text-center">{{ char.character_name }}</td>
+                                    <td class="text-center">{{ char.corporation_name }}</td>
+                                    <td class="text-center">{{ char.alliance_name|default_if_none:"" }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

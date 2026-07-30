@@ -1,0 +1,72 @@
+{% load i18n %}
+{% load evelinks %}
+
+<li class="top-user-menu dropdown{% if request.user.profile.main_character %} with-main-character{% endif %}">
+    <a href="#" class="dropdown-toggle" type="button" id="top-user-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        {% if request.user.profile.main_character %}
+            {% with request.user.profile.main_character as main %}
+                <img class="img-rounded ra-avatar" src="{{ main.character_id|character_portrait_url:32 }}" alt="{{ main.character_name }}">
+                <span class="hidden-sm hidden-md hidden-lg">
+                    {{ main.character_name }} - {% translate "User Menu" %}
+                </span>
+            {% endwith %}
+        {% else %}
+            <img class="img-rounded ra-avatar" src="{{ 1|character_portrait_url:32 }}" alt="{{ main.character_name }}">
+            <span class="hidden-sm hidden-md hidden-lg">
+                    {% translate "User Menu" %}
+                </span>
+        {% endif %}
+        <span class="caret"></span>
+    </a>
+
+    <ul class="dropdown-menu top-user-menu" aria-labelledby="top-user-menu">
+        <!-- user avatar -->
+        {% if request.user.profile.main_character %}
+            <li>
+                {% with request.user.profile.main_character as main %}
+                    <p class="text-center">
+                        <img class="img-rounded ra-avatar" src="{{ main.character_id|character_portrait_url:256 }}" alt="{{ main.character_name }}">
+                    </p>
+
+                    <p class="text-center">
+                        <span style="display: block;">{{ main.character_name }}</span>
+                        <span style="display: block;">{{ main.corporation_name }}</span>
+
+                        {% if main.alliance_name %}
+                            <span style="display: block;">{{ main.alliance_name }}</span>
+                        {% endif %}
+                    </p>
+                {% endwith %}
+            </li>
+            <li role="separator" class="divider"></li>
+        {% endif %}
+
+        <li class="top-menu-bar-language-select">
+            {% include 'public/lang_select.html' %}
+        </li>
+
+        <li role="separator" class="divider"></li>
+
+        <!-- night mode toggle -->
+        {% include 'allianceauth/night-toggle.html' %}
+
+        <!-- admin related menu items -->
+        {% include 'allianceauth/top-menu-admin.html' %}
+
+        <!-- logout / login -->
+        <li role="separator" class="divider"></li>
+        {% if user.is_authenticated %}
+            <li>
+                <a href="{% url 'authentication:token_management' %}">
+                    <i class="fa-solid fa-user-lock"></i>
+                    {% translate "Token Management" %}
+                </a>
+            </li>
+            <li role="separator" class="divider"></li>
+
+            <li><a href="{% url 'logout' %}">{% translate "Logout" %}</a></li>
+        {% else %}
+            <li><a href="{% url 'authentication:login' %}">{% translate "Login" %}</a></li>
+        {% endif %}
+    </ul>
+</li>

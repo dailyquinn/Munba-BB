@@ -1,0 +1,21 @@
+{% load evelinks %}
+{% load i18n %}
+
+<tr>
+    <td>{{ type }}: {{ name }}</td>
+    <td class="text-end">
+        <img src="{{ user.profile.main_character|character_portrait_url:32 }}" class="img-circle" alt="{{ user.profile.main_character.character_name }}">
+    </td>
+    <td>
+        <strong>{{ user }}<br></strong>{{ user.profile.main_character.character_name }}
+    </td>
+    <td class="text-start">
+        {% if user.profile.main_character %}
+            <a href="{{ user.profile.main_character|dotlan_corporation_url }}" target="_blank">{{ user.profile.main_character.corporation_name }}</a>
+            <br>
+            {{ user.profile.main_character.alliance_name|default_if_none:"" }}
+        {% else %}
+            {% translate "(unknown)" %}
+        {% endif %}
+    </td>
+</tr>

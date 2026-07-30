@@ -1,0 +1,12 @@
+<li class="nav-item">
+    <a href="{{ url }}" class="nav-link">
+        <span class="d-none d-lg-inline-block" title="{{ title }}">
+            <i class="{{ fa_icon }}"></i>
+        </span>
+
+        <span class="d-inline-block d-lg-none">
+            {% if icon_on_mobile %}<i class="{{ fa_icon }} me-2 fa-fw"></i>{% endif %}
+            {{ title }}
+        </span>
+    </a>
+</li>

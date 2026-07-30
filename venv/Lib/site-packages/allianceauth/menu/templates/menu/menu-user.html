@@ -1,0 +1,190 @@
+{% load i18n %}
+{% load evelinks %}
+{% load theme_tags %}
+
+<div
+    id="aa-user-info"
+    class="w-100 d-flex flex-column justify-content-center align-items-center text-center py-1 border-top border-secondary {% if not user.is_authenticated %}position-absolute bottom-0{% endif %}"
+>
+    <div class="d-flex mb-0 w-100">
+        <div class="p-2 position-relative m-2">
+            {% if user.is_authenticated %}
+                {% with request.user.profile.main_character as main %}
+                    <img
+                        class="rounded-circle"
+                        src="{{ main.character_id|character_portrait_url:64 }}"
+                        alt="{{ main.character_name }}"
+                    >
+
+                    <img
+                        class="rounded-circle position-absolute bottom-0 start-0"
+                        src="{{ main.corporation_logo_url_32 }}"
+                        alt="{{ main.corporation_name }}"
+                    >
+
+                    {% if main.alliance_id %}
+                        <img
+                            class="rounded-circle position-absolute bottom-0 end-0"
+                            src="{{ main.alliance_logo_url_32 }}"
+                            alt="{{ main.alliance_name }}"
+                        >
+                    {% elif main.faction_id %}
+                        <img
+                            class="rounded-circle position-absolute bottom-0 end-0"
+                            src="{{ main.faction_logo_url_32 }}"
+                            alt="{{ main.faction_name }}"
+                        >
+                    {% endif %}
+                {% endwith %}
+            {% else %}
+                {% include "bundles/image-auth-logo.html" with logo_width="64px" %}
+            {% endif %}
+        </div>
+
+        <div class="align-self-center text-start">
+            {% if user.is_authenticated %}
+                {% with request.user.profile.main_character as main %}
+                    <h5 class="m-0">{{ main.character_name }}</h5>
+                    <p class="m-0 small">{{ main.corporation_name }}</p>
+
+                    {% if main.alliance_id %}
+                        <p class="m-0 small">{{ main.alliance_name }}</p>
+                    {% elif main.faction_id %}
+                        <p class="m-0 small">{{ main.faction_name }}</p>
+                    {% endif %}
+                {% endwith %}
+            {% else %}
+                <h5 class="m-0">{{ SITE_NAME }}</h5>
+            {% endif %}
+        </div>
+
+        <div class="ms-auto dropup">
+            <button type="button" class="h-100 btn" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa-solid fa-gear fa-fw text-light"></i>
+            </button>
+
+            <ul class="dropdown-menu" style="min-width: 200px;">
+                <li><h6 class="dropdown-header">{% translate "Language" %}</h6></li>
+
+                <li>
+                    {% include "public/lang_select.html" %}
+                </li>
+
+                {% theme_select %}
+
+                {% if user.is_authenticated and not request.is_mobile_device %}
+                    <li><hr class="dropdown-divider"></li>
+                    <li><h6 class="dropdown-header">{% translate "Sidebar" %}</h6></li>
+
+                    <li>
+                        <form class="dropdown-item" action="{% url 'minimize_sidebar' %}?next={{ request.path|urlencode }}" method="post">
+                            {% csrf_token %}
+
+                            <div class="form-check form-switch">
+                                <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    role="switch"
+                                    id="toggle-sidebar"
+                                    onchange="this.form.submit()"
+                                    {% if request.session.MINIMIZE_SIDEBAR %}checked{% endif %}
+                                >
+                                <label class="form-check-label" for="toggle-sidebar">
+                                    {% translate "Minimize Sidebar" %}
+                                </label>
+                            </div>
+                        </form>
+                    </li>
+                {% endif %}
+
+                {% if user.is_superuser %}
+                    <li><hr class="dropdown-divider"></li>
+                    <li><h6 class="dropdown-header">{% translate "Super User" %}</h6></li>
+
+                    <li>
+                        <a
+                            class="dropdown-item"
+                            href="https://allianceauth.readthedocs.io/"
+                            title="{% translate 'Alliance Auth Documentation' %}"
+                        >
+                            <i class="fa-solid fa-book fa-fw"></i>
+                            {% translate "Alliance Auth Documentation" %}
+                        </a>
+                    </li>
+
+                    <li>
+                        <a
+                            class="dropdown-item"
+                            href="https://discord.gg/fjnHAmk"
+                            title="{% translate 'Alliance Auth Discord' %}"
+                        >
+                            <i class="fa-brands fa-discord fa-fw"></i>
+                            {% translate "Alliance Auth Discord" %}
+                        </a>
+                    </li>
+
+                    <li>
+                        <a
+                            class="dropdown-item"
+                            href="https://gitlab.com/allianceauth/allianceauth"
+                            title="{% translate 'Alliance Auth Git' %}"
+                        >
+                            <i class="fa-brands fa-gitlab fa-fw"></i>
+                            {% translate "Alliance Auth Git" %}
+                        </a>
+                    </li>
+                {% endif %}
+
+                {% if user.is_staff %}
+                    <li>
+                        <a
+                            class="dropdown-item"
+                            href="{% url 'admin:index' %}"
+                            title="{% translate 'Admin' %}"
+                        >
+                            <i class="fa-solid fa-gear fa-fw"></i>
+                            {% translate "Admin" %}
+                        </a>
+                    </li>
+                {% endif %}
+
+                <li><hr class="dropdown-divider"></li>
+
+                {% if user.is_authenticated %}
+                    <li>
+                        <a
+                            class="dropdown-item"
+                            href="{% url 'authentication:token_management' %}"
+                            title="{% translate 'Token Management' %}"
+                        >
+                            <i class="fa-solid fa-user-lock fa-fw"></i>
+                            {% translate "Token Management" %}
+                        </a>
+                    </li>
+
+                    <li>
+                        <a
+                            class="dropdown-item text-danger"
+                            href="{% url 'logout' %}"
+                            title="{% translate 'Sign Out' %}"
+                        >
+                            <i class="fa-solid fa-right-from-bracket fa-fw"></i>
+                            {% translate 'Sign Out' %}
+                        </a>
+                    </li>
+                {% else %}
+                    <li>
+                        <a
+                            class="dropdown-item text-success"
+                            href="{% url 'authentication:login' %}"
+                            title="{% translate 'Sign In' %}"
+                        >
+                            <i class="fa-solid fa-right-to-bracket fa-fw"></i>
+                            {% translate 'Sign In' %}
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,14 @@
+{% load humanize %}
+{% load admin_status %}
+
+<div
+    id="celery-progress-bar-{{ label }}"
+    class="progress-bar text-bg-{{ level }} task-status-progress-bar"
+    role="progressbar"
+    aria-valuenow="{% decimal_widthratio tasks_count tasks_total 100 %}"
+    aria-valuemin="0"
+    aria-valuemax="100"
+    style="width: {% decimal_widthratio tasks_count tasks_total 100 %}%;"
+>
+    <span id="celery-progress-bar-{{ label }}-progress">{% widthratio tasks_count tasks_total 100 %}%</span>
+</div>

@@ -1,0 +1,17 @@
+from pydantic import Field
+
+from ..base import ObjectExtended
+from .general import ExternalDocumentation
+
+
+class Tag(ObjectExtended):
+    """
+    A `Tag Object`_ holds a reusable set of different aspects of the OAS
+    spec.
+
+    .. _Tag Object: https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.3.md#tag-object
+    """
+
+    name: str = Field(...)
+    description: str | None = Field(default=None)
+    externalDocs: ExternalDocumentation | None = Field(default=None)

@@ -1,0 +1,181 @@
+{% extends "allianceauth/base-bs5.html" %}
+
+{% load django_bootstrap5 %}
+{% load i18n %}
+
+{% block page_title %}
+    {% translate "View Application" %}
+{% endblock page_title %}
+
+{% block header_nav_brand %}
+    {% translate "HR Application Management" %}
+{% endblock header_nav_brand %}
+
+{% block content %}
+    <div>
+        {% translate "View Application" as page_header %}
+        {% include "framework/header/page-header.html" with title=page_header %}
+
+        <div>
+            {% if app.approved %}
+                <div class="alert alert-success text-center">{% translate "Approved" %}</div>
+            {% elif app.approved == False %}
+                <div class="alert alert-danger text-center">{% translate "Denied" %}</div>
+            {% else %}
+                <div class="alert alert-warning text-center">{% translate "Pending" %}</div>
+            {% endif %}
+
+            {% if app.reviewer_str %}
+                <div class="alert alert-info text-center">{% translate "Reviewer:" %} {{ app.reviewer_str }}</div>
+            {% endif %}
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-header text-bg-info">
+                <div class="card-title mb-0">{% translate "Applicant" %}</div>
+            </div>
+
+            <div class="card-body">
+                <table class="table">
+                    <tr>
+                        <th class="text-center">{% translate "User" %}</th>
+                        <th class="text-center">{% translate "Main Character" %}</th>
+                    </tr>
+                    <tr>
+                        <td class="text-center">{{ app.user }}</td>
+                        <td class="text-center">{{ app.main_character }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-header text-bg-info">
+                <div class="card-title mb-0">{% translate "Characters" %}</div>
+            </div>
+
+            <div class="card-body">
+                <table class="table">
+                    <tr>
+                        <th></th>
+                        <th>{% translate "Name" %}</th>
+                        <th>{% translate "Corporation" %}</th>
+                        <th>{% translate "Alliance" %}</th>
+                    </tr>
+
+                    {% for char in app.characters %}
+                        <tr>
+                            <td>
+                                <img class="ra-avatar img-responsive rounded-circle" src="{{ char.portrait_url_32 }}" alt="{{ char.character_name }}">
+                            </td>
+                            <td>{{ char.character_name }}</td>
+                            <td>{{ char.corporation_name }}</td>
+                            <td>{{ char.alliance_name }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+
+        {% for response in responses %}
+            <div class="card mb-3">
+                <div class="card-header">
+                    <div class="card-title mb-0">{{ response.question.title }}</div>
+                </div>
+
+                <div class="card-body">{{ response.answer|linebreaksbr }}</div>
+            </div>
+        {% endfor %}
+
+        {% if buttons %}
+            {% if perms.auth.human_resources %}
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <div class="card-title mb-0">{% translate "Actions" %}</div>
+                    </div>
+
+                    <div class="card-body text-center">
+                        {% if app.approved == None %}
+                            {% if app.reviewer == user %}
+                                {% if perms.hrapplications.approve_application %}
+                                    <a href="{% url 'hrapplications:approve' app.id %}" class="btn btn-success">{% translate "Approve" %}</a>
+                                {% endif %}
+                                {% if perms.hrapplications.reject_application %}
+                                    <a href="{% url 'hrapplications:reject' app.id %}" class="btn btn-warning">{% translate "Reject" %}</a>
+                                {% endif %}
+                                {% if perms.hrapplications.delete_application %}
+                                    <a href="{% url 'hrapplications:remove' app.id %}" class="btn btn-danger">{% translate "Delete" %}</a>
+                                {% endif %}
+                            {% elif not app.reviewer %}
+                                <a href="{% url 'hrapplications:mark_in_progress' app.id %}" class="btn btn-warning">{% translate "Mark in Progress" %}</a>
+                            {% endif %}
+                        {% endif %}
+
+                        {% if perms.hrapplications.add_applicationcomment %}
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-hr-comment">{% translate "Comment" %}</button>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="card-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="card card-default">
+                        <div class="card-header">
+                            <div class="card-title mb-0">
+                                {% translate 'Comments' %} ({{ comments.count }})
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            {% if comments %}
+                                {% for comment in comments %}
+                                    <div class="card card-default">
+                                        <div class="card-header" role="tab" id="">
+                                            <div class="card-title mb-0 clearfix">
+                                                <div class="float-md-end">{{ comment.created }}</div>
+                                                <div class="float-md-start">{% if comment.user.profile.main_character %}{{ comment.user.profile.main_character }}{% else %}{{ comment.user }}{% endif %}</div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">{{ comment.text|linebreaks }}</div>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="alert alert-info">
+                                    {% translate "No comments" %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+
+    {% if perms.hrapplications.add_applicationcomment %}
+        <div class="modal fade" id="modal-hr-comment" tabindex="-1" aria-labelledby="modalHrComment" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="modal-title fs-5" id="modalHrCommentLabel">
+                            {% translate "Add Comment" %}
+                        </div>
+
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{% translate 'Close' %}"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <form class="form-signin" role="form" action="" method="POST">
+                            {% csrf_token %}
+
+                            {% bootstrap_form comment_form %}
+
+                            <div class="form-group mt-3 clearfix">
+                                {% translate "Add comment" as button_text %}
+                                {% bootstrap_button button_class="btn btn-primary" content=button_text name="addComment" id="addComment" %}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

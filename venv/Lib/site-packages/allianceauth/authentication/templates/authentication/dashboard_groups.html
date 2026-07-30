@@ -1,0 +1,22 @@
+{% load i18n %}
+<div id="aa-dashboard-panel-membership" class="col-12 col-xl-4 mb-3">
+    <div class="card h-100">
+        <div class="card-body">
+            {% translate "Membership" as widget_title %}
+            {% include "framework/dashboard/widget-title.html" with title=widget_title %}
+
+            <div>
+                <div style="height: 300px; overflow-y:auto;">
+                    <h5 class="text-center">{% translate "State:" %} {{ request.user.profile.state }}</h5>
+                    <table class="table">
+                        {% for group in groups %}
+                            <tr>
+                                <td class="text-center">{{ group.name }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

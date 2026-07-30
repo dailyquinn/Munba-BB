@@ -1,0 +1,28 @@
+{% extends "allianceauth/base-bs5.html" %}
+
+{% load django_bootstrap5 %}
+{% load i18n %}
+
+{% block page_title %}{% translate "Verify TeamSpeak3" %}{% endblock page_title %}
+
+{% block content %}
+    <div class="col-lg-12">
+        {% translate "Verify TeamSpeak3 Identity" as page_header %}
+        {% include "framework/header/page-header.html" with title=page_header %}
+
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <a href="ts3server://{{ public_url }}?token={{ authinfo.teamspeak3_perm_key }}&nickname={{ authinfo.teamspeak3_uid }}" class="btn btn-primary btn-block btn-lg" title="Join">{% translate "Join Server" %}</a>
+                <br>
+                <form class="form-signin" role="form" action="{% url 'teamspeak3:verify' %}" method="POST">
+                    {% csrf_token %}
+
+                    {% bootstrap_form form %}
+
+                    <br>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">{% translate "Continue" %}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

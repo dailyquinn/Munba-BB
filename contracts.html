@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Outstanding Contracts</title>
+    <!--
     <script>
         (function() {
             const token = localStorage.getItem('token');
@@ -12,6 +14,7 @@
             }
         })();
     </script>
+    -->
 
     <style>
         html {
@@ -21,16 +24,21 @@
             background-attachment: fixed;
             height: 100%;
         }
+
         body {
-            background-color: transparent; /* Ensure body doesn't obscure html background */
+            background-color: transparent;
+            /* Ensure body doesn't obscure html background */
             font-family: Arial, sans-serif;
-            height: 100%; /* Ensure body takes full height to allow scrolling over fixed background */
-            margin: 0; /* Reset default body margin */
+            height: 100%;
+            /* Ensure body takes full height to allow scrolling over fixed background */
+            margin: 0;
+            /* Reset default body margin */
             color: white;
             opacity: 1;
             transition: opacity 0.2s ease-in;
             align-content: center;
         }
+
         header {
             background: rgba(0, 0, 0, 0.5);
             padding: 10px 20px;
@@ -38,10 +46,12 @@
             text-align: center;
 
         }
+
         .login-icon {
             height: 25px;
             cursor: pointer;
         }
+
         .contracts {
             background-color: rgba(0, 0, 0, 0.4);
             backdrop-filter: blur(10px);
@@ -51,66 +61,83 @@
             max-width: 800px;
             margin: 20px auto;
         }
+
         .contract {
             border-bottom: 1px solid #ccc;
             padding-bottom: 16px;
             margin-bottom: 16px;
         }
+
         .contract:last-child {
             border-bottom: none;
         }
+
         .issuer-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 1em;
         }
+
         .issuer-row p {
             margin: 0;
         }
+
         .toggleItems {
             display: inline-block;
             margin-left: 1em;
         }
+
         .validation-indicator {
             font-size: 20px;
             margin-right: 10px;
             min-width: 25px;
             text-align: center;
         }
+
         .validation-valid {
             color: #4CAF50;
         }
+
         .validation-invalid {
             color: #f44336;
         }
+
         .validation-unknown {
             color: #ff9800;
         }
+
         .show-items-container {
             display: flex;
             align-items: center;
         }
-        h2, h1 {
+
+        h2,
+        h1 {
             text-align: center;
         }
+
         .issuer-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 1em;
         }
+
         .issuer-row p {
             margin: 0;
         }
+
         .contract {
             border-bottom: 1px solid #ccc;
             padding-bottom: 16px;
             margin-bottom: 16px;
         }
+
         .contract:last-child {
             border-bottom: none;
         }
+
         nav {
             display: flex;
             justify-content: center;
@@ -118,11 +145,13 @@
             gap: 20px;
             margin: 10px 0;
         }
+
         nav a {
             color: #87cefa;
             text-decoration: none;
             font-weight: bold;
         }
+
         .tab-button {
             background: rgba(255, 255, 255, 0.1);
             color: white;
@@ -133,19 +162,24 @@
             font-weight: bold;
             transition: all 0.3s ease;
         }
+
         .tab-button:hover {
             background: rgba(255, 255, 255, 0.2);
         }
+
         .tab-button.active {
             background: #4CAF50;
             border-color: #4CAF50;
         }
+
         .tab-content {
             display: none;
         }
+
         .tab-content.active {
             display: block;
         }
+
         .multipliers-editor {
             background-color: rgba(0, 0, 0, 0.4);
             backdrop-filter: blur(10px);
@@ -155,6 +189,7 @@
             max-width: 800px;
             margin: 20px auto;
         }
+
         .multipliers-editor textarea {
             width: 100%;
             height: 150px;
@@ -168,6 +203,7 @@
             resize: vertical;
             margin-top: 20px;
         }
+
         .multipliers-editor button {
             background: #4CAF50;
             color: white;
@@ -178,13 +214,16 @@
             font-weight: bold;
             margin: 10px 5px 0 0;
         }
+
         .multipliers-editor button:hover {
             background: #45a049;
         }
+
         .multipliers-editor button:disabled {
             background: #666;
             cursor: not-allowed;
         }
+
         /* New styles for the input form */
         .add-modifier-form {
             background: rgba(255, 255, 255, 0.05);
@@ -193,15 +232,18 @@
             margin-bottom: 20px;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
+
         .input-group {
             display: grid;
             grid-template-columns: 3fr 1fr auto;
             gap: 10px;
             align-items: center;
         }
+
         .input-wrapper {
             position: relative;
         }
+
         .input-field {
             width: 100%;
             padding: 10px;
@@ -211,6 +253,7 @@
             color: white;
             box-sizing: border-box;
         }
+
         .suggestions-list {
             position: absolute;
             top: 100%;
@@ -224,19 +267,23 @@
             display: none;
             border-radius: 0 0 5px 5px;
         }
+
         .suggestion-item {
             padding: 8px 12px;
             cursor: pointer;
             border-bottom: 1px solid #333;
         }
+
         .suggestion-item:hover {
             background: #4CAF50;
         }
+
         .suggestion-type {
             font-size: 0.8em;
             color: #aaa;
             float: right;
         }
+
         /* Readable List Styles */
         .readable-list {
             margin-top: 20px;
@@ -244,18 +291,23 @@
             border-collapse: collapse;
             font-size: 0.9em;
         }
-        .readable-list th, .readable-list td {
+
+        .readable-list th,
+        .readable-list td {
             text-align: left;
             padding: 12px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
+
         .readable-list th {
             background-color: rgba(255, 255, 255, 0.05);
             color: #ccc;
         }
+
         .readable-list tr:hover {
             background-color: rgba(255, 255, 255, 0.02);
         }
+
         .modifier-tag {
             background: rgba(76, 175, 80, 0.2);
             color: #4CAF50;
@@ -265,6 +317,7 @@
         }
     </style>
 </head>
+
 <body>
     <header>
         <h1>Contract Administration</h1>
@@ -273,9 +326,11 @@
             <button id="multipliers-tab" class="tab-button">Edit Multipliers</button>
         </div>
         <nav>
-        <a href="index.html">Back to home</a>
-        <a href="http://localhost:8000/login">Re-login</a>
-        <button id="refresh-contracts" style="background: #4CAF50; color: white; border: none; padding: 8px 16px; border-radius: 4px; font-weight: bold; cursor: pointer;">Refresh Contracts</button>
+            <a href="index.html">Back to home</a>
+            <a href="http://localhost:8000/login">Re-login</a>
+            <button id="refresh-contracts"
+                style="background: #4CAF50; color: white; border: none; padding: 8px 16px; border-radius: 4px; font-weight: bold; cursor: pointer;">Refresh
+                Contracts</button>
         </nav>
     </header>
 
@@ -284,20 +339,22 @@
             <h2>Outstanding contracts</h2>
             <div id="contract-list" class="contracts">Loading...</div>
         </section>
-        
+
         <section class="tab-content" id="multipliers-content">
             <div class="multipliers-editor">
                 <h2>Edit Multipliers</h2>
-                
+
                 <div class="add-modifier-form">
                     <h3>Add / Update Modifier</h3>
                     <div class="input-group">
                         <div class="input-wrapper">
-                            <input type="text" id="search-input" class="input-field" placeholder="Search Item or Group (e.g., Tritanium, Ore, 34)..." autocomplete="off">
+                            <input type="text" id="search-input" class="input-field"
+                                placeholder="Search Item or Group (e.g., Tritanium, Ore, 34)..." autocomplete="off">
                             <div id="suggestions" class="suggestions-list"></div>
                         </div>
                         <div class="input-wrapper">
-                            <input type="number" id="modifier-input" class="input-field" placeholder="%" step="0.1" min="0" max="200">
+                            <input type="number" id="modifier-input" class="input-field" placeholder="%" step="0.1"
+                                min="0" max="200">
                         </div>
                         <button id="add-modifier-btn">Add</button>
                     </div>
@@ -331,7 +388,7 @@
                             </tr>
                         </thead>
                         <tbody id="readable-list-body">
-                            </tbody>
+                        </tbody>
                     </table>
                 </div>
 
@@ -343,4 +400,5 @@
     <script src="Scripts/contractlist.js"></script>
     <script src="Scripts/admin-tabs.js"></script>
 </body>
+
 </html>

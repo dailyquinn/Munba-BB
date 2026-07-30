@@ -1,0 +1,12 @@
+{% load aa_i18n %}
+
+<!-- Start Moment.js from cdnjs -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js" integrity="sha512-+H4iLjY3JsKiF2V6N366in5IQHj2uEsGV7Pp/GRcm0fn76aPAk5V8xB6n8fQhhSonTqTXs/klFz4D0GIn6Br9g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+{% if locale and LANGUAGE_CODE != 'en' %}
+    <!-- Moment.JS Not EN-en ({{ LANGUAGE_CODE }}) -->
+    {% get_momentjs_language_static LANGUAGE_CODE as MOMENTJS_LANG_PATH %}
+
+    <script src="{{ MOMENTJS_LANG_PATH }}" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+{% endif %}
+<!-- End Moment JS from cdnjs -->

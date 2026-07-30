@@ -1,0 +1,200 @@
+{% extends "allianceauth/base-bs5.html" %}
+
+{% load aa_i18n %}
+{% load i18n %}
+{% load evelinks %}
+
+{% get_current_language as LANGUAGE_CODE %}
+
+{% block page_title %}
+    {% translate "Structure Timer Management" %}
+{% endblock page_title %}
+
+{% block header_nav_brand %}
+    {% translate "Structure Timers" %}
+{% endblock header_nav_brand %}
+
+
+{% block header_nav_collapse_right %}
+    {% if perms.auth.timer_management %}
+        {% translate "Create Structure Timer" as nav_item_title %}
+        {% url "timerboard:add" as nav_item_link %}
+        {% include "framework/header/nav-collapse-button.html" with btn_modifier="success" url=nav_item_link title=nav_item_title fa_icon="fa-solid fa-plus" icon_on_mobile=True %}
+    {% endif %}
+{% endblock header_nav_collapse_right %}
+
+{% block content %}
+    <div class="allianceauth-timerboard">
+        <div class="col-lg-12 text-center mb-3">
+            <div class="badge text-bg-primary text-start">
+                <span>{% translate "Current EVE time:" %}</span>
+                <span id="current-time"></span>
+            </div>
+        </div>
+
+        {% if corp_timers %}
+            <div class="card mb-3">
+                <div class="card-header">
+                    <div class="card-title mb-0">
+                        {% translate "Corporation Timers" %}
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    {% include "timerboard/timertable.html" with id="corp-timers" timers=corp_timers %}
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="card mb-3">
+            <div class="card-header">
+                <div class="card-title mb-0">
+                    {% translate "Upcoming Timers" %}
+                </div>
+            </div>
+
+            <div class="card-body">
+                {% if future_timers %}
+                    {% include "timerboard/timertable.html" with id="future-timers" timers=future_timers %}
+                {% else %}
+                    <div class="alert alert-warning text-center">
+                        {% translate "No upcoming timers." %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-header">
+                <div class="card-title mb-0">
+                    {% translate "Past Timers" %}
+                </div>
+            </div>
+
+            <div class="card-body">
+                {% if past_timers %}
+                    {% include "timerboard/timertable.html" with id="past-timers" timers=past_timers %}
+                {% else %}
+                    <div class="alert alert-warning text-center">
+                        {% translate "No past timers." %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block extra_css %}
+    {% include "bundles/datatables-css-bs5.html" %}
+{% endblock extra_css %}
+
+{% block extra_javascript %}
+    {% include "bundles/moment-js.html" with locale=True %}
+    {% include "bundles/timers-js.html" %}
+    {% include "bundles/datatables-js-bs5.html" %}
+
+    {% get_datatables_language_static LANGUAGE_CODE as DT_LANG_PATH %}
+
+    <script>
+        $(document).ready(() => {
+            const timers = [
+                {% for timer in timers %}
+                    {
+                        'id': {{ timer.id }},
+                        'targetDate': moment("{{ timer.eve_time | date:"c" }}"),
+                        'expired': false
+                    },
+                {% endfor %}
+
+                {% for timer in corp_timers %}
+                    {
+                        'id': {{ timer.id }},
+                        'targetDate': moment("{{ timer.eve_time | date:"c" }}"),
+                        'expired': false
+                    },
+                {% endfor %}
+            ];
+
+            /**
+             * Update a timer
+             * @param timer Timer information
+             */
+            const updateTimer = (timer) => {
+                if (timer.targetDate.isAfter(Date.now())) {
+                    const duration = moment.duration(timer.targetDate - moment(), 'milliseconds');
+
+                    document.getElementById("countdown" + timer.id).innerHTML = getDurationString(duration);
+                } else {
+                    timer.expired = true;
+
+                    document.getElementById("countdown" + timer.id).innerHTML = "";
+                }
+            };
+
+            const updateAllTimers = () => {
+                const l = timers.length;
+
+                for (let i=0; i < l; ++i) {
+                    if (timers[i].expired) continue;
+
+                    updateTimer(timers[i]);
+                }
+            };
+
+            /**
+             * Set the local time info for the timer
+             * @param timer Timer information
+             */
+            const setLocalTime = (timer) => {
+                document.getElementById("localtime" + timer.id).innerHTML = timer.targetDate.format("ddd @ LT");
+            };
+
+            /**
+             * Set all local time fields
+             */
+            const setAllLocalTimes = () => {
+                const l = timers.length;
+
+                for (let i=0; i < l; ++i) {
+                    setLocalTime(timers[i]);
+                }
+            };
+
+            const updateClock = () => {
+                document.getElementById("current-time").innerHTML = getCurrentEveTimeString();
+            };
+
+            const timedUpdate = () => {
+                updateClock();
+                updateAllTimers();
+            }
+
+            // Set initial values
+            setAllLocalTimes();
+            timedUpdate();
+
+            // Start timed updates
+            setInterval(timedUpdate, 1000);
+
+            const dtOptions = {
+                language: {url: '{{ DT_LANG_PATH }}'},
+                order: [
+                    [4, 'asc']
+                ],
+            };
+
+            {% if perms.auth.timer_management %}
+                dtOptions['columnDefs'] = [
+                    {
+                        "orderable": false,
+                        "targets": 7
+                    }
+                ];
+            {% endif %}
+
+            $('.allianceauth-timerboard table').each((index, table) => {
+                $(table).DataTable(dtOptions);
+            });
+        });
+    </script>
+{% endblock extra_javascript %}

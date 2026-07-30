@@ -1,0 +1,17 @@
+{% load i18n %}
+
+{% if user.is_authenticated %}
+    {% translate "Add Character" as nav_item_title %}
+    {% url "authentication:add_character" as nav_item_link %}
+    {% include "framework/header/nav-collapse-icon.html" with fa_icon="fa-solid fa-user-plus" url=nav_item_link title=nav_item_title icon_on_mobile=True %}
+
+    {% translate "Change Main" as nav_item_title %}
+    {% url "authentication:change_main_character" as nav_item_link %}
+    {% include "framework/header/nav-collapse-icon.html" with fa_icon="fa-solid fa-shuffle" url=nav_item_link title=nav_item_title icon_on_mobile=True %}
+{% else %}
+    <li class="nav-item">
+        <a href="{% url 'authentication:login' %}" class="nav-link" title="{% translate 'Sign In' %}">
+            <i class="fa-solid fa-right-to-bracket fa-fw me-2"></i> {% translate "Sign In" %}
+        </a>
+    </li>
+{% endif %}

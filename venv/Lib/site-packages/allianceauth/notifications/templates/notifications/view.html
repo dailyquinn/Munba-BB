@@ -1,0 +1,29 @@
+{% extends "allianceauth/base-bs5.html" %}
+{% load i18n %}
+
+{% block page_title %}
+    {% translate "View Notification" %}
+{% endblock page_title %}
+
+{% block header_nav_brand %}
+    {% translate "View Notification" %}
+{% endblock %}
+
+{% block content %}
+    <div class="text-end mb-4">
+        <a href="{% url 'notifications:list' %}" class="btn btn-primary">
+            <i class="fa-solid fa-arrow-left"></i>
+        </a>
+    </div>
+
+    <div class="card border-{{ notif.level }}">
+        <div class="card-header text-bg-{{ notif.level }}">
+            {{ notif.timestamp }}
+            {{ notif.title }}
+        </div>
+
+        <div class="card-body">
+            <pre>{{ notif.message }}</pre>
+        </div>
+    </div>
+{% endblock %}

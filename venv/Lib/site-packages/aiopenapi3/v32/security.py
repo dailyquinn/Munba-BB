@@ -1,0 +1,112 @@
+from pathlib import Path
+
+from typing import Union, Annotated, Literal
+from pydantic import Field, RootModel, constr
+
+from ..base import ObjectExtended
+
+
+class OAuthFlow(ObjectExtended):
+    """
+    Configuration details for a supported OAuth Flow
+
+    .. here: https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#oauth-flow-object
+    """
+
+    authorizationUrl: str | None = Field(default=None)
+    deviceAuthorizationUrl: str | None = Field(default=None)
+    tokenUrl: str | None = Field(default=None)
+    refreshUrl: str | None = Field(default=None)
+    scopes: dict[str, str] = Field(default_factory=dict)
+
+
+class OAuthFlows(ObjectExtended):
+    """
+    4.28 OAuth Flows Object
+    Allows configuration of the supported OAuth Flows.
+
+    .. here: https://spec.openapis.org/oas/v3.2.0.html#oauth-flows-object
+    """
+
+    implicit: OAuthFlow | None = Field(default=None)
+    password: OAuthFlow | None = Field(default=None)
+    clientCredentials: OAuthFlow | None = Field(default=None)
+    authorizationCode: OAuthFlow | None = Field(default=None)
+    deviceAuthorization: OAuthFlow | None = Field(default=None)
+
+
+class _SecuritySchemes:
+    class _SecurityScheme(ObjectExtended):
+        type: Literal["apiKey", "http", "mutualTLS", "oauth2", "openIdConnect"]
+        description: str | None = Field(default=None)
+        deprecated: bool | None = Field(default=None)
+
+        def validate_authentication_value(self, value):
+            pass
+
+    class apiKey(_SecurityScheme):
+        type: Literal["apiKey"]
+        in_: str = Field(alias="in")
+        name: str
+
+    class http(_SecurityScheme):
+        type: Literal["http"]
+        scheme_: constr(to_lower=True) = Field(default=None, alias="scheme")  # type: ignore[valid-type]
+        bearerFormat: str | None = Field(default=None)
+
+    class mutualTLS(_SecurityScheme):
+        type: Literal["mutualTLS"]
+
+        def validate_authentication_value(self, value) -> None:
+            if not isinstance(value, (list, tuple)):
+                raise TypeError(type(value))
+            if len(value) != 2:
+                raise ValueError(f"Invalid number of tuple parameters {len(value)} - 2 required")
+            files: tuple[Path, Path] = (Path(value[0]), Path(value[1]))
+            if missing := sorted(filter(lambda x: not (x.exists() and x.is_file()), files)):
+                raise FileNotFoundError(missing)
+
+    class oauth2(_SecurityScheme):
+        type: Literal["oauth2"]
+        flows: OAuthFlows
+        oauth2MetadataUrl: str | None = Field(default=None)
+
+    class openIdConnect(_SecurityScheme):
+        type: Literal["openIdConnect"]
+        openIdConnectUrl: str
+
+
+class SecurityScheme(
+    RootModel[
+        Annotated[
+            Union[
+                _SecuritySchemes.apiKey,
+                _SecuritySchemes.http,
+                _SecuritySchemes.mutualTLS,
+                _SecuritySchemes.oauth2,
+                _SecuritySchemes.openIdConnect,
+            ],
+            Field(discriminator="type"),
+        ]
+    ]
+):
+    """
+    4.27 Security Scheme Object
+    Defines a security scheme that can be used by the operations.
+
+    .. _here: https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#security-scheme-object
+    """
+
+    pass
+
+
+class SecurityRequirement(RootModel[dict[str, list[str]]]):
+    """
+    4.30 Security Requirement Object
+
+    Lists the required security schemes to execute this operation.
+
+    .. _here: https://spec.openapis.org/oas/v3.2.0.html#security-requirement-object
+    """
+
+    pass

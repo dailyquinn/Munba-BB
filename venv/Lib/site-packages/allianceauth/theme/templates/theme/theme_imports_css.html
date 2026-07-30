@@ -1,0 +1,10 @@
+{% load static %}
+<!-- allianceauth.theme.{{ theme.name }} CSS -->
+{% if theme.css_template %}
+    {% include theme.css_template %}
+{% else %}
+    {% for x in theme.css %}
+        <link rel="stylesheet" href="{{ x.url }}" integrity="{{ x.integrity }}" crossorigin="anonymous" referrerpolicy="no-referrer">
+    {% endfor %}
+{% endif %}
+<!-- allianceauth.theme.{{ theme.name }} CSS Ends -->

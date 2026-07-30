@@ -1,0 +1,77 @@
+<!-- This is an example template for the evelinks template tags
+
+Needs to be called with a context containing three objects:
+
+- EveCharacter: my_character
+- EveCorporationInfo: my_corporation
+- EveAllianceInfo: my_alliance
+
+-->
+
+{% extends "allianceauth/base-bs5.html" %}
+{% load evelinks %}
+
+{% block page_title %}Evelinks Examples{% endblock page_title %}
+
+{% block content %}
+    <div>
+        {% include "framework/header/page-header.html" with title="Evelinks templatetags examples" %}
+
+        <div class="col-lg-12 container">
+            <h2>profile URLs</h2>
+
+            <div class="rows">
+                <div class="col-md-4">
+                    <h3>evewho</h3>
+                    <p><a href="{{ my_character|evewho_character_url }}">character from character object</a></p>
+                    <p><a href="{{ my_corporation|evewho_corporation_url }}">corporation form corporation object</a></p>
+                    <p><a href="{{ my_character|evewho_corporation_url }}">corporation from charachter object</a></p>
+                    <p><a href="{{ my_alliance|evewho_alliance_url }}">alliance from alliance object</a></p>
+                    <p><a href="{{ my_character|evewho_alliance_url }}">alliance from character object</a></p>
+                </div>
+
+                <div class="col-md-4">
+                    <h3>dotlan</h3>
+                    <p><a href="{{ my_character|dotlan_corporation_url }}">corporation form character object</a></p>
+                    <p><a href="{{ my_corporation|dotlan_corporation_url }}">corporation form corporation object</a></p>
+                    <p><a href="{{ my_character|dotlan_alliance_url }}">alliance from character object</a></p>
+                    <p><a href="{{ my_alliance|dotlan_alliance_url }}">alliance from alliance object</a></p>
+                    <p><a href="{{ 'Black Rise'|dotlan_region_url }}">region from name string</a></p>
+                    <p><a href="{{ 'Tama'|dotlan_solar_system_url }}">solar system from name string</a></p>
+                </div>
+
+                <div class="col-md-4">
+                    <h3>zkillboard</h3>
+                    <p><a href="{{ my_character|zkillboard_character_url }}">character from character object</a></p>
+                    <p><a href="{{ my_character|zkillboard_corporation_url }}">corporation from character object</a></p>
+                    <p><a href="{{ my_corporation|zkillboard_corporation_url }}">corporation form corporation object</a></p>
+                    <p><a href="{{ my_character|zkillboard_alliance_url }}">alliance from character object</a></p>
+                    <p><a href="{{ my_alliance|zkillboard_alliance_url }}">alliance from alliance object</a></p>
+                    <p><a href="{{ 10000069|zkillboard_region_url }}">region from ID</a></p>
+                    <p><a href="{{ 30002813|zkillboard_solar_system_url }}">solar sytem from ID</a></p>
+                </div>
+            </div>
+
+            <h2>image URLs</h2>
+
+            <div class="rows">
+                <div class="col-md-4">
+                    <p>character from ID: <img src="{{ my_character.character_id|character_portrait_url:128 }}"></p>
+                    <p>character from character object: <img src="{{ my_character|character_portrait_url:128 }}"></p>
+                </div>
+
+                <div class="col-md-4">
+                    <p>corporation from ID: <img src="{{ my_character.corporation_id|corporation_logo_url:128 }}"></p>
+                    <p>corporation from character object: <img src="{{ my_character|corporation_logo_url:128 }}"></p>
+                    <p>corporation from corporation object: <img src="{{ my_corporation|corporation_logo_url:128 }}"></p>
+                </div>
+
+                <div class="col-md-4">
+                    <p>alliance from ID: <img src="{{ my_character.alliance_id|alliance_logo_url:128 }}"></p>
+                    <p>alliance from character object: <img src="{{ my_character|alliance_logo_url:128 }}"></p>
+                    <p>alliance from alliance object: <img src="{{ my_alliance|alliance_logo_url:128 }}"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

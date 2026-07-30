@@ -1,0 +1,212 @@
+/**
+ * Alliance Auth CSS Framework
+ *
+ * This provides some CSS classes together with a couple of Bootstrap fixes
+ * to be used throughout Alliance Auth and its Community Apps
+ */
+
+/* General
+------------------------------------------------------------------------------------- */
+@media all {
+    .navbar-toggler.collapsed {
+        transform: rotate(180deg);
+    }
+
+    ul#nav-right:has(li) + ul#nav-right-character-control > li:first-child {
+        display: list-item !important;
+    }
+
+    form.is-submitting button[type="submit"] {
+        cursor: not-allowed;
+    }
+}
+
+@media all and (max-width: 991px) {
+    ul#nav-left:has(li) + ul#nav-right + ul#nav-right-character-control > li:first-child {
+        display: list-item !important;
+    }
+}
+
+/* Bootstrap fixes
+------------------------------------------------------------------------------------- */
+@media all {
+    .table {
+        --bs-table-bg: transparent !important;
+    }
+}
+
+/* Image overflow fix
+------------------------------------------------------------------------------------- */
+@media all {
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+/* Side Navigation
+------------------------------------------------------------------------------------- */
+@media all {
+    .sidemenu-total-notifications-badge {
+        position: absolute;
+        left: 28px;
+        font-size: 42.5% !important;
+    }
+
+    #sidebar > div {
+        width: 325px;
+    }
+
+    /* Menu items in general */
+    #sidebar-menu li > a,
+    #sidebar-menu li > ul > li > a {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        max-width: 210px;
+    }
+
+    /* Parent items with chevron and possible badge */
+    #sidebar-menu li:has(span.badge) > a[data-bs-toggle="collapse"] {
+        max-width: 180px;
+    }
+
+    /* Child items with possible badge */
+    #sidebar-menu li > ul > li > a {
+        max-width: 189px;
+    }
+
+    /* Chevron icons */
+    #sidebar-menu span[data-bs-toggle="collapse"] > i.fa-chevron-right {
+        transition: 0.25s transform ease-in-out;
+    }
+
+    #sidebar-menu span[data-bs-toggle="collapse"][aria-expanded="true"] > i.fa-chevron-right {
+        transform: rotate(90deg);
+    }
+}
+
+/* Cursor classes
+------------------------------------------------------------------------------------- */
+@media all {
+    .cursor-auto {
+        cursor: auto !important;
+    }
+
+    .cursor-default {
+        cursor: default !important;
+    }
+
+    .cursor-pointer {
+        cursor: pointer !important;
+    }
+
+    .cursor-wait {
+        cursor: wait !important;
+    }
+
+    .cursor-text {
+        cursor: text !important;
+    }
+
+    .cursor-move {
+        cursor: move !important;
+    }
+
+    .cursor-help {
+        cursor: help !important;
+    }
+
+    .cursor-not-allowed {
+        cursor: not-allowed !important;
+    }
+
+    .cursor-inherit {
+        cursor: inherit !important;
+    }
+
+    .cursor-zoom-in {
+        cursor: zoom-in !important;
+    }
+
+    .cursor-zoom-out {
+        cursor: zoom-out !important;
+    }
+}
+
+/* Callouts
+ *
+ * Not quite alerts, but custom and helpful notes for folks.
+ * Requires a base and modifier class.
+------------------------------------------------------------------------------------- */
+@media all {
+    /* Common styles for all types */
+    .aa-callout {
+        border: 1px solid var(--bs-border-color);
+        border-left-width: 0.25rem;
+        border-radius: 0.25rem;
+        margin-bottom: 1rem;
+        padding: 1rem;
+    }
+
+    .aa-callout.aa-callout-sm {
+        padding: 0.5rem;
+    }
+
+    .aa-callout.aa-callout-lg {
+        padding: 1.5rem;
+    }
+
+    /* Last item bottom margin should be 0 */
+    .aa-callout :last-child {
+        margin-bottom: 0;
+    }
+
+    /* Variations */
+    .aa-callout.aa-callout-danger {
+        border-left-color: var(--bs-danger);
+    }
+
+    .aa-callout.aa-callout-info {
+        border-left-color: var(--bs-info);
+    }
+
+    .aa-callout.aa-callout-success {
+        border-left-color: var(--bs-success);
+    }
+
+    .aa-callout.aa-callout-warning {
+        border-left-color: var(--bs-warning);
+    }
+}
+
+/* DataTables 2
+------------------------------------------------------------------------------------- */
+@media all {
+    /* DataTables Processing Indicator
+    --------------------------------------------------------------------------------- */
+    div.dt-processing {
+        padding-top: 0.5rem !important;
+    }
+
+    div.dt-processing > div {
+        display: none;
+    }
+
+    svg.aa-datatables-process-indicator {
+        width: 2rem;
+        height: 2rem;
+    }
+
+    /* DataTables Extension: ColumnControl
+    --------------------------------------------------------------------------------- */
+    table.dataTable span.dtcc div.dtcc-search > div select {
+        background-color: var(--bs-body-bg);
+        color: var(--bs-body-color);
+        padding: 0.375rem;
+    }
+
+    table.dataTable .dt-column-header div.dtcc-search-title {
+        display: none;
+    }
+}

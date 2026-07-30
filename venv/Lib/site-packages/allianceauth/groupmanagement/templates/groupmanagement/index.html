@@ -1,0 +1,381 @@
+{% extends "allianceauth/base-bs5.html" %}
+
+{% load static %}
+{% load i18n %}
+{% load evelinks %}
+{% load navactive %}
+
+{% block page_title %}
+    {% translate "Groups Management" %}
+{% endblock page_title %}
+
+{% block header_nav_brand %}
+    {% translate "Groups Management" %}
+{% endblock header_nav_brand %}
+
+{% block header_nav_collapse_left %}
+    <li class="active">
+        <a class="nav-link active" id="add-tab" data-bs-toggle="tab" data-bs-target="#add" type="button" role="tab" aria-controls="add" aria-selected="true">
+            {% translate "Join Requests" %}
+
+            {% if acceptrequests %}
+                <span id="acceptRequestsCounter" class="badge text-bg-secondary">{{ acceptrequests|length }}</span>
+            {% endif %}
+        </a>
+    </li>
+
+    {% if not show_leave_tab %}
+        <li>
+            <a class="nav-link" id="leave-tab" data-bs-toggle="tab" data-bs-target="#leave" type="button" role="tab" aria-controls="leave" aria-selected="false">
+                {% translate "Leave Requests" %}
+
+                {% if leaverequests %}
+                    <span id="leaveRequestsCounter" class="badge text-bg-secondary">{{ leaverequests|length }}</span>
+                {% endif %}
+            </a>
+        </li>
+    {% endif %}
+
+    <li class="nav-item ">
+        <a class="nav-link {% navactive request 'groupmanagement:membership groupmanagement:audit_log' %}" href="{% url 'groupmanagement:membership' %}">
+            {% translate "Group Membership" %}
+        </a>
+    </li>
+{% endblock header_nav_collapse_left %}
+
+{% block content %}
+    <div class="tab-content">
+        <div id="add" class="tab-pane active">
+            {% if acceptrequests %}
+                <div>
+                    <table id="table-add" class="table table-responsive w-100">
+                        <thead>
+                            <tr>
+                                <th>{% translate "Character" %}</th>
+                                <th>{% translate "Organization" %}</th>
+                                <th>{% translate "Group" %}</th>
+                                <th></th>
+                                <th>{% translate "Corporation" %}</th>
+                            </tr>
+                        </thead>
+
+                        <tbody class="align-middle">
+                            {% for acceptrequest in acceptrequests %}
+                                <tr>
+                                    <td>
+                                        <img src="{{ acceptrequest.main_char|character_portrait_url:32 }}" class="rounded-circle" style="margin-right: 1rem;" alt="{{ acceptrequest.main_char.character_name }}">
+
+                                        {% if acceptrequest.main_char %}
+                                            <a href="{{ acceptrequest.main_char|evewho_character_url }}" target="_blank">
+                                                {{ acceptrequest.main_char.character_name }}
+                                            </a>
+                                        {% else %}
+                                            {{ acceptrequest.user.username }}
+                                        {% endif %}
+                                    </td>
+
+                                    <td>
+                                        {% if acceptrequest.main_char %}
+                                            <a href="{{ acceptrequest.main_char|dotlan_corporation_url }}" target="_blank">
+                                                {{ acceptrequest.main_char.corporation_name }}
+                                            </a>
+                                            <br>
+                                            {{ acceptrequest.main_char.alliance_name|default_if_none:"" }}
+                                        {% else %}
+                                            {% translate "(unknown)" %}
+                                        {% endif %}
+                                    </td>
+
+                                    <td>{{ acceptrequest.group.name }}</td>
+
+                                    <td class="text-end">
+                                        <div class="spinner-border spinner-border-sm mt-2 btns-join-{{acceptrequest.id}} d-none" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                        <a id="{{acceptrequest.id}}" class="btn btn-success join-accept btns-join-{{acceptrequest.id}}">
+                                            {% translate "Accept" %}
+                                        </a>
+                                        <a id="{{acceptrequest.id}}" class="btn btn-danger join-reject btns-join-{{acceptrequest.id}}">
+                                            {% translate "Reject" %}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        {% if acceptrequest.main_char %}
+                                            {{ acceptrequest.main_char.corporation_name }}
+                                        {% else %}
+                                            {% translate "(unknown)" %}
+                                        {% endif %}
+                                    </td>
+
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="aa-callout aa-callout-warning text-center">
+                    {% translate "No group add requests." %}
+                </div>
+            {% endif %}
+        </div>
+
+        {% if not show_leave_tab %}
+            <div id="leave" class="tab-pane">
+                {% if leaverequests %}
+                    <div>
+                        <table id="table-rem" class="table table-responsive w-100">
+                            <thead>
+                                <tr>
+                                    <th>{% translate "Character" %}</th>
+                                    <th>{% translate "Organization" %}</th>
+                                    <th>{% translate "Group" %}</th>
+                                    <th></th>
+                                    <th>{% translate "Corporation" %}</th>
+                                </tr>
+                            </thead>
+
+                            <tbody class="align-middle">
+                                {% for leaverequest in leaverequests %}
+                                    <tr>
+                                        <td>
+                                            <img src="{{ leaverequest.main_char|character_portrait_url:32 }}" class="rounded-circle" style="margin-right: 1rem;" alt="{{ leaverequest.main_char.character_name }}">
+
+                                            {% if leaverequest.main_char %}
+                                                <a href="{{ leaverequest.main_char|evewho_character_url }}" target="_blank">
+                                                    {{ leaverequest.main_char.character_name }}
+                                                </a>
+                                            {% else %}
+                                                {{ leaverequest.user.username }}
+                                            {% endif %}
+                                        </td>
+
+                                        <td>
+                                            {% if leaverequest.main_char %}
+                                                <a href="{{ leaverequest.main_char|dotlan_corporation_url }}" target="_blank">
+                                                    {{ leaverequest.main_char.corporation_name }}
+                                                </a>
+                                                <br>
+                                                {{ leaverequest.main_char.alliance_name|default_if_none:"" }}
+                                            {% else %}
+                                                {% translate "(unknown)" %}
+                                            {% endif %}
+                                        </td>
+
+                                        <td>{{ leaverequest.group.name }}</td>
+
+                                        <td class="text-end">
+                                            <div class="spinner-border spinner-border-sm mt-2 btns-leave-{{leaverequest.id}} d-none" role="status">
+                                                <span class="sr-only">Loading...</span>
+                                            </div>
+                                            <a id="{{leaverequest.id}}" class="btn btn-success accept leave-accept btns-leave-{{leaverequest.id}}">
+                                                {% translate "Accept" %}
+                                            </a>
+                                            <a id="{{leaverequest.id}}" class="btn btn-danger reject leave-reject btns-leave-{{leaverequest.id}}">
+                                                {% translate "Reject" %}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            {% if leaverequest.main_char %}
+                                                {{ leaverequest.main_char.corporation_name }}
+                                            {% else %}
+                                                {% translate "(unknown)" %}
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="aa-callout aa-callout-warning text-center">{% translate "No group leave requests." %}</div>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock content %}
+{% block extra_javascript %}
+    {% include 'bundles/datatables-js-bs5.html' %}
+    {% include "bundles/filterdropdown-js.html" %}
+    <script>
+        $(document).ready(function () {
+            let tableAdd = $("#table-add").DataTable({
+                filterDropDown: {
+                    columns: [
+                        {
+                            idx: 4,
+                        },
+                        {
+                            idx: 2,
+                        }
+                    ],
+                    bootstrap: true,
+                    bootstrap_version: 5
+                },
+                columnDefs: [
+                    {
+                        target: 4,
+                        visible: false,
+                    },
+                ],
+                paging: false,
+                responsive: true,
+                pageLength: -1
+            });
+            let tableRem = $("#table-rem").DataTable({
+                filterDropDown: {
+                    columns: [
+                        {
+                            idx: 4,
+                        },
+                        {
+                            idx: 2,
+                        }
+                    ],
+                    bootstrap: true,
+                    bootstrap_version: 5
+                },
+                columnDefs: [
+                    {
+                        target: 4,
+                        visible: false,
+                    },
+                ],
+                paging: false,
+                responsive: true,
+                pageLength: -1
+            });
+
+            // URL's for fetch requests
+            let acceptJoinURL = "{% url 'groupmanagement:accept_request' 0 %}";
+            acceptJoinURL = acceptJoinURL.substring(0, acceptJoinURL.length-2);
+            let rejectJoinURL = "{% url 'groupmanagement:reject_request' 0 %}";
+            rejectJoinURL = rejectJoinURL.substring(0, rejectJoinURL.length-2);
+            let acceptLeaveURL = "{% url 'groupmanagement:leave_accept_request' 0 %}";
+            acceptLeaveURL = acceptLeaveURL.substring(0, acceptLeaveURL.length-2);
+            let rejectLeaveURL = "{% url 'groupmanagement:leave_reject_request' 0 %}";
+            rejectLeaveURL = rejectLeaveURL.substring(0, rejectLeaveURL.length-2);
+
+            function removeRow(table, classLookup){
+                let btn = $(classLookup);
+                table.row($(btn[0]).parents('tr')).remove().draw();
+            }
+
+            function toggleButtons(classLookup){
+                let elems = document.querySelectorAll(classLookup);
+                elems.forEach(
+                    function(e) {
+                        e.classList.toggle('d-none');
+                    }
+                );
+            }
+
+            function hitAuth(classLookup, table, URL){
+                toggleButtons(classLookup);
+                let output = fetch(URL)
+                    .then(response => {
+                        if (!response.ok) {
+                            toggleButtons(classLookup);
+                            return true;
+                        }
+                        removeRow(table, classLookup)
+                    })
+                    .catch(error => {
+                        toggleButtons(classLookup);
+                        return false;
+                    });
+                toggleButtons(classLookup);
+                return output;
+            }
+
+            function decreaseCounterElement(elem){
+                count = Number(elem.innerText);
+                count -= 1;
+                if (!count){
+                    elem.classList.add("d-none");
+                } else {
+                    elem.innerText = count;
+                }
+            }
+
+            function decreaseCounter(id){
+                elem = document.getElementById(id);
+                if (elem){decreaseCounterElement(elem)}
+            }
+
+            function decreaseMenuCounter(){
+                decreaseCounter("globalNotificationCount");
+                let elem = document.querySelector("a[href='{% url "groupmanagement:management" %}']");
+                if (elem) {
+                    let badge = elem.parentElement.querySelector("span");
+                    if (badge){decreaseCounterElement(badge)}
+                    if (elem.parentElement.parentElement.parentElement.tagName === "LI"){
+                        let folderBadge = elem.parentElement.parentElement.parentElement.querySelector("span");
+                        if (folderBadge){decreaseCounterElement(folderBadge)}
+                    }
+                }
+            }
+
+            let acceptJoinButtons = document.querySelectorAll(".join-accept");
+            acceptJoinButtons.forEach(function(elem) {
+                elem.addEventListener("click", function(event) {
+                    url = `${acceptJoinURL}${event.target.id}/`
+                    let elemClass = `.btns-join-${event.target.id}`
+                    if (hitAuth(elemClass, tableAdd, url)){
+                        decreaseCounter("acceptRequestsCounter")
+                        decreaseMenuCounter()
+                    }
+                });
+            });
+
+            let rejectJoinButtons = document.querySelectorAll(".join-reject");
+            rejectJoinButtons.forEach(function(elem) {
+                elem.addEventListener("click", function(event) {
+                    url = `${rejectJoinURL}${event.target.id}/`
+                    let elemClass = `.btns-join-${event.target.id}`
+                    if (hitAuth(elemClass, tableAdd, url)){
+                        decreaseCounter("acceptRequestsCounter")
+                        decreaseMenuCounter()
+                    }
+                });
+            });
+
+            let acceptLeaveButtons = document.querySelectorAll(".leave-accept");
+            acceptLeaveButtons.forEach(function(elem) {
+                elem.addEventListener("click", function(event) {
+                    url = `${acceptLeaveURL}${event.target.id}/`
+                    let elemClass = `.btns-leave-${event.target.id}`
+                    if (hitAuth(elemClass, tableRem, url)){
+                        decreaseCounter("leaveRequestsCounter")
+                        decreaseMenuCounter()
+                    }
+                });
+            });
+
+            let rejectLeaveButtons = document.querySelectorAll(".leave-reject");
+            rejectLeaveButtons.forEach(function(elem) {
+                elem.addEventListener("click", function(event) {
+                    url = `${rejectLeaveURL}${event.target.id}/`
+                    let elemClass = `.btns-leave-${event.target.id}`
+                    if (hitAuth(elemClass, tableRem, url)){
+                        decreaseCounter("leaveRequestsCounter")
+                        decreaseMenuCounter()
+                    }
+                });
+            });
+
+            // Filter Dropdown sets widths so lets remove them when we tab change so they actually show.
+            $('a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
+                let elems = document.querySelectorAll(".form-select");
+                elems.forEach(
+                    function(e) {
+                        e.style.maxWidth = "";
+                    }
+                );
+            });
+
+        });
+    </script>
+{% endblock extra_javascript %}
+{% block extra_css %}
+    {% include 'bundles/datatables-css-bs5.html' %}
+{% endblock %}

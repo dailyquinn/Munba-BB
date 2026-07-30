@@ -1,0 +1,136 @@
+{% extends "allianceauth/base-bs5.html" %}
+
+{% load aa_i18n %}
+{% load static %}
+{% load i18n %}
+{% load navactive %}
+
+{% block page_title %}
+    {{ group }} {% translate "Audit Log" %}
+{% endblock page_title %}
+
+{% block header_nav_brand %}
+    {% translate "Audit Log" %} - {{ group.name }}
+{% endblock header_nav_brand %}
+
+{% block header_nav_collapse_left %}
+    <li class="nav-item">
+        <a class="nav-link {% navactive request 'groupmanagement:management' %}" href="{% url 'groupmanagement:management' %}">{% translate "Back" %}</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+    {% if entries %}
+        <div class="table-responsive">
+            <table class="table table-striped" id="log-entries">
+                <thead>
+                    <tr>
+                        <th scope="col">{% translate "Date/Time" %}</th>
+                        <th scope="col">{% translate "Requestor" %}</th>
+                        <th scope="col">{% translate "Character" %}</th>
+                        <th scope="col">{% translate "Corporation" %}</th>
+                        <th scope="col">{% translate "Type" %}</th>
+                        <th scope="col">{% translate "Action" %}</th>
+                        <th scope="col">{% translate "Actor" %}</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for entry in entries %}
+                        <tr>
+                            <td>{{ entry.date|date:"Y-M-d, H:i" }}</td>
+                            <td>{{ entry.requestor }}</td>
+                            <td>{{ entry.req_char }}</td>
+                            <td>{{ entry.req_char.corporation_name }}</td>
+                            <td>{{ entry.type_to_str }}</td>
+
+                            {% if entry.request_type is None %}
+                                <td>{% translate "Removed" %}</td>
+                            {% else %}
+                                <td>{{ entry.action_to_str }}</td>
+                            {% endif %}
+
+                            <td>{{ entry.request_actor }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <p class="text-muted">
+                {% translate "All times displayed are EVE/UTC." %}
+            </p>
+        </div>
+    {% else %}
+        <div class="clearfix"></div>
+        <br>
+        <div class="alert alert-warning text-center">
+            {% translate "No entries found for this group." %}
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block extra_javascript %}
+    {% include 'bundles/datatables-js-bs5.html' %}
+    {% include 'bundles/moment-js.html' with locale=True %}
+    {% include 'bundles/filterdropdown-js.html' %}
+
+    {% get_datatables_language_static LANGUAGE_CODE as DT_LANG_PATH %}
+
+    <script>
+        $.fn.dataTable.moment = (format, locale) => {
+            const types = $.fn.dataTable.ext.type;
+
+            // Add type detection
+            types.detect.unshift((d) => {
+                return moment(d, format, locale, true).isValid() ?
+                    'moment-'+format :
+                    null;
+            });
+
+            // Add sorting method - use an integer for the sorting
+            types.order[ 'moment-'+format+'-pre' ] = (d) => {
+                return moment(d, format, locale, true).unix();
+            };
+        };
+
+        $(document).ready(() => {
+            $.fn.dataTable.moment('YYYY-MMM-D, HH:mm');
+
+            $('#log-entries').DataTable({
+                language: {url: '{{ DT_LANG_PATH }}'},
+                order: [[0, 'desc'], [1, 'asc']],
+                filterDropDown:
+                    {
+                        columns: [
+                            {
+                                idx: 1
+                            },
+                            {
+                                idx: 2
+                            },
+                            {
+                                idx: 3
+                            },
+                            {
+                                idx: 4
+                            },
+                            {
+                                idx: 5
+                            },
+                            {
+                                idx: 6
+                            }
+                        ],
+                        bootstrap: true,
+                        bootstrap_version: 5
+                    },
+                "stateSave": true,
+                "stateDuration": 0
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block extra_css %}
+    {% include 'bundles/datatables-css-bs5.html' %}
+{% endblock %}

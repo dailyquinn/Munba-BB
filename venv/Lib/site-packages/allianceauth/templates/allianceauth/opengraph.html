@@ -1,0 +1,8 @@
+{% load static %}
+
+<meta property="og:title" content="{{ SITE_NAME }}">
+<meta property="og:image" content="{{ SITE_URL }}{% static 'allianceauth/icons/apple-touch-icon.png' %}">
+<meta property="og:description" content="Alliance Auth - An auth system for EVE Online to help in-game organizations manage online service access.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="{{ request.META.HTTP_HOST }}">
+<meta property="og:url" content="{{ request.path }}">

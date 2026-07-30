@@ -1,0 +1,66 @@
+{% extends "allianceauth/base-bs5.html" %}
+
+{% load bootstrap %}
+{% load i18n %}
+
+{% block page_title %}
+    {% translate "HR Application Management" %}
+{% endblock page_title %}
+
+{% block header_nav_brand %}
+    {% translate "HR Application Management" %}
+{% endblock header_nav_brand %}
+
+{% block content %}
+    <div>
+        {% if perms.auth.human_resources %}
+            {% translate "Application Search Results" as page_header %}
+            {% include "framework/header/page-header.html" with title=page_header %}
+
+            <div class="text-end mb-3">
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modal-hr-search">
+                    {% translate "Search Applications" %}
+                </button>
+            </div>
+
+            <div>
+                <table class="table">
+                    <tr>
+                        <th>{% translate "Application ID" %}</th>
+                        <th>{% translate "Username" %}</th>
+                        <th>{% translate "Main Character" %}</th>
+                        <th>{% translate "Corporation" %}</th>
+                        <th class="text-center">{% translate "Status" %}</th>
+                        <th class="text-end">{% translate "Actions" %}</th>
+                    </tr>
+
+                    {% for app in applications %}
+                        <tr>
+                            <td>{{ app.id }}</td>
+                            <td>{{ app.user }}</td>
+                            <td >{{ app.main_character }}</td>
+                            <td>{{ app.form.corp }}</td>
+                            <td class="text-center">
+                                {% if app.approved == None %}
+                                    <div class="badge text-bg-warning">{% translate "Pending" %}</div>
+                                {% elif app.approved == True %}
+                                    <div class="badge text-bg-success">{% translate "Approved" %}</div>
+                                {% else %}
+                                    <div class="badge text-bg-danger">{% translate "Rejected" %}</div>
+                                {% endif %}
+                            </td>
+                            <td class="text-end">
+                                <a href="{% url 'hrapplications:view' app.id %}" class="btn btn-primary">
+                                    <i class="fa-solid fa-eye"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        {% endif %}
+    </div>
+
+    {% include "hrapplications/partials/modals/search.html" %}
+{% endblock content %}

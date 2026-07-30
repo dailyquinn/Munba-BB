@@ -1,0 +1,21 @@
+Metadata-Version: 2.0
+Name: openfire-restapi
+Version: 0.2.0
+Summary: A python client for Openfire's REST API Plugin
+Home-page: https://github.com/allianceauth/openfire-restapi/
+Author: Alliance Auth, Sergey Fedotov (seamus-45)
+Author-email: basraaheve+openfire-restapi@gmail.com
+License: GPL-3
+Platform: UNKNOWN
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Requires-Dist: requests (>=2.9.1)
+
+UNKNOWN
+
+

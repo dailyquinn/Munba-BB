@@ -1,0 +1,149 @@
+{% extends "allianceauth/base-bs5.html" %}
+
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+{% block page_title %}
+    {% translate "Fleet Operation Management" %}
+{% endblock page_title %}
+
+{% block header_nav_brand %}
+    {% translate "Fleet Operation Timers" %}
+{% endblock header_nav_brand %}
+
+{% block header_nav_collapse_right %}
+    {% if perms.auth.optimer_management %}
+        {% translate "Create Operation" as nav_item_title %}
+        {% url "optimer:add" as nav_item_link %}
+        {% include "framework/header/nav-collapse-button.html" with btn_modifier="success" url=nav_item_link title=nav_item_title fa_icon="fa-solid fa-plus" icon_on_mobile=True %}
+    {% endif %}
+{% endblock header_nav_collapse_right %}
+
+{% block content %}
+    <div>
+        <div class="text-center mb-3">
+            <div class="badge text-bg-primary text-start">
+                <b>{% translate "Current EVE time:" %}</b>
+                <span id="current-time"></span>
+            </div>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-header">
+                <div class="card-title mb-0">
+                    {% translate "Next Fleet Operations" %}
+                </div>
+            </div>
+
+            <div class="card-body">
+                {% if future_timers %}
+                    {% include "optimer/fleetoptable.html" with timers=future_timers %}
+                {% else %}
+                    <div class="alert alert-warning text-center">{% translate "No upcoming timers." %}</div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-header">
+                <div class="card-title mb-0">
+                    {% translate "Past Fleet Operations" %}
+                </div>
+            </div>
+
+            <div class="card-body">
+                {% if past_timers %}
+                    {% include "optimer/fleetoptable.html" with timers=past_timers %}
+                {% else %}
+                    <div class="alert alert-warning text-center">{% translate "No past timers." %}</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {% include 'bundles/moment-js.html' with locale=True %}
+    {% include 'bundles/timers-js.html' %}
+
+    <script>
+        $(document).ready(() => {
+            // Data
+            const timers = [
+                {% for op in optimer %}
+                    {
+                        'id': {{ op.id }},
+                        'start': moment("{{ op.start | date:"c" }}"),
+                        'expired': false
+                    },
+                {% endfor %}
+            ];
+
+            /**
+             * Update a timer
+             * @param timer Timer information
+             */
+            const updateTimer = (timer) => {
+                if (timer.start.isAfter(Date.now())) {
+                    const duration = moment.duration(timer.start - moment(), 'milliseconds');
+
+                    document.getElementById("countdown" + timer.id).innerHTML = getDurationString(duration);
+                } else {
+                    timer.expired = true;
+
+                    document.getElementById("countdown" + timer.id).innerHTML = "";
+                }
+            };
+
+            /**
+             * Update all timers
+             */
+            const updateAllTimers = () => {
+                const l = timers.length;
+
+                for (let i=0; i < l; ++i) {
+                    if (timers[i].expired) continue;
+
+                    updateTimer(timers[i]);
+                }
+            };
+
+            /**
+             * Set the local time info for the timer
+             * @param timer Timer information
+             */
+            const setLocalTime = (timer) => {
+                document.getElementById("localtime" + timer.id).innerHTML = timer.start.format("ddd @ LT");
+            };
+
+            /**
+             * Set all local time fields
+             */
+            const setAllLocalTimes = () => {
+                const l = timers.length;
+
+                for (let i=0; i < l; ++i) {
+                    setLocalTime(timers[i]);
+                }
+            };
+
+            /**
+             * Get the current EVE time as a string
+             * @returns {string} EVE time string
+             */
+            const updateClock = () => {
+                document.getElementById("current-time").innerHTML = getCurrentEveTimeString();
+            };
+
+            const timedUpdate = () => {
+                updateClock();
+                updateAllTimers();
+            };
+
+            // Set initial values
+            setAllLocalTimes();
+            timedUpdate();
+
+            // Start timed updates
+            setInterval(timedUpdate, 1000);
+        });
+    </script>
+{% endblock content %}

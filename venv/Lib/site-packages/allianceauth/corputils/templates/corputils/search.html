@@ -1,0 +1,61 @@
+{% extends "corputils/base.html" %}
+
+{% load aa_i18n %}
+{% load i18n %}
+
+{% block member_data %}
+    <div class="card card-default">
+        <div class="card-header clearfix">
+            <div class="card-title">{% translate "Search Results" %}</div>
+        </div>
+
+        <div class="card-body mt-2">
+            <table class="table table-hover" id="table-search">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>{% translate "Character" %}</th>
+                        <th>{% translate "Corporation" %}</th>
+                        <th>{% translate "zKillboard" %}</th>
+                        <th>{% translate "Main Character" %}</th>
+                        <th>{% translate "Main Corporation" %}</th>
+                        <th>{% translate "Main Alliance" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for result in results %}
+                        <tr {% if not result.1.registered %}class="danger"{% endif %}>
+                            <td><img src="{{ result.1.portrait_url }}" class="img-circle" alt="{{ result.1.character_name }}"></td>
+                            <td>{{ result.1.character_name }}</td>
+                            <td >{{ result.0.corp.corporation_name }}</td>
+                            <td><a href="https://zkillboard.com/character/{{ result.1.character_id }}/" class="badge text-bg-danger" target="_blank">{% translate "Killboard" %}</a></td>
+                            <td>{{ result.1.main_character.character_name }}</td>
+                            <td>{{ result.1.main_character.corporation_name }}</td>
+                            <td>{{ result.1.main_character.alliance_name }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_javascript %}
+    {% include 'bundles/datatables-js-bs5.html' %}
+
+    {% get_datatables_language_static LANGUAGE_CODE as DT_LANG_PATH %}
+
+    <script>
+        $(document).ready(() => {
+            $('#table-search').DataTable({
+                "language": {"url": '{{ DT_LANG_PATH }}'},
+                "stateSave": true,
+                "stateDuration": 0
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block extra_css %}
+    {% include 'bundles/datatables-css-bs5.html' %}
+{% endblock %}

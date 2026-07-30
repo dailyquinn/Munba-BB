@@ -1,0 +1,31 @@
+/*
+CSS for allianceauth admin site
+*/
+
+/* styling for profile pic */
+.img-circle {
+    border-radius: 50%;
+}
+
+.column-user_profile_pic {
+    white-space: nowrap;
+    width: 1px;
+}
+
+/* tooltip */
+.tooltip {
+    position: relative;
+}
+
+.tooltip:hover::after {
+    background-color: rgb(255 255 204);
+    border: 1px rgb(128 128 128) solid;
+    color: rgb(0 0 0);
+    content: attr(data-tooltip);
+    left: 1em;
+    min-width: 200px;
+    padding: 8px;
+    position: absolute;
+    top: 1.1em;
+    z-index: 1;
+}

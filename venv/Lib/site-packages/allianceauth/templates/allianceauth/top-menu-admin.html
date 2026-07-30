@@ -1,0 +1,29 @@
+{% load i18n %}
+
+
+{% if user.is_authenticated %}
+    {% if user.is_staff %}
+        <li role="separator" class="divider"></li>
+        <li><a href="{% url 'admin:index' %}" target="_blank" rel="noopener noreferer">
+            <i class="fa-solid fa-user-shield fa-fw"></i>
+            {% translate "Admin" %}</a>
+        </li>
+    {% endif %}
+{% endif %}
+
+{% if user.is_superuser %}
+    <li role="separator" class="divider"></li>
+    <li>
+        <a href="https://allianceauth.readthedocs.io/" target="_blank" rel="noopener noreferer">
+            <i class="fa-solid fa-question-circle fa-fw"></i>
+            {% translate "AA Documentation" %}
+        </a>
+    </li>
+
+    <li>
+        <a href="https://discord.gg/fjnHAmk" target="_blank" rel="noopener noreferer">
+            <i class="fa-brands fa-discord fa-fw"></i>
+            {% translate "AA Support Discord" %}
+        </a>
+    </li>
+{% endif %}

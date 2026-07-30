@@ -1,0 +1,26 @@
+{% extends "services/services_ctrl_base.html" %}
+{% load i18n %}
+
+{% block title %}
+    {% translate "Discourse" %}
+{% endblock %}
+
+{% block url %}
+    <a href="{{ DISCOURSE_URL }}">{{ DISCOURSE_URL }}</a>
+{% endblock %}
+
+{% block user %}
+    {% include "services/service_username.html" with username=char.character_name %}
+{% endblock %}
+
+{% block active %}
+    <span class="badge text-bg-success">
+        {% translate "SSO login active" %}
+    </span>
+{% endblock %}
+
+{% block controls %}
+    <a class="btn btn-success" href="{{ DISCOURSE_URL }}" title="{% translate 'Go to forums' %}">
+        <i class="fa-solid fa-arrow-right fa-fw"></i>
+    </a>
+{% endblock %}

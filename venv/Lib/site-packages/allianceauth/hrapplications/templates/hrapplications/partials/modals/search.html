@@ -1,0 +1,32 @@
+{% load django_bootstrap5 %}
+{% load i18n %}
+
+{% if perms.auth.human_resources %}
+    <!-- Modal -->
+    <div class="modal fade" id="modal-hr-search" tabindex="-1" aria-labelledby="modalHrSearch" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title fs-5" id="modalHrSearchLabel">
+                        {% translate "Application Search" %}
+                    </div>
+
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{% translate 'Close' %}"></button>
+                </div>
+
+                <div class="modal-body">
+                    <form class="form-signin" role="form" action="{% url 'hrapplications:search' %}" method="POST">
+                        {% csrf_token %}
+
+                        {% bootstrap_form search_form %}
+
+                        <div class="form-group mt-3 clearfix">
+                            {% translate "Search" as button_text %}
+                            {% bootstrap_button button_class="btn btn-primary" content=button_text name="search" id="search" %}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}

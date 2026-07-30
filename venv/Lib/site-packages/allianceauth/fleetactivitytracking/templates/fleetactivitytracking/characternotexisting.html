@@ -1,0 +1,48 @@
+{% extends 'allianceauth/base-bs5.html' %}
+
+{% load i18n %}
+
+{% block page_title %}
+    {% translate "Fleet Participation" %}
+{% endblock %}
+
+{% block header_nav_brand %}
+    {% translate "Fleet Activity Tracking" %}
+{% endblock header_nav_brand %}
+
+{% block content %}
+    <div>
+        {% translate "Character not found!" as page_header %}
+        {% include "framework/header/page-header.html" with title=page_header %}
+
+        <div class="col-lg-12 container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card card-default">
+                        <div class="card-header">
+                            <div class="card-title mb-0">
+                                {{ character_name }}
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="col-lg-2 col-sm-2">
+                                <img class="ra-avatar img-responsive" src="{{ character_portrait_url }}" alt="{{ character_name }}">
+                            </div>
+
+                            <div class="col-lg-10 col-sm-2">
+                                <div class="alert alert-danger" role="alert">
+                                    {% translate "Character not registered!" %}
+                                </div>
+
+                                {% translate "This character is not associated with an auth account." %}
+                                <a href="{% url 'authentication:add_character' %}">{% translate "Add it here" %}</a>
+                                {% translate "before attempting to click fleet attendance links." %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

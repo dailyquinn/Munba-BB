@@ -1,0 +1,9 @@
+{% load i18n %}
+
+<span class="badge {% if username != '' %}bg-success{% else %}bg-warning{% endif %}">
+    {% if username != '' %}
+        {% translate "Enabled" %}
+    {% else %}
+        {% translate "Disabled" %}
+    {% endif %}
+</span>

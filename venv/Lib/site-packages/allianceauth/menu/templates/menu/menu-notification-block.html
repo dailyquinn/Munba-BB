@@ -1,0 +1,15 @@
+{% load i18n %}
+{% load navactive %}
+{% load auth_notifications %}
+
+<li class="nav-item" id="menu_item_notifications">
+    <a class="nav-link {% navactive request 'notifications:' %}" href="{% url 'notifications:list' %}">
+        {% with unread_count=request.user|user_unread_notification_count %}
+            <i class="fa-solid fa-bell me-2 fa-fw{% if unread_count %} text-danger{% endif %}"></i>
+        {% endwith %}
+
+        <span class="d-lg-none d-md-inline">
+            {% translate "Notifications" %}
+        </span>
+    </a>
+</li>

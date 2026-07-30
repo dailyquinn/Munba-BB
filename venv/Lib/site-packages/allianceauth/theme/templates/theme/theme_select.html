@@ -1,0 +1,21 @@
+{% load i18n %}
+
+{% if themes|length > 1 %}
+    <li><h6 class="dropdown-header">{% translate "Theme" %}</h6></li>
+
+    <li>
+        <form class="dropdown-item" action="{% url 'theme' %}?next={{ next|urlencode }}" method="post">
+            {% csrf_token %}
+
+            <select name="theme" class="form-select" onchange="this.form.submit()">
+                <option selected>{% translate "Select Theme" %}</option>
+
+                {% for theme in themes %}
+                    <option value="{{ theme.get_name }}"{% if selected_theme.name == theme.name %} selected="selected"{% endif %}>
+                        {{ theme.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </form>
+    </li>
+{% endif %}

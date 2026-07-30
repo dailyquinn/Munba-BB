@@ -1,0 +1,44 @@
+{% extends "allianceauth/base-bs5.html" %}
+
+{% load django_bootstrap5 %}
+{% load i18n %}
+
+{% block page_title %}
+    {% translate "SRP Request" %}
+{% endblock page_title %}
+
+{% block header_nav_brand %}
+    {% translate "Ship Replacement Program" %}
+{% endblock header_nav_brand %}
+
+{% block content %}
+    <div>
+        {% translate "Create SRP Request" as page_header %}
+        {% include "framework/header/page-header.html" with title=page_header %}
+
+        <div class="card card-primary border-0">
+            <div class="card-header">
+                <div class="card-title mb-0">
+                    {% translate "Your SRP request" %}
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <form role="form" action="" method="POST">
+                            {% csrf_token %}
+
+                            {% bootstrap_form form %}
+
+                            <div class="form-group mt-3 clearfix">
+                                {% translate "Create SRP request" as button_text %}
+                                {% bootstrap_button button_class="btn btn-primary" content=button_text %}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

@@ -1,0 +1,36 @@
+{% load i18n %}
+{% load static %}
+{% load navactive %}
+<nav class="navbar navbar-default navbar-static-top auth-navbar-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".auth-menus-collapse">
+                <span class="sr-only">{% translate "Toggle navigation" %}</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <a class="navbar-brand">
+                <img src="{% static 'allianceauth/icons/favicon-32x32.png' %}" style="display: inline-block;" height="32" width="32" alt="{{ SITE_NAME }}">
+                {{ SITE_NAME }}
+            </a>
+        </div>
+
+        <div class="collapse navbar-collapse auth-menus-collapse">
+            <ul class="nav navbar-nav navbar-right navbar-pills">
+                <li class="nav-item-eve-time">
+                    <div class="eve-time-wrapper">{% translate "EVE time" %}: <span class="eve-time-clock"></span></div>
+                </li>
+
+                {% if user.is_authenticated %}
+                    <li class="{% navactive request 'notifications:' %}" id="menu_item_notifications">
+                        {% include 'allianceauth/notifications_menu_item.html' %}
+                    </li>
+                {% endif %}
+
+                {% include 'allianceauth/top-menu-user-dropdown.html' %}
+            </ul>
+        </div>
+    </div>
+</nav>

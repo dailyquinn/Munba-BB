@@ -1,0 +1,40 @@
+{% extends "services/services_ctrl_base.html" %}
+
+{% load i18n %}
+
+{% block title %}
+    {% translate "Teamspeak 3" %}
+{% endblock %}
+
+{% block url %}
+    <a href="ts3server://{{ TEAMSPEAK3_PUBLIC_URL }}">{{ TEAMSPEAK3_PUBLIC_URL }}</a>
+{% endblock %}
+
+{% block active %}
+    {% include "services/service_status.html" with username=authinfo.teamspeak3_uid %}
+{% endblock %}
+
+{% block user %}
+    {% include "services/service_username.html" with username=authinfo.teamspeak3_uid %}
+{% endblock %}
+
+{% block controls %}
+    {% if authinfo.teamspeak3_uid == "" %}
+        <a href="{% url 'teamspeak3:activate' %}" title="Activate" class="btn btn-warning">
+            <i class="fa-solid fa-check fa-fw"></i>
+        </a>
+    {% else %}
+        <a href="{% url 'teamspeak3:verify' %}" title="Verify Client ID" class="btn btn-success">
+            <i class="fa-solid fa-right-to-bracket fa-fw"></i>
+        </a>
+        <a href="{% url 'teamspeak3:reset_perm' %}" title="Refresh Token" class="btn btn-primary">
+            <i class="fa-solid fa-rotate fa-fw"></i>
+        </a>
+        <a href="{% url 'teamspeak3:deactivate' %}" title="Deactivate" class="btn btn-danger">
+            <i class="fa-solid fa-xmark fa-fw"></i>
+        </a>
+        <a href="ts3server://{{ TEAMSPEAK3_PUBLIC_URL }}?nickname={{ authinfo.teamspeak3_uid }}" title="Connect" class="btn btn-success">
+            <i class="fa-solid fa-arrow-right fa-fw"></i>
+        </a>
+    {% endif %}
+{% endblock %}

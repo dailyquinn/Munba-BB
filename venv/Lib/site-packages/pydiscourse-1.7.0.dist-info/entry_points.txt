@@ -1,0 +1,2 @@
+[console_scripts]
+pydiscoursecli = pydiscourse.main:main

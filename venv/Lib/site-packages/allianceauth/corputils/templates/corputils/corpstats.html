@@ -1,0 +1,282 @@
+{% extends 'corputils/base.html' %}
+
+{% load aa_i18n %}
+{% load i18n %}
+{% load humanize %}
+
+{% block member_data %}
+    {% if corpstats %}
+        <div>
+            <table class="table text-center">
+                <tr>
+                    <td>
+                        <img class="ra-avatar" src="{{ corpstats.corp.logo_url_64 }}" alt="{{ corpstats.corp.corporation_name }}">
+                    </td>
+
+                    {% if corpstats.corp.alliance %}
+                        <td>
+                            <img class="ra-avatar" src="{{ corpstats.corp.alliance.logo_url_64 }}" alt="{{ corpstats.corp.alliance.alliance_name }}">
+                        </td>
+                    {% endif %}
+                </tr>
+
+                <tr>
+                    <td><p class="h4">{{ corpstats.corp.corporation_name }}</p></td>
+
+                    {% if corpstats.corp.alliance %}
+                        <td><p class="h4">{{ corpstats.corp.alliance.alliance_name }}</p></td>
+                    {% endif %}
+                </tr>
+            </table>
+        </div>
+
+        <div class="card card-default mt-4">
+            <div class="card-header clearfix" role="tablist">
+                <ul class="nav nav-pills float-start">
+                    <li class="nav-item" role="presentation">
+                        <a
+                            class="nav-link active"
+                            id="mains"
+                            data-bs-toggle="tab"
+                            href="#tab-mains"
+                            role="tab"
+                            aria-controls="tab-mains"
+                            aria-selected="true"
+                        >
+                            {% translate 'Mains' %} ({{ total_mains }})
+                        </a>
+                    </li>
+
+                    <li class="nav-item" role="presentation">
+                        <a
+                            class="nav-link"
+                            id="members"
+                            data-bs-toggle="tab"
+                            href="#tab-members"
+                            role="tab"
+                            aria-controls="tab-members"
+                            aria-selected="false"
+                        >
+                            {% translate 'Members' %} ({{ corpstats.member_count }})
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a
+                            class="nav-link"
+                            id="unregistered"
+                            data-bs-toggle="tab"
+                            href="#tab-unregistered"
+                            role="tab"
+                            aria-controls="tab-unregistered"
+                            aria-selected="false"
+                        >
+                            {% translate 'Unregistered' %} ({{ unregistered.count }})
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="float-end d-none d-sm-block">
+                    {% translate "Last update:" %} {{ corpstats.last_update|naturaltime }}
+
+                    <a
+                        class="btn btn-success btn-sm ms-2"
+                        type="button"
+                        href="{% url 'corputils:update' corpstats.corp.corporation_id %}"
+                        title="{% translate 'Update Now' %}"
+                    >
+                        <i class="fa-solid fa-rotate"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="tab-mains" role="tabpanel" aria-labelledby="tab-mains">
+                        {% if mains %}
+                            <div class="table-responsive">
+                                <table class="table table-hover" id="table-mains">
+                                    <thead>
+                                        <tr>
+                                            <th>{% translate "Main character" %}</th>
+                                            <th>{% translate "Registered characters" %}</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        {% for id, main in mains.items %}
+                                            <tr>
+                                                <td class="text-center" style="vertical-align: middle;">
+                                                    <div class="thumbnail" style="border: 0 none; box-shadow: none; background: transparent;">
+                                                        <img src="{{ main.main.portrait_url_64 }}" class="img-circle" alt="{{ main.main }}">
+                                                        <div class="caption">
+                                                            {{ main.main }}
+                                                        </div>
+                                                    </div>
+                                                </td>
+
+                                                <td>
+                                                    <table class="table table-hover">
+                                                        {% for alt in main.alts|dictsort:"character_name" %}
+                                                            {% if forloop.first %}
+                                                                <tr>
+                                                                    <th></th>
+                                                                    <th>{% translate "Character" %}</th>
+                                                                    <th>{% translate "Corporation" %}</th>
+                                                                    <th>{% translate "Alliance" %}</th>
+                                                                    <th></th>
+                                                                </tr>
+                                                            {% endif %}
+
+                                                            <tr>
+                                                                <td style="width: 5%;">
+                                                                    <div class="thumbnail" style="border: 0 none; box-shadow: none; background: transparent;">
+                                                                        <img src="{{ alt.portrait_url_32 }}" class="img-circle" alt="{{ alt.character_name }}">
+                                                                    </div>
+                                                                </td>
+                                                                <td style="width: 30%;">{{ alt.character_name }}</td>
+                                                                <td style="width: 30%;">{{ alt.corporation_name }}</td>
+                                                                <td style="width: 30%;">{{ alt.alliance_name|default_if_none:"" }}</td>
+                                                                <td style="width: 5%;">
+                                                                    <a href="https://zkillboard.com/character/{{ alt.character_id }}/" class="badge text-bg-danger" target="_blank">
+                                                                        {% translate "Killboard" %}
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="tab-pane fade" id="tab-members" role="tabpanel" aria-labelledby="tab-members">
+                        {% if members %}
+                            <div class="table-responsive">
+                                <table class="table table-hover" id="table-members">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>{% translate "Character" %}</th>
+                                            <th></th>
+                                            <th>{% translate "Main Character" %}</th>
+                                            <th>{% translate "Main Corporation" %}</th>
+                                            <th>{% translate "Main Alliance" %}</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        {% for member in members %}
+                                            <tr>
+                                                <td><img src="{{ member.portrait_url }}" class="img-circle" alt="{{ member }}"></td>
+                                                <td>{{ member }}</td>
+                                                <td>
+                                                    <a href="https://zkillboard.com/character/{{ member.character_id }}/" class="badge text-bg-danger" target="_blank">{% translate "Killboard" %}</a>
+                                                </td>
+                                                <td>{{ member.character_ownership.user.profile.main_character.character_name }}</td>
+                                                <td>{{ member.character_ownership.user.profile.main_character.corporation_name }}</td>
+                                                <td>{{ member.character_ownership.user.profile.main_character.alliance_name|default_if_none:""  }}</td>
+                                            </tr>
+                                        {% endfor %}
+
+                                        {% for member in unregistered %}
+                                            <tr class="table-danger">
+                                                <td><img src="{{ member.portrait_url }}" class="img-circle" alt="{{ member.character_name }}"></td>
+                                                <td>{{ member.character_name }}</td>
+                                                <td>
+                                                    <a href="https://zkillboard.com/character/{{ member.character_id }}/" class="badge text-bg-danger" target="_blank">{% translate "Killboard" %}</a>
+                                                </td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="tab-pane fade" id="tab-unregistered" role="tabpanel" aria-labelledby="tab-unregistered">
+                        {% if unregistered %}
+                            <div class="table-responsive">
+                                <table class="table table-hover" id="table-unregistered">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>{% translate "Character" %}</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        {% for member in unregistered %}
+                                            <tr class="table-danger">
+                                                <td><img src="{{ member.portrait_url }}" class="img-circle" alt="{{ member.character_name }}"></td>
+                                                <td>{{ member.character_name }}</td>
+                                                <td>
+                                                    <a href="https://zkillboard.com/character/{{ member.character_id }}/" class="badge text-bg-danger" target="_blank">
+                                                        {% translate "Killboard" %}
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block extra_javascript %}
+    {% include 'bundles/datatables-js-bs5.html' %}
+
+    {% get_datatables_language_static LANGUAGE_CODE as DT_LANG_PATH %}
+
+    <script>
+        $(document).ready(() => {
+            $('#table-mains').DataTable({
+                "language": {"url": '{{ DT_LANG_PATH }}'},
+                "columnDefs": [
+                    { "sortable": false, "targets": [1] },
+                ],
+                "stateSave": true,
+                "stateDuration": 0
+            });
+
+            $('#table-members').DataTable({
+                "language": {"url": '{{ DT_LANG_PATH }}'},
+                "columnDefs": [
+                    { "searchable": false, "targets": [0, 2] },
+                    { "sortable": false, "targets": [0, 2] },
+                ],
+                "order": [[ 1, "asc" ]],
+                "stateSave": true,
+                "stateDuration": 0
+            });
+
+            $('#table-unregistered').DataTable({
+                "language": {"url": '{{ DT_LANG_PATH }}'},
+                "columnDefs": [
+                    { "searchable": false, "targets": [0, 2] },
+                    { "sortable": false, "targets": [0, 2] },
+                ],
+                "order": [[ 1, "asc" ]],
+                "stateSave": true,
+                "stateDuration": 0
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block extra_css %}
+    {% include 'bundles/datatables-css-bs5.html' %}
+{% endblock %}

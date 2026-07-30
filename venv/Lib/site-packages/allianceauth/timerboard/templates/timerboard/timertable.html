@@ -1,0 +1,85 @@
+{% load evelinks %}
+{% load i18n %}
+
+<div class="table-responsive">
+    <table class="table" id="{{ id }}">
+        <thead>
+            <tr>
+                <th class="text-center">{% translate "Details" %}</th>
+                <th class="text-center">{% translate "Objective" %}</th>
+                <th class="text-center">{% translate "System" %}</th>
+                <th class="text-center">{% translate "Structure" %}</th>
+                <th class="text-center">{% translate "EVE time" %}</th>
+                <th class="text-center">{% translate "Local Time" %}</th>
+                <th class="text-center">{% translate "Creator" %}</th>
+
+                {% if perms.auth.timer_management %}
+                    <th class="text-center">{% translate "Action" %}</th>
+                {% endif %}
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for timer in timers %}
+                <tr class="{% if timer.important == True %}text-bg-danger bg-opacity-50{% else %}text-bg-info bg-opacity-50{% endif %}">
+                    <td style="width: 150px;" class="text-center">
+                        {{ timer.details }}
+
+                        {% if timer.timer_type != 'UNSPECIFIED' %}
+                            <br />
+                            ({{ timer.get_timer_type_display }})
+                        {% endif %}
+                    </td>
+
+                    <td class="text-center">
+                        {% comment %} Objective: Hostile (BG: Danger) {% endcomment %}
+                        {% if timer.objective == "Hostile" %}
+                            <div class="badge text-bg-danger">
+
+                        {% comment %} Objective: Friendly (BG: Primare) {% endcomment %}
+                        {% elif timer.objective == "Friendly" %}
+                            <div class="badge text-bg-primary">
+
+                        {% comment %} Objective: Neutral (BG: Secondary) {% endcomment %}
+                        {% elif timer.objective == "Neutral" %}
+                            <div class="badge text-bg-secondary">
+                        {% endif %}
+
+                            {{ timer.get_objective_display }}
+                        </div>
+                    </td>
+
+                    <td class="text-center">
+                        <a href="{{ timer.system|dotlan_solar_system_url }}">{{ timer.system }} {{ timer.planet_moon }}</a>
+                    </td>
+
+                    <td class="text-center">
+                        <div class="badge text-bg-{{ timer.bg_modifier }}">
+                            {{ timer.get_structure_display }}
+                        </div>
+                    </td>
+
+                    <td class="text-center" nowrap>{{ timer.eve_time | date:"Y-m-d H:i" }}</td>
+
+                    <td class="text-center" nowrap>
+                        <div id="localtime{{ timer.id }}"></div>
+                        <div id="countdown{{ timer.id }}"></div>
+                    </td>
+
+                    <td class="text-center">{{ timer.eve_character.character_name }}</td>
+
+                    {% if perms.auth.timer_management %}
+                        <td class="text-center">
+                            <a href="{% url 'timerboard:delete' timer.id %}" class="btn btn-danger">
+                                <i class="fa-solid fa-trash-can fa-fw"></i>
+                            </a>
+                            <a href="{% url 'timerboard:edit' timer.id %}" class="btn btn-info">
+                                <i class="fa-solid fa-pen-to-square fa-fw"></i>
+                            </a>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,13 @@
+<li class="nav-item">
+    <a href="{{ url }}" class="nav-link py-lg-0">
+        <span class="btn btn-{{ btn_modifier|default:'primary' }} d-none d-lg-inline-block">
+            {% if fa_icon and icon_on_desktop %}<i class="{{ fa_icon }} me-2"></i>{% endif %}
+            {{ title }}
+        </span>
+
+        <span class="d-inline-block d-lg-none">
+            {% if fa_icon and icon_on_mobile %}<i class="{{ fa_icon }} fa-fw me-2"></i>{% endif %}
+            {{ title }}
+        </span>
+    </a>
+</li>

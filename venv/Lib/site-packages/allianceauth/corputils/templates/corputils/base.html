@@ -1,0 +1,59 @@
+{% extends "allianceauth/base-bs5.html" %}
+
+{% load i18n %}
+
+{% block page_title %}
+    {% translate "Corporation Member Data" %}
+{% endblock page_title %}
+
+{% block header_nav_brand %}
+    {% translate "Corporation Member Data" %}
+{% endblock header_nav_brand %}
+
+{% block header_nav_collapse_left %}
+    <li class="nav-item dropdown mb-2 mb-lg-0">
+        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+            {% translate "Corporations" %}
+        </a>
+
+        <ul class="dropdown-menu">
+            {% for corpstat in available %}
+                <li>
+                    <a class="dropdown-item" href="{% url 'corputils:view_corp' corpstat.corp.corporation_id %}">
+                        {{ corpstat.corp.corporation_name }}
+                    </a>
+                </li>
+            {% endfor %}
+
+            {% if perms.corputils.add_corpstats %}
+                <li class="mt-3">
+                    <a class="dropdown-item" href="{% url 'corputils:add' %}">
+                        {% translate "Add corporation" %}
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </li>
+{% endblock %}
+
+{% block header_nav_collapse_right %}
+    <li class="nav-item">
+        <form class="navbar-form navbar-right" role="search" action="{% url 'corputils:search' %}" method="GET">
+            <div class="form-group">
+                <input
+                    type="text"
+                    class="form-control"
+                    name="search_string"
+                    placeholder="{% if search_string %}{{ search_string }}{% else %}{% translate 'Search all corporations...' %}{% endif %}"
+                >
+            </div>
+        </form>
+    </li>
+{% endblock %}
+
+{% block content %}
+    <div>
+        {% block member_data %}
+        {% endblock member_data %}
+    </div>
+{% endblock content %}

@@ -1,0 +1,184 @@
+{% load i18n %}
+{% load humanize %}
+
+{% get_current_language as LANGUAGE_CODE %}
+
+{% comment %}
+Some translations used in the HTML and JavaScript code below.
+We define them here so that they can be used in the JavaScript code as well with
+the escapejs filter without having to redefine them later.
+{% endcomment %}
+{% translate "second" as l10nSecondSingular %}
+{% translate "seconds" as l10nSecondPlural %}
+{% translate "minute" as l10nMinuteSingular %}
+{% translate "minutes" as l10nMinutePlural %}
+{% translate "hour" as l10nHourSingular %}
+{% translate "hours" as l10nHourPlural %}
+{% translate "N/A" as l10nNA %}
+{% translate "ERROR" as l10nError %}
+{% translate "running" as l10nRunning %}
+{% translate "queued" as l10nQueued %}
+{% translate "succeeded" as l10nSucceeded %}
+{% translate "retried" as l10nRetried %}
+{% translate "failed" as l10nFailed %}
+
+{% if debug %}
+    <div id="aa-dashboard-panel-debug" class="col-12 mb-3">
+        <div class="card text-bg-warning">
+            <div class="card-body">
+                {% translate "Debug mode" as widget_title %}
+                {% include "framework/dashboard/widget-title.html" with title=widget_title %}
+
+                <div>
+                    <p class="text-center">
+                        {% translate "Debug mode is currently turned on!<br>Make sure to turn it off as soon as you are finished testing." %}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% if notifications %}
+    <div id="aa-dashboard-panel-admin-notifications" class="col-12 mb-3">
+        <div class="card">
+            <div class="card-body">
+                {% translate "Alliance Auth Notifications" as widget_title %}
+                {% include "framework/dashboard/widget-title.html" with title=widget_title %}
+
+                <div>
+                    <ul class="list-group">
+                        {% for notif in notifications %}
+                            <li class="list-group-item">
+                                <span class="badge text-bg-success me-2">{% translate "Open" %}</span>
+                                <a href="{{ notif.web_url }}" target="_blank">#{{ notif.iid }} {{ notif.title }}</a>
+                            </li>
+                        {% empty %}
+                            <div class="alert alert-primary" role="alert">
+                                {% translate "No notifications at this time" %}
+                            </div>
+                        {% endfor %}
+                    </ul>
+
+                    <div class="text-end pt-3">
+                        <a href="https://gitlab.com/allianceauth/allianceauth/issues" target="_blank" class="me-1 text-decoration-none">
+                            <span class="badge text-bg-danger">
+                                <i class="fab fa-gitlab" aria-hidden="true"></i>
+                                {% translate 'Powered by GitLab' %}
+                            </span>
+                        </a>
+                        <a href="https://discord.com/invite/fjnHAmk" target="_blank" class="text-decoration-none">
+                            <span class="badge text-bg-info">
+                                <i class="fab fa-discord" aria-hidden="true"></i>
+                                {% translate 'Support Discord' %}
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+<div class="col-12 mb-3">
+    <div class="card">
+        <div class="card-body row">
+            <div id="aa-dashboard-panel-software-version" class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
+                {% translate "Software Version" as widget_title %}
+                {% include "framework/dashboard/widget-title.html" with title=widget_title %}
+
+                <div>
+                    <ul class="list-group list-group-horizontal w-100" role="group" aria-label="{% translate 'Software Version' %}">
+                        <li class="list-group-item w-100">
+                            <div class="btn h-100 w-100 cursor-default">
+                                <h5 class="list-group-item-heading">{% translate "Current" %}</h5>
+                                <p class="list-group-item-text">{{ current_version }}</p>
+                            </div>
+                        </li>
+
+                        <li class="list-group-item text-bg-{% if latest_patch %}success{% elif latest_minor %}warning{% else %}danger{% endif %} w-100">
+                            <a class="btn h-100 w-100" href="https://gitlab.com/allianceauth/allianceauth/-/releases/v{{ latest_patch_version }}">
+                                <h5 class="list-group-item-heading">{% translate "Latest Stable" %}</h5>
+
+                                <p class="list-group-item-text">
+                                    <i class="fab fa-gitlab hidden-xs" aria-hidden="true"></i>
+                                    {{ latest_patch_version }}
+                                    {% if not latest_patch %}<br>{% translate "Update available" %}{% endif %}
+                                </p>
+                            </a>
+                        </li>
+
+                        {% if latest_beta %}
+                            <li class="list-group-item text-bg-info w-100">
+                                <a class="btn h-100 w-100" href="https://gitlab.com/allianceauth/allianceauth/-/releases/v{{ latest_beta_version }}">
+                                    <h5 class="list-group-item-heading">{% translate "Latest Pre-Release" %}</h5>
+
+                                    <p class="list-group-item-text">
+                                        <i class="fab fa-gitlab hidden-xs" aria-hidden="true"></i>
+                                        {{ latest_beta_version }}
+                                        <br>{% translate "Pre-Release available" %}
+                                    </p>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+
+            <div id="aa-dashboard-panel-task-queue" class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
+                {% translate "Task Queue" as widget_title %}
+                {% include "framework/dashboard/widget-title.html" with title=widget_title %}
+
+                <div>
+                    <p>
+                        {% blocktranslate with total=tasks_total|intcomma latest=earliest_task|timesince|default:"?" %}
+                            Status of <span id="total-task-count">?</span> processed tasks • last <span id="celery-uptime">?</span>
+                        {% endblocktranslate %}
+                    </p>
+
+                    <div
+                        id="celery-tasks-progress-bar"
+                        class="progress mb-2"
+                        style="height: 21px;"
+                        title="? {{ l10nSucceeded }}, ? {{ l10nRetried }}, ? {{ l10nFailed }}"
+                    >
+                        {% include "allianceauth/admin-status/celery_bar_partial.html" with label="succeeded" level="success" tasks_count=0 %}
+                        {% include "allianceauth/admin-status/celery_bar_partial.html" with label="retried" level="info" tasks_count=0 %}
+                        {% include "allianceauth/admin-status/celery_bar_partial.html" with label="failed" level="danger" tasks_count=0 %}
+                    </div>
+
+                    <p>
+                        <span id="running-task-count">?</span> {{ l10nRunning }} |
+                        <span id="queued-tasks-count">?</span> {{ l10nQueued }} |
+                        <span id="succeeded-tasks-count">?</span> {{ l10nSucceeded }} |
+                        <span id="retried-tasks-count">?</span> {{ l10nRetried }} |
+                        <span id="failed-tasks-count">?</span> {{ l10nFailed }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const taskQueueSettings = {
+        url: '{% url "authentication:task_counts" %}',
+        l10n: {
+            language: '{{ LANGUAGE_CODE }}',
+            second_singular: '{{ l10nSecondSingular|escapejs }}',
+            second_plural: '{{ l10nSecondPlural|escapejs }}',
+            minute_singular: '{{ l10nMinuteSingular|escapejs }}',
+            minute_plural: '{{ l10nMinutePlural|escapejs }}',
+            hour_singular: '{{ l10nHourSingular|escapejs }}',
+            hour_plural: '{{ l10nHourPlural|escapejs }}',
+            na: '{{ l10nNA|escapejs }}',
+            error: '{{ l10nError|escapejs }}',
+            running: '{{ l10nRunning|escapejs }}',
+            queued: '{{ l10nQueued|escapejs }}',
+            succeeded: '{{ l10nSucceeded|escapejs }}',
+            retried: '{{ l10nRetried|escapejs }}',
+            failed: '{{ l10nFailed|escapejs }}'
+        }
+    };
+</script>
+{% include "bundles/auth-dashboard-task-queue-js.html" %}

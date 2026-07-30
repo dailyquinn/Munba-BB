@@ -6,7 +6,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - DATABASE_PATH=/app/data/market_prices.db
+      - DATABASE_PATH=/app/data/db.sqlite3
       - EVE_CLIENT_ID=${EVE_CLIENT_ID}
       - EVE_CLIENT_SECRET=${EVE_CLIENT_SECRET}
       - EVE_REDIRECT_URI=${EVE_REDIRECT_URI}
@@ -15,9 +15,21 @@ services:
       - DISCORD_INVITE=${DISCORD_INVITE}
     volumes:
       - ./data:/app/data
+      - ./jsons:/app/jsons
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8000')"]
       interval: 30s
       timeout: 10s
       retries: 3
+
+  sde-updater:
+    build: .
+    image: rci-buyback:latest
+    container_name: rci-buyback-sde-updater
+    environment:
+      - DATABASE_PATH=/app/data/db.sqlite3
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped
+    command: /bin/sh -c "while true; do python munbabb/manage.py eve_sde_update; sleep 43200; done"

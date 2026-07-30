@@ -1,0 +1,124 @@
+{% extends "allianceauth/base-bs5.html" %}
+
+{% load i18n %}
+
+{% block page_title %}
+    {% translate "Fatlink view" %}
+{% endblock page_title %}
+
+{% block header_nav_brand %}
+    {% translate "Fleet Activity Tracking" %}
+{% endblock header_nav_brand %}
+
+{% block content %}
+    <div>
+        {% translate "Participation data" as page_header %}
+        {% include "framework/header/page-header.html" with title=page_header %}
+
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <tr>
+                    <th class="col-md-10">
+                        <h4>
+                            <b>{% translate "Most recent clicked fatlinks" %}</b>
+                        </h4>
+                    </th>
+                    <th class="col-md-2 align-self-end">
+                        <a href="{% url 'fatlink:personal_statistics' %}" class="btn btn-info">
+                            <i class="fa-solid fa-circle-info fa-fw"></i>
+                            {% translate "Personal statistics" %}
+                        </a>
+                    </th>
+                </tr>
+            </table>
+        </div>
+
+        {% if fats %}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <tr>
+                        <th scope="col" class="text-center">{% translate "Fleet" %}</th>
+                        <th scope="col" class="text-center">{% translate "Character" %}</th>
+                        <th scope="col" class="text-center">{% translate "System" %}</th>
+                        <th scope="col" class="text-center">{% translate "Ship" %}</th>
+                        <th scope="col" class="text-center">{% translate "EVE time" %}</th>
+                    </tr>
+
+                    {% for fat in fats %}
+                        <tr>
+                            <td class="text-center">{{ fat.fatlink.fleet }}</td>
+                            <td class="text-center">{{ fat.character.character_name }}</td>
+                            {% if fat.station != "No Station" %}
+                                <td class="text-center">{% translate "Docked in" %} {{ fat.system }}</td>
+                            {% else %}
+                                <td class="text-center">{{ fat.system }}</td>
+                            {% endif %}
+                            <td class="text-center">{{ fat.shiptype }}</td>
+                            <td class="text-center">{{ fat.fatlink.fatdatetime }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        {% else %}
+            <div class="alert alert-warning text-center">{% translate "No fleet activity on record." %}</div>
+        {% endif %}
+
+        {% if perms.auth.fleetactivitytracking %}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <tr>
+                        <th class="col-md-8">
+                            <h4>
+                                <b>{% translate "Most recent fatlinks" %}</b>
+                            </h4>
+                        </th>
+                        <th class="col-md-2 align-self-end">
+                            <a href="{% url 'fatlink:statistics' %}" class="btn btn-info"><i class="fa-solid fa-eye fa-fw"></i> {% translate "View statistics" %}</a>
+                        </th>
+                        <th class="col-md-2 align-self-end">
+                            <a href="{% url 'fatlink:create' %}" class="btn btn-success"><i class="fa-solid fa-plus fa-fw"></i> {% translate "Create fatlink" %}</a>
+                        </th>
+                    </tr>
+                </table>
+            </div>
+
+            {% if fatlinks %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <tr>
+                            <th scope="col" class="text-center">{% translate "Name" %}</th>
+                            <th scope="col" class="text-center">{% translate "Creator" %}</th>
+                            <th scope="col" class="text-center">{% translate "Fleet" %}</th>
+                            <th scope="col" class="text-center">{% translate "EVE time" %}</th>
+                            <th scope="col" class="text-center">{% translate "Duration" %}</th>
+                            <th scope="col" class="text-center">{% translate "Edit" %}</th>
+                        </tr>
+
+                        {% for link in fatlinks %}
+                            <tr>
+                                <td class="text-center">
+                                    <a href="{% url 'fatlink:click' link.hash %}" class="badge text-bg-primary">{{ link.fleet }}</a>
+                                </td>
+                                <td class="text-center">{{ link.creator.username }}</td>
+                                <td class="text-center">{{ link.fleet }}</td>
+                                <td class="text-center">{{ link.fatdatetime }}</td>
+                                <td class="text-center">
+                                    {{ link.duration }}
+                                </td>
+                                <td class="text-center">
+                                    <a href="{% url 'fatlink:modify' link.hash %}" class="btn btn-info">
+                                        <i class="fa-solid fa-pen-to-square fa-fw"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            {% else %}
+                <div class="alert alert-warning text-center">
+                    {% translate "No created fatlinks on record." %}
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+{% endblock content %}

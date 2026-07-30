@@ -1,0 +1,45 @@
+{% extends "allianceauth/base-bs5.html" %}
+
+{% load i18n %}
+
+{% block page_title %}
+    {% translate "Personal fatlink statistics" %}
+{% endblock page_title %}
+
+{% block header_nav_brand %}
+    {% translate "Fleet Activity Tracking" %}
+{% endblock header_nav_brand %}
+
+{% block content %}
+    <div>
+        <h1 class="page-header text-center mb-3">
+            {% blocktranslate %}Participation data statistics for {{ year }}{% endblocktranslate %}
+        </h1>
+
+        <div class="text-end mb-3">
+            <a href="{% url "fatlink:personal_statistics_year" previous_year %}" class="btn btn-info"><i class="fa-solid fa-chevron-left"></i> {% translate "Previous year" %}</a>
+
+            {% if next_year %}
+                <a href="{% url "fatlink:personal_statistics_year" next_year %}" class="btn btn-info">{% translate "Next year" %} <i class="fa-solid fa-chevron-right"></i></a>
+            {% endif %}
+        </div>
+
+        <div class="col-lg-2 offset-lg-5">
+            <table class="table table-responsive">
+                <tr>
+                    <th scope="col" class="col-md-2 text-center">{% translate "Month" %}</th>
+                    <th scope="col" class="col-md-2 text-center">{% translate "Fats" %}</th>
+                </tr>
+
+                {% for monthnr, month, n_fats in monthlystats %}
+                    <tr>
+                        <td class="text-center">
+                            <a href="{% url 'fatlink:personal_statistics_month' year monthnr %}">{{ month }}</a>
+                        </td>
+                        <td class="text-center">{{ n_fats }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+{% endblock content %}

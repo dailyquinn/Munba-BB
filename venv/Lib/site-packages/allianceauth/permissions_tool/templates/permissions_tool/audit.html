@@ -1,0 +1,111 @@
+{% extends "allianceauth/base-bs5.html" %}
+
+{% load aa_i18n %}
+{% load i18n %}
+
+{% block page_title %}
+    {{ permission.permission.codename }} - {% translate "Permissions Audit" %}
+{% endblock page_title %}
+
+{% block header_nav_brand %}
+    {% translate "Permissions Audit" %}
+{% endblock header_nav_brand %}
+
+{% block content %}
+    <div>
+        <h1 class="page-header md-3">
+            {% translate "Permissions Audit" %}: {{ permission.permission.content_type.app_label }} | {{ permission.permission.content_type.model }} | {{ permission.permission.codename }}
+        </h1>
+
+        <p>
+            <a href="{% url 'permissions_tool:overview' %}" class="btn btn-primary">
+                <i class="fa-solid fa-chevron-left"></i> {% translate "Back" %}
+            </a>
+        </p>
+
+        <div class="table-responsive">
+            <table class="table table-striped w-100" id="tab_permissions_audit">
+                <thead>
+                    <tr>
+                        <th scope="col">{% translate "Group" %}</th>
+                        <th scope="col"></th>
+                        <th scope="col">{% translate "User / Character" %}</th>
+                        <th scope="col">{% translate "Organization" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in permission.users %}
+                        {% include "permissions_tool/audit_row.html" with type="User" name="Permission granted directly" %}
+                    {% endfor %}
+                    {% for group in permission.groups %}
+                        {% for user in group.user_set.all %}
+                            {% include "permissions_tool/audit_row.html" with type="Group" name=group %}
+                        {% endfor %}
+                    {% endfor %}
+                    {% for state in permission.states %}
+                        {% for profile in state.userprofile_set.all %}
+                            {% with profile.user as user %}
+                                {% include "permissions_tool/audit_row.html" with type="State" name=state %}
+                            {% endwith %}
+                        {% endfor %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock content %}
+{% block extra_javascript %}
+    {% include "bundles/datatables-js-bs5.html" %}
+    {% include "bundles/filterdropdown-js.html" %}
+
+    {% get_datatables_language_static LANGUAGE_CODE as DT_LANG_PATH %}
+
+    <script>
+        $(document).ready(() => {
+            const groupColumn = 0;
+
+            $('#tab_permissions_audit').DataTable({
+                language: {url: '{{ DT_LANG_PATH }}'},
+                columnDefs: [{
+                    "visible": false,
+                    "targets": groupColumn
+                }],
+                order: [
+                    [groupColumn, 'asc'],
+                    [2, 'asc']
+                ],
+                filterDropDown: {
+                    columns: [{
+                        idx: 0,
+                        title: 'Source'
+                    }],
+                    bootstrap: true,
+                    bootstrap_version: 5
+                },
+                "stateSave": true,
+                "stateDuration": 0,
+                drawCallback: function (settings) {
+                    const api = this.api();
+                    const rows = api.rows({
+                        page: 'current'
+                    }).nodes();
+                    let last = null;
+
+                    api.column(groupColumn, {
+                        page: 'current'
+                    }).data().each((group, i) => {
+                        if (last !== group) {
+                            $(rows).eq(i).before(`<tr class="h5 table-primary"><td colspan="3">${group}</td></tr>`);
+
+                            last = group;
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+{% endblock extra_javascript %}
+
+{% block extra_css %}
+    {% include "bundles/datatables-css-bs5.html" %}
+{% endblock extra_css %}

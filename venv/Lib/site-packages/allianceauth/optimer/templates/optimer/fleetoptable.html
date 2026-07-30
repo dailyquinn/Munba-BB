@@ -1,0 +1,62 @@
+{% load i18n %}
+{% load evelinks %}
+
+{% block content %}
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>{% translate "Operation Name" %}</th>
+                    <th>{% translate "Description" %}</th>
+                    <th>{% translate "Doctrine" %}</th>
+                    <th>{% translate "Form Up System" %}</th>
+                    <th>{% translate "Start Time" %}</th>
+                    <th>{% translate "Local Time" %}</th>
+                    <th>{% translate "Duration" %}</th>
+                    <th>{% translate "FC" %}</th>
+
+                    {% if perms.auth.optimer_management %}
+{#                        <th>{% translate "Creator" %}</th>#}
+                        <th class="text-end" style="width: 150px;">{% translate "Action" %}</th>
+                    {% endif %}
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for ops in timers %}
+                    <tr>
+                        <td>
+                            {{ ops.operation_name }}
+
+                            {% if ops.type %}
+                                <br>({{ ops.type }})
+                            {% endif %}
+                        </td>
+                        <td>{{ ops.description }}</td>
+                        <td>{{ ops.doctrine }}</td>
+                        <td>
+                            <a href="{{ ops.system|dotlan_solar_system_url }}">{{ ops.system }}</a>
+                        </td>
+                        <td nowrap>{{ ops.start | date:"Y-m-d H:i" }}</td>
+                        <td nowrap><div id="localtime{{ ops.id }}"></div><div id="countdown{{ ops.id }}"></div></td>
+                        <td>{{ ops.duration }}</td>
+                        <td>{{ ops.fc }}</td>
+
+                        {% if perms.auth.optimer_management %}
+{#                            <td>{{ ops.eve_character }}</td>#}
+                            <td class="text-end">
+                                <a href="{% url 'optimer:remove' ops.id %}" class="btn btn-danger">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </a>
+
+                                <a href="{% url 'optimer:edit' ops.id %}" class="btn btn-info">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </a>
+                            </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock content %}

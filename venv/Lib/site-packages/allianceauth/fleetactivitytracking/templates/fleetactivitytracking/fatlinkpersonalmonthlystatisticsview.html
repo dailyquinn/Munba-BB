@@ -1,0 +1,104 @@
+{% extends "allianceauth/base-bs5.html" %}
+
+{% load i18n %}
+
+{% block page_title %}
+    {% translate "Personal fatlink statistics" %}
+{% endblock page_title %}
+
+{% block header_nav_brand %}
+    {% translate "Fleet Activity Tracking" %}
+{% endblock header_nav_brand %}
+
+{% block content %}
+    <div>
+        <h1 class="page-header text-center mb-3">
+            {% blocktranslate %}Participation data statistics for {{ month }}, {{ year }}{% endblocktranslate %}
+        </h1>
+
+        {% if char_id %}
+            <div class="text-end mb-3">
+                <a href="{% url 'fatlink:user_statistics_month' char_id previous_month|date:'Y' previous_month|date:'m' %}" class="btn btn-info">
+                    {% translate "Previous month" %}
+                </a>
+                <a href="{% url 'fatlink:user_statistics_month' char_id next_month|date:'Y' next_month|date:'m'  %}" class="btn btn-info">
+                    {% translate "Next month" %}
+                </a>
+            </div>
+        {% endif %}
+
+        <div class="card card-default mb-3">
+            <div class="card-header">
+                <div class="card-title mb-0">
+                    {% blocktranslate count links=n_fats trimmed %}
+                        {{ user }} has collected one link this month.
+                    {% plural %}
+                        {{ user }} has collected {{ links }} links this month.
+                    {% endblocktranslate %}
+                </div>
+            </div>
+
+            <div class="card-body">
+                <table class="table table-responsive">
+                    <tr>
+                        <th class="col-md-2 text-center">{% translate "Ship" %}</th>
+                        <th class="col-md-2 text-center">{% translate "Times used" %}</th>
+                    </tr>
+
+                    {% for ship, n_fats in shipStats %}
+                        <tr>
+                            <td class="text-center">{{ ship }}</td>
+                            <td class="text-center">{{ n_fats }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+
+        {% if created_fats %}
+            <div class="card card-default">
+                <div class="card-header">
+                    <div class="card-title mb-0">
+                        {% blocktranslate count links=n_created_fats trimmed %}
+                            {{ user }} has created one link this month.
+                        {% plural %}
+                            {{ user }} has created {{ links }} links this month.
+                        {% endblocktranslate %}
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <table class="table">
+                        <tr>
+                            <th class="text-center">{% translate "Fleet" %}</th>
+                            <th class="text-center">{% translate "Creator" %}</th>
+                            <th class="text-center">{% translate "EVE time" %}</th>
+                            <th class="text-center">{% translate "Duration" %}</th>
+                            <th class="text-center">{% translate "Edit" %}</th>
+                        </tr>
+
+                        {% for link in created_fats %}
+                            <tr>
+                                <td class="text-center">
+                                    <a href="{% url 'fatlink:click' link.hash %}" class="badge text-bg-primary">
+                                        {{ link.fleet }}
+                                    </a>
+                                </td>
+                                <td class="text-center">{{ link.creator.username }}</td>
+                                <td class="text-center">{{ link.fatdatetime }}</td>
+                                <td class="text-center">{{ link.duration }}</td>
+                                <td class="text-center">
+                                    <a href="{% url 'fatlink:modify' link.hash %}">
+                                        <button type="button" class="btn btn-info">
+                                            <i class="fa-solid fa-pen-to-square fa-fw"></i>
+                                        </button>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock content %}

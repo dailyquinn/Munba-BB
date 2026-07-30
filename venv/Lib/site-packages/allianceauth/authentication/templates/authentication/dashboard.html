@@ -1,0 +1,15 @@
+{% extends "allianceauth/base-bs5.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block page_title %}{% translate "Dashboard" %}{% endblock %}
+{% block header_nav_brand %}
+    {% translate "Dashboard" %}
+{% endblock %}
+{% block content %}
+    <div class="row">
+        {% for dash in views %}
+            {{ dash | safe }}
+        {% endfor %}
+    </div>
+{% endblock %}

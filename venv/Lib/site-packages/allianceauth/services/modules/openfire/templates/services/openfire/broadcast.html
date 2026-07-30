@@ -1,0 +1,47 @@
+{% extends "allianceauth/base-bs5.html" %}
+
+{% load django_bootstrap5 %}
+{% load i18n %}
+
+{% block page_title %}
+    {% translate "Jabber Broadcast" %}
+{% endblock page_title %}
+
+{% block header_nav_brand %}
+    {% translate "Jabber Broadcast" %}
+{% endblock header_nav_brand %}
+
+{% block content %}
+    <div>
+        <div class="card card-primary border-0">
+            <div class="card-header">
+                <div class="card-title mb-0">
+                    {% translate "Jabber Broadcast" %}
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        {% if success %}
+                            <div class="alert alert-success" role="alert">
+                                {% translate "Broadcast Sent!!" %}
+                            </div>
+                        {% endif %}
+
+                        <form role="form" action="" method="POST">
+                            {% csrf_token %}
+
+                            {% bootstrap_form form %}
+
+                            <div class="form-group mt-3 clearfix">
+                                {% translate "Broadcast" as button_text %}
+                                {% bootstrap_button button_class="btn btn-primary" content=button_text %}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

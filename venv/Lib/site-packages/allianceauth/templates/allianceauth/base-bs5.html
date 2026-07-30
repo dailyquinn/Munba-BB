@@ -1,0 +1,130 @@
+{% load static %}
+{% load i18n %}
+{% load navactive %}
+{% load auth_notifications %}
+{% load theme_tags %}
+<!DOCTYPE html>
+<html lang="en" {% theme_html_tags %}>
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- End Required meta tags -->
+
+        <!-- Meta tags -->
+        {% include 'allianceauth/opengraph.html' %}
+        {% include 'allianceauth/icons.html' %}
+        <!-- Meta tags -->
+
+        <title>{% block title %}{% block page_title %}{% endblock page_title %} - {{ SITE_NAME }}{% endblock title %}</title>
+
+        {% include 'bundles/auth-framework-css.html' %}
+
+        {% theme_css %}
+
+        {% include 'bundles/fontawesome.html' %}
+
+        {% include 'bundles/jquery-js.html' %}
+        {% include 'bundles/auth-framework-js.html' %}
+
+        <style>
+            @media all {
+                .nav-padding {
+                    margin-top: {% header_padding_size %} !important;
+                    max-height: calc(100vh - {% header_padding_size %}) !important;
+                }
+            }
+        </style>
+
+        {% block extra_css %}{% endblock extra_css %}
+
+        {% include 'custom_css/bundles/custom-css.html' %}
+    </head>
+
+    <body>
+        <!-- Top Menu, Blocks don't work in "include" tagged views -->
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top text-bg-primary">
+            <div class="container-fluid justify-content-start">
+                <a class="navbar-brand" data-bs-toggle="collapse" data-bs-target="#sidebar" role="button">
+                    <i class="fa-solid fa-bars ms-2 me-2"></i>
+                </a>
+
+                <div class="navbar-brand">
+                    {% block header_nav_brand %}{{ SITE_NAME }}{% endblock %}
+                </div>
+
+                <div class="collapse navbar-collapse ms-2 px-2" id="navbarexpand">
+                    <ul id="nav-left" class="nav navbar-nav me-auto">
+                        {% block header_nav_collapse_left %}
+                        {% endblock %}
+                    </ul>
+
+                    <ul id="nav-right" class="nav navbar-nav">
+                        {% block header_nav_collapse_right %}
+                        {% endblock %}
+                    </ul>
+
+                    <ul id="nav-right-character-control" class="nav navbar-nav">
+                        <li class="nav-item ms-lg-2 py-2 py-lg-1 col-12 col-lg-auto d-none">
+                            <div class="vr d-none d-lg-flex h-100 mx-2 text-white-50"></div>
+                            <hr class="d-lg-none my-2 text-body text-white-50">
+                        </li>
+
+                        {% block header_nav_user_character_control %} <!-- Default to add char and swap main -->
+                            {% include 'allianceauth/top-menu-rh-default.html' %}
+                        {% endblock %}
+
+                        {% if user.is_authenticated %}
+                            {% include 'menu/menu-notification-block.html' %}
+                        {% endif %}
+                    </ul>
+                </div>
+
+                <a class="navbar-toggler navbar-brand border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#navbarexpand" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation" style="margin-left: auto;">
+                    <i class="fa-solid fa-chevron-up"></i>
+                </a>
+            </div>
+        </nav>
+        <!-- End Top Menu -->
+
+        <!-- Body -->
+        <main class="row flex-nowrap m-0">
+            {% include 'menu/sortable-side-menu.html' %}
+
+            <div class="nav-padding col flex-nowrap vh-100 overflow-auto">
+                <div class="my-3">
+                    {% include 'allianceauth/messages-bs5.html' %}
+
+                    {% block content %}
+                    {% endblock content %}
+                </div>
+            </div>
+        </main>
+        <!-- End Body -->
+
+        {% include "bundles/auth-sidebar-collapse-js.html" %}
+
+        {% theme_js %}
+
+        {% if user.is_authenticated %}
+            <script>
+                const notificationUpdateSettings = {
+                    refreshTime: "{% notifications_refresh_time %}",
+                    userNotificationsCountViewUrl: "{% url 'notifications:user_notifications_count' request.user.pk %}"
+                };
+            </script>
+
+            {% include 'bundles/refresh-notification-icon-js.html' %}
+        {% endif %}
+
+        {% block extra_javascript %}
+        {% endblock extra_javascript %}
+
+        <script>
+            {% block extra_script %}
+            {% endblock extra_script %}
+        </script>
+
+        {% include "framework/svg/sprite.svg" %}
+    </body>
+</html>

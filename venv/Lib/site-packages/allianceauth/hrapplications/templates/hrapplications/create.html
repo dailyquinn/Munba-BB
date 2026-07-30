@@ -1,0 +1,66 @@
+{% extends "allianceauth/base-bs5.html" %}
+{% load django_bootstrap5 %}
+
+{% load i18n %}
+
+{% block page_title %}
+    {% translate "Apply To" %} {{ corp.corporation_name }}
+{% endblock page_title %}
+
+{% block header_nav_brand %}
+    {% translate "HR Application Management" %}
+{% endblock header_nav_brand %}
+
+{% block content %}
+    <div>
+        <h1 class="page-header text-center mb-3">
+            {% translate "Apply To" %} {{ corp.corporation_name }}
+        </h1>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title mb-0">
+                    {% translate "Application form" %}
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <form method="post">
+                            {% csrf_token %}
+
+                            {% for question in questions %}
+                                <div class="card mb-3 form-group border-0">
+                                    <div class="card-header">
+                                        <div class="card-title mb-0">{{ question.title }}</div>
+                                    </div>
+
+                                    <div class="card-body">
+                                        {% if question.help_text %}
+                                            <p class="text-muted">
+                                                {{ question.help_text }}
+                                            </p>
+                                        {% endif %}
+
+                                        {% for choice in question.choices.all %}
+                                            <input type="{% if question.multi_select == False %}radio{% else %}checkbox{% endif %}" name="{{ question.pk }}" id="id_{{ question.pk }}_choice_{{ forloop.counter }}" value="{{ choice.choice_text }}">
+                                            <label for="id_{{ question.pk }}_choice_{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+                                        {% empty %}
+                                            <textarea class="form-control" cols="30" id="id_{{ question.pk }}" name="{{ question.pk }}" rows="10"></textarea>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+                            <div class="form-group clearfix">
+                                {% translate "Submit" as button_text %}
+                                {% bootstrap_button button_class="btn btn-primary" content=button_text name="submitApplicationForm" id="submitApplicationForm" %}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
