@@ -15,6 +15,7 @@ services:
       - DISCORD_INVITE=${DISCORD_INVITE}
       - APP_TITLE=${APP_TITLE:-Unknown Buyback}
       - CONTRACT_RECIPIENT=${CONTRACT_RECIPIENT:-Unknown Buyback}
+      - LOCATIONS=${LOCATIONS:-[{"system":"Default System 1","structure":"Keepstar","fee":0},{"system":"Default Region 1","structure":"L/XL Structure","fee":50000000}]}
     volumes:
       - ./data:/app/data
       - ./jsons:/app/jsons

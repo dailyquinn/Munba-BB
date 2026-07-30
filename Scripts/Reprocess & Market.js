@@ -277,11 +277,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     }
 
-    // Apply hauling fee if the location is not a primary hub.
+    // Apply hauling fee if location has fee attached
     if (!location) { alert("Select location!"); return; }
-    if (location !== "UALX-3" && location !== "ABE-M2") {
-        total -= 50000000;
-        modalItems.innerHTML += `<p style="color:orange;">-50,000,000 ISK Hauling Fee</p>`;
+    const locationSelect = document.getElementById("location");
+    const selectedOption = locationSelect ? locationSelect.options[locationSelect.selectedIndex] : null;
+    const haulingFee = selectedOption ? parseFloat(selectedOption.getAttribute('data-fee') || '0') : 0;
+    if (haulingFee > 0) {
+        total -= haulingFee;
+        modalItems.innerHTML += `<p style="color:orange;">-${haulingFee.toLocaleString()} ISK Hauling Fee</p>`;
     }
 
     // Display the final total and show the result box.

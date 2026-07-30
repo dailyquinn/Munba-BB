@@ -1,5 +1,3 @@
-// This script manages the display of warning messages based on the selected
-// option in the location dropdown on the quote calculator page.
 document.addEventListener("DOMContentLoaded", () => {
     const dropdown = document.getElementById("location");
     const warning = document.getElementById("location-warning");
@@ -12,10 +10,13 @@ document.addEventListener("DOMContentLoaded", () => {
         warning.style.display = "none";
         TenerifisWarning.style.display = "none";
   
-        if (dropdown.value === "Tenerifis L/XL Structure") {
-          TenerifisWarning.style.display = "block"; // Show specific Tenerifis warning
-        } else if (dropdown.value !== "UALX-3" && dropdown.value !== "ABE-M2" && dropdown.value) {
-          warning.style.display = "block"; // Show generic warning for other non-standard locations
+        const selectedOption = dropdown.options[dropdown.selectedIndex];
+        if (!selectedOption || !dropdown.value) return;
+
+        const fee = selectedOption ? parseFloat(selectedOption.getAttribute('data-fee') || '0') : 0;
+        if (fee > 0) {
+          TenerifisWarning.textContent = `Selecting this will deduct ${fee.toLocaleString()} ISK from the payout.`;
+          TenerifisWarning.style.display = "inline-block";
         }
       });
       dropdown.dispatchEvent(new Event("change")); // Trigger change event on page load to set initial state

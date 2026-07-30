@@ -291,8 +291,7 @@
           <ol>
             <li>Create an <strong>Item Exchange</strong> contract to <b id="contract-recipient">Default Value</b>.
             </li>
-            <li>Use the <strong>UALX-3 Keepstar</strong>, <strong>ABE-M2 Fortizar</strong> or any Large/Extra Large
-              structure in Tenerifis.</li>
+            <li>Use the <span id="location-instructions"><strong>UALX-3 Keepstar</strong>, <strong>ABE-M2 Fortizar</strong> or any Large/Extra Large structure in Tenerifis</span>.</li>
             <li>Enter your items in the text area below, then click "Get a Quote".</li>
           </ol>
           <h3>Paste Items Here:</h3>
@@ -364,6 +363,42 @@
             const recipientElem = document.getElementById('contract-recipient');
             if (recipientElem) {
               recipientElem.textContent = `"${config.contract_recipient}"`;
+            }
+          }
+          if (config.locations && Array.isArray(config.locations)) {
+            const selectElem = document.getElementById('location');
+            if (selectElem) {
+              selectElem.innerHTML = '<option value="">-- Select a location --</option>';
+              config.locations.forEach(loc => {
+                const sys = loc.system || '';
+                const struct = loc.structure || '';
+                const label = sys && struct ? `${sys} ${struct}` : (sys || struct);
+                const val = sys && struct ? `${sys} ${struct}` : (sys || struct);
+                const opt = document.createElement('option');
+                opt.value = val;
+                opt.textContent = label;
+                opt.setAttribute('data-fee', loc.fee || 0);
+                selectElem.appendChild(opt);
+              });
+            }
+
+            const instructionsSpan = document.getElementById('location-instructions');
+            if (instructionsSpan && config.locations.length > 0) {
+              const formattedParts = config.locations.map(loc => {
+                const sys = loc.system || '';
+                const struct = loc.structure || '';
+                const name = sys && struct ? `${sys} ${struct}` : (sys || struct);
+                return `<strong>${name}</strong>`;
+              });
+              let sentence = '';
+              if (formattedParts.length === 1) {
+                sentence = formattedParts[0];
+              } else if (formattedParts.length === 2) {
+                sentence = `${formattedParts[0]} or ${formattedParts[1]}`;
+              } else {
+                sentence = formattedParts.slice(0, -1).join(', ') + ' or ' + formattedParts[formattedParts.length - 1];
+              }
+              instructionsSpan.innerHTML = sentence;
             }
           }
         })

@@ -42,12 +42,50 @@ def get_admin_corp_name():
         pass
     return os.getenv("CONTRACT_RECIPIENT", "Munba Buyback")
 
+def get_locations():
+    locations_raw = os.getenv("LOCATIONS")
+    if locations_raw:
+        try:
+            parsed = json.loads(locations_raw)
+            if isinstance(parsed, list):
+                result = []
+                for item in parsed:
+                    if isinstance(item, dict):
+                        sys_name = item.get("system")
+                        struct_name = item.get("structure")
+                        
+                        sys_str = str(sys_name).strip() if sys_name and sys_name != 0 else ""
+                        struct_str = str(struct_name).strip() if struct_name and struct_name != 0 else ""
+                        
+                        fee = item.get("fee", 0)
+                        try:
+                            fee = float(fee) if fee is not None else 0
+                        except (ValueError, TypeError):
+                            fee = 0
+                            
+                        result.append({
+                            "system": sys_str,
+                            "structure": struct_str,
+                            "fee": fee
+                        })
+                if result:
+                    return result
+        except Exception:
+            pass
+
+    return [
+        {"system": "UALX-3", "structure": "Keepstar", "fee": 0},
+        {"system": "ABE-M2", "structure": "Fortizar", "fee": 0},
+        {"system": "Tenerifis", "structure": "L/XL Structure", "fee": 50000000}
+    ]
+
 def get_config(request):
     return JsonResponse({
         "app_domain": os.getenv("APP_DOMAIN", "http://localhost:8000"),
         "discord_invite": os.getenv("DISCORD_INVITE", "https://discord.gg/yFxsjw9"),
-        "app_title": os.getenv("APP_TITLE", "RCI Buyback"),
-        "contract_recipient": get_admin_corp_name()
+        "app_title": os.getenv("APP_TITLE", "Unknown Buyback"),
+        "contract_recipient": get_admin_corp_name(),
+        "locations": get_locations()
     })
 
 def build_auth_url():
