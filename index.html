@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RCI Buyback</title>
+  <title id="page-title">Default Value</title>
   <style>
     html {
       background: url('Media/background.png') no-repeat center center fixed;
@@ -254,7 +254,7 @@
     <header>
       <div class="header-content">
         <img src="Media/logo.png" alt="Logo" class="header-logo" />
-        <h1>RCI Buyback</h1>
+        <h1 id="header-title">Default Value</h1>
       </div>
       <nav>
         <div class="nav-center">
@@ -349,6 +349,17 @@
         .then(config => {
           document.getElementById('discord-link').href = config.discord_invite;
           document.getElementById('admin-link').href = config.app_domain + '/login';
+          if (config.app_title) {
+            document.title = config.app_title;
+            const pageTitle = document.getElementById('page-title');
+            if (pageTitle) {
+              pageTitle.textContent = config.app_title;
+            }
+            const headerTitle = document.getElementById('header-title');
+            if (headerTitle) {
+              headerTitle.textContent = config.app_title;
+            }
+          }
           if (config.contract_recipient) {
             const recipientElem = document.getElementById('contract-recipient');
             if (recipientElem) {

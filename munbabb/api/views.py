@@ -46,6 +46,7 @@ def get_config(request):
     return JsonResponse({
         "app_domain": os.getenv("APP_DOMAIN", "http://localhost:8000"),
         "discord_invite": os.getenv("DISCORD_INVITE", "https://discord.gg/yFxsjw9"),
+        "app_title": os.getenv("APP_TITLE", "RCI Buyback"),
         "contract_recipient": get_admin_corp_name()
     })
 

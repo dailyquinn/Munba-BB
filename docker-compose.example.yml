@@ -13,8 +13,8 @@ services:
       - ADMIN_CORP_ID=your_corp_id_here
       - APP_DOMAIN=${APP_DOMAIN}
       - DISCORD_INVITE=${DISCORD_INVITE}
-      - APP_TITLE=${APP_TITLE:-Munba Buyback}
-      - CONTRACT_RECIPIENT=${CONTRACT_RECIPIENT:-Munba Buyback}
+      - APP_TITLE=${APP_TITLE:-Unknown Buyback}
+      - CONTRACT_RECIPIENT=${CONTRACT_RECIPIENT:-Unknown Buyback}
     volumes:
       - ./data:/app/data
       - ./jsons:/app/jsons
