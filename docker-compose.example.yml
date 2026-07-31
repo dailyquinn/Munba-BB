@@ -11,7 +11,7 @@ services:
       - EVE_CLIENT_SECRET=your_eve_client_secret_here
       - EVE_REDIRECT_URI=http://localhost:8000/callback or http://your-domain.here/callback
       - ADMIN_CORP_ID=your_corp_id_here
-      - APP_DOMAIN=${APP_DOMAIN}
+      - APP_DOMAIN=${APP_DOMAIN:-http://localhost:8000}
       - DISCORD_INVITE=${DISCORD_INVITE}
       - APP_TITLE=${APP_TITLE:-Unknown Buyback}
       - CONTRACT_RECIPIENT=${CONTRACT_RECIPIENT:-Unknown Buyback}

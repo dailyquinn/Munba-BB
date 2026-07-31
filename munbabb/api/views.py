@@ -80,8 +80,11 @@ def get_locations():
     ]
 
 def get_config(request):
+    app_domain = (os.getenv("APP_DOMAIN") or "http://localhost:8000").strip()
+    if app_domain and not (app_domain.startswith("http://") or app_domain.startswith("https://") or app_domain.startswith("//")):
+        app_domain = f"http://{app_domain}"
     return JsonResponse({
-        "app_domain": os.getenv("APP_DOMAIN", "http://localhost:8000"),
+        "app_domain": app_domain,
         "discord_invite": os.getenv("DISCORD_INVITE", "https://discord.gg/yFxsjw9"),
         "app_title": os.getenv("APP_TITLE", "Unknown Buyback"),
         "contract_recipient": get_admin_corp_name(),
