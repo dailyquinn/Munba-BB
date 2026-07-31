@@ -252,14 +252,47 @@ def sde_resolve_items(request):
         data = json.loads(request.body)
         names = data.get("names", [])
         ids = data.get("ids", [])
+        if not (names or ids):
+            return JsonResponse([], safe=False)
+        
+        # Batch items to prevent SQLite parameter limits (max 500 per batch)
+        items = []
+        if names:
+            clean_names = list({str(n).strip() for n in names if n})
+            for i in range(0, len(clean_names), 500):
+                chunk = clean_names[i:i+500]
+                items.extend(ItemType.objects.filter(name__in=chunk).select_related('group'))
+        
+        if ids:
+            clean_ids = list({int(i) for i in ids if i})
+            for i in range(0, len(clean_ids), 500):
+                chunk = clean_ids[i:i+500]
+                items.extend(ItemType.objects.filter(id__in=chunk).select_related('group'))
+
+        # Deduplicate items by ID
+        unique_items = list({item.id: item for item in items}.values())
+        item_ids = [item.id for item in unique_items]
+        
+        # Bulk-fetch all reprocessing materials in batch queries to eliminate N+1 overhead
+        materials_by_item = {}
+        if item_ids:
+            for i in range(0, len(item_ids), 500):
+                chunk = item_ids[i:i+500]
+                m_qs = ItemTypeMaterials.objects.filter(item_type_id__in=chunk).select_related('material_item_type', 'material_item_type__group')
+                for m in m_qs:
+                    materials_by_item.setdefault(m.item_type_id, []).append(m)
+
         results = []
-        q = Q()
-        if names: q |= Q(name__in=names)
-        if ids: q |= Q(id__in=ids)
-        if not (names or ids): return JsonResponse([])
-        for item in ItemType.objects.filter(q).select_related('group'):
-            materials = ItemTypeMaterials.objects.filter(item_type=item).select_related('material', 'material__group')
-            reprocess_yield = {m.material.id: {"name": m.material.name, "quantity": m.quantity, "group_id": m.material.group_id} for m in materials}
+        for item in unique_items:
+            m_list = materials_by_item.get(item.id, [])
+            reprocess_yield = {
+                m.material_item_type.id: {
+                    "name": m.material_item_type.name,
+                    "quantity": m.quantity,
+                    "group_id": m.material_item_type.group_id
+                }
+                for m in m_list
+            }
             results.append({
                 "id": item.id,
                 "name": item.name,
@@ -270,4 +303,6 @@ def sde_resolve_items(request):
             })
         return JsonResponse(results, safe=False)
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         return JsonResponse({"error": str(e)}, status=500)
