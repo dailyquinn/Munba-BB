@@ -105,10 +105,20 @@ CACHES = {
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-# AllianceAuth / ESI required settings
-CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
-SITE_URL = "http://localhost:8000"
-CSRF_TRUSTED_ORIGINS = ['http://localhost:8000']
+# Reverse Proxy & HTTPS Settings
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+USE_X_FORWARDED_HOST = True
+
+app_domain_env = (os.getenv("APP_DOMAIN") or "http://localhost:8000").strip()
+if app_domain_env and not (app_domain_env.startswith("http://") or app_domain_env.startswith("https://") or app_domain_env.startswith("//")):
+    app_domain_env = f"https://{app_domain_env}"
+
+SITE_URL = app_domain_env
+CSRF_TRUSTED_ORIGINS = [app_domain_env, 'http://localhost:8000', 'http://127.0.0.1:8000']
+if app_domain_env.startswith("https://"):
+    raw_domain = app_domain_env.replace("https://", "").rstrip('/')
+    CSRF_TRUSTED_ORIGINS.extend([f"https://{raw_domain}", f"http://{raw_domain}", f"https://www.{raw_domain}", f"http://www.{raw_domain}"])
+
 ESI_USER_CONTACT_EMAIL = 'admin@example.com'
 LOGIN_TOKEN_SCOPES = ['publicData']
 SITE_ID = 1

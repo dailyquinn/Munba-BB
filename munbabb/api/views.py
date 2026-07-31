@@ -82,7 +82,8 @@ def get_locations():
 def get_config(request):
     app_domain = (os.getenv("APP_DOMAIN") or "http://localhost:8000").strip()
     if app_domain and not (app_domain.startswith("http://") or app_domain.startswith("https://") or app_domain.startswith("//")):
-        app_domain = f"http://{app_domain}"
+        scheme = "http://" if ("localhost" in app_domain or "127.0.0.1" in app_domain) else "https://"
+        app_domain = f"{scheme}{app_domain}"
     return JsonResponse({
         "app_domain": app_domain,
         "discord_invite": os.getenv("DISCORD_INVITE", "https://discord.gg/yFxsjw9"),
