@@ -225,8 +225,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     const allIDs = [...new Set([...pricedItems.map(i => i.typeID), ...Object.keys(materialTotals)])];
     let priceMap = {};
     if (allIDs.length > 0) {
-        try {
-            const res = await fetch(`/api/market_prices/?type_ids=${allIDs.join(',')}`);
+            const res = await fetch('/api/market_prices/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ type_ids: allIDs })
+            });
             const data = await res.json();
             priceMap = data.prices || {};
         } catch (e) { console.error("Price fetch failed", e); }

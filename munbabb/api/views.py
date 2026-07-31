@@ -167,15 +167,30 @@ def api_callback_token(request):
             pass
     return JsonResponse(tokens)
 
+@csrf_exempt
 def get_market_prices(request):
-    type_ids_str = request.GET.get('type_ids', '')
-    if not type_ids_str:
-        return JsonResponse({"prices": {}})
+    raw_ids = []
+    if request.method == "POST":
+        try:
+            body = json.loads(request.body)
+            if isinstance(body, dict):
+                ids = body.get("type_ids", [])
+                if isinstance(ids, list):
+                    raw_ids = [int(i) for i in ids if str(i).isdigit()]
+                elif isinstance(ids, str):
+                    raw_ids = [int(i.strip()) for i in ids.split(',') if i.strip().isdigit()]
+            elif isinstance(body, list):
+                raw_ids = [int(i) for i in body if str(i).isdigit()]
+        except Exception:
+            pass
     
-    try:
-        raw_ids = list({int(i.strip()) for i in type_ids_str.split(',') if i.strip().isdigit()})
-    except Exception:
-        return JsonResponse({"prices": {}})
+    if not raw_ids:
+        type_ids_str = request.GET.get('type_ids', '')
+        if type_ids_str:
+            try:
+                raw_ids = list({int(i.strip()) for i in type_ids_str.split(',') if i.strip().isdigit()})
+            except Exception:
+                pass
 
     if not raw_ids:
         return JsonResponse({"prices": {}})
