@@ -89,9 +89,7 @@ def get_config(request):
     })
 
 def build_auth_url():
-    # Helper to generate the URL (porting from Esi.py)
-    # Using simple approach for now
-    scopes = "esi-contracts.read_corporation_contracts.v1 esi-characters.read_corporation_roles.v1"
+    scopes = "esi-contracts.read_corporation_contracts.v1"
     url = f"https://login.eveonline.com/v2/oauth/authorize/?response_type=code&redirect_uri={EVE_REDIRECT_URI}&client_id={EVE_CLIENT_ID}&scope={scopes}&state=login"
     return url
 

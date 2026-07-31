@@ -55,10 +55,11 @@ Munba-BB/
 
 ### 1. Register EVE Application (CCP Developers Portal)
 
-When creating your application on [developers.eveonline.com](https://developers.eveonline.com), ensure you add the following **exact ESI scopes**:
+When creating your application on [developers.eveonline.com](https://developers.eveonline.com), ensure you add the following **ESI scope**:
 
-- `esi-contracts.read_corporation_contracts.v1` – Allows fetching and reading corporation contracts and item details.
-- `esi-characters.read_corporation_roles.v1` – Allows verifying character corporation membership and roles for admin access.
+- `esi-contracts.read_corporation_contracts.v1` – Required to fetch and read active corporation contracts and items.
+
+*(Note: Character corporation membership is verified via the public ESI character endpoint, so no additional role scopes are required).*
 
 Set the Callback URL on the portal to match your `EVE_REDIRECT_URI` (e.g. `http://localhost:8000/callback` or `https://your-domain.com/callback`).
 
