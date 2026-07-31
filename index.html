@@ -291,7 +291,8 @@
           <ol>
             <li>Create an <strong>Item Exchange</strong> contract to <b id="contract-recipient">Default Value</b>.
             </li>
-            <li>Use the <span id="location-instructions"><strong>UALX-3 Keepstar</strong>, <strong>ABE-M2
+            <li>Use any of the following structures/locations: <span id="location-instructions"><strong>UALX-3
+                  Keepstar</strong>, <strong>ABE-M2
                   Fortizar</strong> or any Large/Extra Large structure in Tenerifis</span>.</li>
             <li>Enter your items in the text area below, then click "Get a Quote".</li>
           </ol>
@@ -391,8 +392,15 @@
               const formattedParts = config.locations.map(loc => {
                 const sys = loc.system || '';
                 const struct = loc.structure || '';
-                const name = sys && struct ? `${sys} ${struct}` : (sys || struct);
-                return `<strong>${name}</strong>`;
+                let text = '';
+                if (sys && struct) {
+                  text = `${sys} ${struct}`;
+                } else if (sys) {
+                  text = `any structure in ${sys}`;
+                } else {
+                  text = struct;
+                }
+                return `<strong>${text}</strong>`;
               });
               let sentence = '';
               if (formattedParts.length === 1) {
