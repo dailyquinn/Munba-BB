@@ -53,9 +53,16 @@ Munba-BB/
 
 ## Setup & Deployment
 
-The application is fully containerized with Docker and Docker Compose.
+### 1. Register EVE Application (CCP Developers Portal)
 
-### 1. Configure Docker Compose
+When creating your application on [developers.eveonline.com](https://developers.eveonline.com), ensure you add the following **exact ESI scopes**:
+
+- `esi-contracts.read_corporation_contracts.v1` – Allows fetching and reading corporation contracts and item details.
+- `esi-characters.read_corporation_roles.v1` – Allows verifying character corporation membership and roles for admin access.
+
+Set the Callback URL on the portal to match your `EVE_REDIRECT_URI` (e.g. `http://localhost:8000/callback` or `https://your-domain.com/callback`).
+
+### 2. Configure Docker Compose
 
 Copy the example Docker Compose file to create your active configuration:
 
