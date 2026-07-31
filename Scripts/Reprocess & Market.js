@@ -132,9 +132,20 @@ document.addEventListener("DOMContentLoaded", async () => {
   calculateBtn.addEventListener("click", async () => {
     // Get user input and DOM elements for displaying results.
     const rawText = document.getElementById("item-list").value.trim();
+    if (!rawText) {
+      alert("Please paste items into the text area before getting a quote.");
+      return;
+    }
+
     const modalItems = document.getElementById("modal-items");
     const modalTotal = document.getElementById("modal-total");
-    const location = document.getElementById("location").value;
+    const locationSelect = document.getElementById("location");
+    const location = locationSelect ? locationSelect.value : "";
+
+    if (!location) {
+      alert("Please select a location from the dropdown menu first.");
+      return;
+    }
 
     // Clear previous results.
     modalItems.innerHTML = "";
@@ -225,6 +236,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const allIDs = [...new Set([...pricedItems.map(i => i.typeID), ...Object.keys(materialTotals)])];
     let priceMap = {};
     if (allIDs.length > 0) {
+        try {
             const res = await fetch('/api/market_prices/', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -281,9 +293,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     // Apply hauling fee if location has fee attached
-    if (!location) { alert("Select location!"); return; }
-    const locationSelect = document.getElementById("location");
-    const selectedOption = locationSelect ? locationSelect.options[locationSelect.selectedIndex] : null;
+    const selectedOption = locationSelect && locationSelect.selectedIndex >= 0 ? locationSelect.options[locationSelect.selectedIndex] : null;
     const haulingFee = selectedOption ? parseFloat(selectedOption.getAttribute('data-fee') || '0') : 0;
     if (haulingFee > 0) {
         total -= haulingFee;
@@ -292,14 +302,21 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Display the final total and show the result box.
     modalTotal.innerHTML += `<h3>Total: ${total.toLocaleString(undefined,{minimumFractionDigits:2})} ISK</h3>`;
-    document.getElementById("result-box").style.display = "block";
+    const resultBox = document.getElementById("result-box");
+    if (resultBox) resultBox.style.display = "block";
     
     // Send the raw item list to the backend to generate and store a unique quote code.
     fetch('/api/quotes/', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(rawText)})
-      .then(r=>r.json()).then(d => { if(d.code) descriptionField.textContent = d.code; });
+      .then(r=>r.json()).then(d => { if(d && d.code && descriptionField) descriptionField.textContent = d.code; });
   });
 
-  // Attach click handlers for the copy buttons.
-  document.getElementById("copyBtn").onclick = () => navigator.clipboard.writeText(document.getElementById("modal-total").innerText.replace(/[^\d.]/g,''));
-  document.getElementById("copyCodeBtn").onclick = () => navigator.clipboard.writeText(descriptionField.textContent);
+  // Attach click handlers for the copy buttons if present.
+  const copyBtn = document.getElementById("copyBtn");
+  if (copyBtn) {
+    copyBtn.onclick = () => navigator.clipboard.writeText(document.getElementById("modal-total").innerText.replace(/[^\d.]/g,''));
+  }
+  const copyCodeBtn = document.getElementById("copyCodeBtn");
+  if (copyCodeBtn) {
+    copyCodeBtn.onclick = () => navigator.clipboard.writeText(descriptionField ? descriptionField.textContent : '');
+  }
 });

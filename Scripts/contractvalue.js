@@ -83,6 +83,7 @@ async function getContractValue(items) {
     // Prefetch all prices
     const uniqueIds = [...new Set(allIdsToPrice)];
     if (uniqueIds.length > 0) {
+        try {
             const res = await fetch('/api/market_prices/', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
