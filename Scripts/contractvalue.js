@@ -129,15 +129,10 @@ async function getContractValue(items) {
         const isReprocessable = Object.keys(reprocessables).some(key => key.toLowerCase() === resolved.name.toLowerCase());
         
         if (isReprocessable && Object.keys(resolved.reprocessing).length > 0) {
-            const isIce = iceSet.has(resolved.name);
             let reprocessValue = 0;
+            const portion = resolved.portion_size || 100;
             for (const [matId, matData] of Object.entries(resolved.reprocessing)) {
-                let matQty;
-                if (isIce) {
-                    matQty = Math.floor((matData.quantity * quantity) * 0.9063);
-                } else {
-                    matQty = Math.floor(matData.quantity * (quantity / 100) * 0.9063);
-                }
+                const matQty = Math.floor(matData.quantity * (quantity / portion) * 0.9063);
                 const matPrice = priceCache[matId] || 0;
                 reprocessValue += matPrice * matQty;
             }

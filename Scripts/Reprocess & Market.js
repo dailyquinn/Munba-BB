@@ -182,10 +182,12 @@ document.addEventListener("DOMContentLoaded", async () => {
             });
             const resolvedItems = await resolveRes.json();
             
+            const reprocessingPortionMap = {};
             for (const item of resolvedItems) {
                 typeMap[item.name.toLowerCase()] = item.id;
                 idToNameMap[item.id] = item.name;
                 typeGroupsRaw[item.id] = item.group_id;
+                reprocessingPortionMap[item.id] = item.portion_size || 100;
                 
                 if (Object.keys(item.reprocessing).length > 0) {
                     const matObj = {};
@@ -221,9 +223,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (isRepro) {
              const materials = reprocessingMap[typeID];
              if (materials) {
+                 const portion = reprocessingPortionMap[typeID] || 100;
                  modalItems.innerHTML += `<p><s>${parsed.name} × ${parsed.qty.toLocaleString()}</s></p>`;
                  for (const [matID, matQty] of Object.entries(materials)) {
-                     const totalMat = Math.floor(matQty * parsed.qty * 0.9063);
+                     const totalMat = Math.floor(matQty * (parsed.qty / portion) * 0.9063);
                      materialTotals[matID] = (materialTotals[matID] || 0) + totalMat;
                  }
              }

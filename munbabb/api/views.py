@@ -392,6 +392,7 @@ def sde_resolve_items(request):
                 "group_id": item.group_id,
                 "category_id": item.group.category_id if item.group else None,
                 "volume": float(item.volume) if item.volume else 0,
+                "portion_size": item.portion_size or 1,
                 "reprocessing": reprocess_yield
             })
         return JsonResponse(results, safe=False)
