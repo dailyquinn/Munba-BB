@@ -119,7 +119,7 @@ On initial startup, the container automatically applies database migrations and 
 ## Notes & Licensing
 
 - This project is licensed under the **GNU General Public License v3.0** — see the [LICENSE](file:///d:/OneDrive/Documents/Repo%20Clones/Munba-BB/LICENSE) file for details.
-- All EVE Online assets are property of Fenris Creations.
+- All EVE Online assets are property of CCP hf / Fenris Creations.
 - Front-end appraisal integration uses Fuzzwork's public market API.
 - GDS-BB provided for modification courtesy of Voidlegacy
 - Initial commit made from my last locally saved commit of RCI Buyback
