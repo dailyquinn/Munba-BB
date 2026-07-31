@@ -26,6 +26,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   let idToNameMap = {};
   let typeGroupsRaw = {};
   let reprocessingMap = {};
+  let reprocessingPortionMap = {};
   let groupIDToName = {};
   // #endregion
 
@@ -182,7 +183,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             });
             const resolvedItems = await resolveRes.json();
             
-            const reprocessingPortionMap = {};
             for (const item of resolvedItems) {
                 typeMap[item.name.toLowerCase()] = item.id;
                 idToNameMap[item.id] = item.name;
