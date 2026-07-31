@@ -2,6 +2,8 @@
 
 Munba Buyback is a web application for running an EVE Online corporation buyback program. It combines an interactive front-end for player quotes and contract management with a Django + AllianceAuth + ESI back-end running inside Docker.
 
+NOTE: This application is still under development. At this point, it is "functional" but not "complete", consider this a Beta release. Features like SSL support and security features are planned for future releases.
+
 ## Features
 
 - **Quote Generator** (`index.html` + `Scripts/Reprocess & Market.js`)
