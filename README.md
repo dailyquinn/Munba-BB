@@ -91,7 +91,7 @@ Edit `docker-compose.yml` and configure your environment variables:
 - LOCATIONS=[{"system":"UALX-3","structure":"Keepstar","fee":0},{"system":"Tenerifis","structure":"L/XL Structure","fee":50000000}]
 ```
 
-*Note: If `structure` is not applicable, pass `""` or `null` and it will be cleanly handled as an empty string.*
+*Note: If `structure` is not applicable, you can set `"structure": ""`, `"structure": null`, or omit the `"structure"` key entirely. Do NOT leave a trailing colon without a value (`"structure":`) as that is invalid JSON syntax.*
 
 ### 2. Build & Run Container
 
