@@ -43,7 +43,19 @@ INSTALLED_APPS = [
     'api',
 ]
 
+class SanitizeHostMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        for header in ('HTTP_HOST', 'HTTP_X_FORWARDED_HOST'):
+            val = request.META.get(header, '')
+            if ',' in val:
+                request.META[header] = val.split(',')[0].strip()
+        return self.get_response(request)
+
 MIDDLEWARE = [
+    'munbabb.settings.SanitizeHostMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
