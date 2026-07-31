@@ -260,6 +260,9 @@ def get_market_prices(request):
 
     return JsonResponse({"prices": prices})
 
+def user_notifications_count(request, user_id=None):
+    return JsonResponse({"count": 0})
+
 @csrf_exempt
 def add_quote(request):
     if request.method == "POST":

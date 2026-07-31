@@ -11,6 +11,8 @@ urlpatterns = [
     path('api/quotes/<str:code>', views.get_quote),
     path('api/market_prices', views.get_market_prices, name='get_market_prices'),
     path('api/market_prices/', views.get_market_prices),
+    path('user_notifications_count/<int:user_id>/', views.user_notifications_count),
+    path('user_notifications_count/<int:user_id>', views.user_notifications_count),
     path('api/save-multipliers', views.save_multipliers, name='save_multipliers'),
     path('api/sde/search', views.sde_search, name='sde_search'),
     path('api/sde/names', views.sde_names, name='sde_names'),
