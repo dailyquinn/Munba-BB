@@ -167,6 +167,83 @@ def api_callback_token(request):
             pass
     return JsonResponse(tokens)
 
+def get_market_prices(request):
+    type_ids_str = request.GET.get('type_ids', '')
+    if not type_ids_str:
+        return JsonResponse({"prices": {}})
+    
+    try:
+        raw_ids = list({int(i.strip()) for i in type_ids_str.split(',') if i.strip().isdigit()})
+    except Exception:
+        return JsonResponse({"prices": {}})
+
+    if not raw_ids:
+        return JsonResponse({"prices": {}})
+
+    prices = {}
+    now = time.time()
+    now_str = str(int(now))
+    
+    # 1. Query cached prices from MarketPrice table
+    try:
+        cached_qs = MarketPrice.objects.filter(typeID__in=raw_ids)
+        cached_map = {p.typeID: p for p in cached_qs}
+    except Exception:
+        cached_map = {}
+    
+    missing_ids = []
+    for tid in raw_ids:
+        if tid in cached_map:
+            p_obj = cached_map[tid]
+            try:
+                age = now - float(p_obj.updated_at)
+            except Exception:
+                age = 999999
+            if age < 3600:
+                prices[str(tid)] = {
+                    "price": p_obj.buy_price,
+                    "buy": p_obj.buy_price,
+                    "sell": p_obj.sell_price
+                }
+                continue
+        missing_ids.append(tid)
+
+    # 2. Fetch missing/stale prices from Fuzzwork Market API in 100-item chunks
+    if missing_ids:
+        for i in range(0, len(missing_ids), 100):
+            chunk = missing_ids[i:i+100]
+            chunk_str = ",".join(map(str, chunk))
+            try:
+                url = f"https://market.fuzzwork.co.uk/aggregates/?station=60003760&types={chunk_str}"
+                res = requests.get(url, timeout=5)
+                if res.ok:
+                    data = res.json()
+                    for tid_str, p_data in data.items():
+                        try:
+                            tid = int(tid_str)
+                            buy_max = float(p_data.get('buy', {}).get('max', 0) or 0)
+                            sell_min = float(p_data.get('sell', {}).get('min', 0) or 0)
+                            
+                            prices[str(tid)] = {
+                                "price": buy_max,
+                                "buy": buy_max,
+                                "sell": sell_min
+                            }
+                            MarketPrice.objects.update_or_create(
+                                typeID=tid,
+                                defaults={
+                                    "buy_price": buy_max,
+                                    "sell_price": sell_min,
+                                    "updated_at": now_str
+                                }
+                            )
+                        except Exception:
+                            pass
+            except Exception as e:
+                print("Fuzzwork fetch error:", e)
+
+    return JsonResponse({"prices": prices})
+
 @csrf_exempt
 def add_quote(request):
     if request.method == "POST":

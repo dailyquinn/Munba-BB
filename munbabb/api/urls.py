@@ -9,6 +9,8 @@ urlpatterns = [
     path('api/quotes/', views.add_quote),
     path('api/quote/<str:code>', views.get_quote, name='get_quote'),
     path('api/quotes/<str:code>', views.get_quote),
+    path('api/market_prices', views.get_market_prices, name='get_market_prices'),
+    path('api/market_prices/', views.get_market_prices),
     path('api/save-multipliers', views.save_multipliers, name='save_multipliers'),
     path('api/sde/search', views.sde_search, name='sde_search'),
     path('api/sde/names', views.sde_names, name='sde_names'),
