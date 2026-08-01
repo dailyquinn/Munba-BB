@@ -282,18 +282,118 @@ def get_quote(request, code):
 
 @csrf_exempt
 def fetch_contracts(request):
-    if request.method == "POST":
-        try:
-            data = json.loads(request.body)
-            access_token = data.get("access_token")
-            if not access_token:
-                return JsonResponse({"error": "Missing access token."}, status=400)
-            
-            # Simplified version for now, full port requires the async functions in Esi.py
-            # Since this is a Django sync view, we'll just mock it or port it fully
+    if request.method != "POST":
+        return JsonResponse({"error": "Method not allowed"}, status=405)
+    try:
+        data = json.loads(request.body)
+        access_token = data.get("access_token")
+        if not access_token:
+            return JsonResponse({"error": "Missing access token."}, status=400)
+        
+        headers = {
+            "Authorization": f"Bearer {access_token}",
+            "User-Agent": "Munba-Buyback/1.0"
+        }
+
+        # 1. Resolve character and corporation ID from ESI token
+        verify_res = requests.get("https://login.eveonline.com/oauth/verify", headers=headers, timeout=10)
+        if not verify_res.ok:
+            verify_res = requests.get("https://esi.evetech.net/verify/", headers=headers, timeout=10)
+        
+        if not verify_res.ok:
+            return JsonResponse({"error": f"Failed to verify SSO token with ESI (HTTP {verify_res.status_code})"}, status=401)
+        
+        verify_data = verify_res.json()
+        char_id = verify_data.get("CharacterID") or verify_data.get("character_id")
+        if not char_id:
+            return JsonResponse({"error": "Could not determine Character ID from token."}, status=400)
+
+        # Get character affiliation (Corporation ID)
+        affil_res = requests.post(
+            "https://esi.evetech.net/latest/characters/affiliation/?datasource=tranquility",
+            json=[char_id],
+            timeout=10
+        )
+        if not affil_res.ok or not affil_res.json():
+            return JsonResponse({"error": "Could not determine character corporation affiliation."}, status=400)
+        
+        corp_id = affil_res.json()[0].get("corporation_id")
+        if not corp_id:
+            return JsonResponse({"error": "Character has no corporation ID."}, status=400)
+
+        # 2. Fetch corporation contracts from ESI
+        contracts_url = f"https://esi.evetech.net/latest/corporations/{corp_id}/contracts/?datasource=tranquility"
+        contracts_res = requests.get(contracts_url, headers=headers, timeout=15)
+        
+        if not contracts_res.ok:
+            return JsonResponse({"error": f"ESI error fetching contracts: {contracts_res.text}"}, status=contracts_res.status_code)
+        
+        raw_contracts = contracts_res.json()
+        if not isinstance(raw_contracts, list):
             return JsonResponse({"contracts": [], "new_contracts": [], "total_contracts": 0})
-        except Exception as e:
-            return JsonResponse({"error": str(e)}, status=500)
+
+        # Filter active item_exchange contracts
+        active_contracts = [
+            c for c in raw_contracts
+            if c.get("type") == "item_exchange" and c.get("status") in ["outstanding", "in_progress", "finished"]
+        ]
+
+        # 3. Collect issuer IDs and resolve issuer character names via ESI universe/names
+        issuer_ids = list({c["issuer_id"] for c in active_contracts if "issuer_id" in c})
+        issuer_names = {}
+        if issuer_ids:
+            try:
+                names_res = requests.post(
+                    "https://esi.evetech.net/latest/universe/names/?datasource=tranquility",
+                    json=issuer_ids,
+                    timeout=10
+                )
+                if names_res.ok:
+                    for entry in names_res.json():
+                        issuer_names[entry.get("id")] = entry.get("name")
+            except Exception as e:
+                print("Failed to fetch issuer names:", e)
+
+        # 4. Fetch items for each contract
+        results = []
+        for contract in active_contracts:
+            cid = contract.get("contract_id")
+            items = []
+            try:
+                items_url = f"https://esi.evetech.net/latest/corporations/{corp_id}/contracts/{cid}/items/?datasource=tranquility"
+                items_res = requests.get(items_url, headers=headers, timeout=10)
+                if items_res.ok and isinstance(items_res.json(), list):
+                    items = [
+                        {
+                            "type_id": item.get("type_id"),
+                            "quantity": item.get("quantity", 1)
+                        }
+                        for item in items_res.json()
+                        if item.get("is_included", True)
+                    ]
+            except Exception as e:
+                print(f"Failed to fetch items for contract {cid}:", e)
+
+            results.append({
+                "contract_id": cid,
+                "issuer_id": contract.get("issuer_id"),
+                "issuer_name": issuer_names.get(contract.get("issuer_id"), f"Character {contract.get('issuer_id')}"),
+                "price": float(contract.get("price", 0) or 0),
+                "title": contract.get("title", ""),
+                "status": contract.get("status", ""),
+                "date_issued": contract.get("date_issued", ""),
+                "items": items
+            })
+
+        return JsonResponse({
+            "contracts": results,
+            "new_contracts": results,
+            "total_contracts": len(results)
+        })
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return JsonResponse({"error": str(e)}, status=500)
 
 @csrf_exempt
 def save_multipliers(request):
