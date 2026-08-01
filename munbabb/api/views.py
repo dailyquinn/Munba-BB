@@ -332,14 +332,28 @@ def fetch_contracts(request):
         if not isinstance(raw_contracts, list):
             return JsonResponse({"contracts": [], "new_contracts": [], "total_contracts": 0})
 
-        # Filter active item_exchange contracts
-        active_contracts = [
-            c for c in raw_contracts
-            if c.get("type") == "item_exchange" and c.get("status") in ["outstanding", "in_progress", "finished"]
-        ]
+        scope = data.get("scope", "current")
+        offset = int(data.get("offset", 0))
+        limit = int(data.get("limit", 5))
+
+        # Filter item_exchange contracts
+        all_exchange = [c for c in raw_contracts if c.get("type") == "item_exchange"]
+        current_list = [c for c in all_exchange if c.get("status") in ["outstanding", "in_progress"]]
+        historic_list = [c for c in all_exchange if c.get("status") not in ["outstanding", "in_progress"]]
+
+        # Sort both lists newest date_issued first
+        current_list.sort(key=lambda c: c.get("date_issued", ""), reverse=True)
+        historic_list.sort(key=lambda c: c.get("date_issued", ""), reverse=True)
+
+        if scope == "current":
+            target_contracts = current_list
+            has_more = len(historic_list) > 0
+        else:
+            target_contracts = historic_list[offset:offset + limit]
+            has_more = (offset + limit) < len(historic_list)
 
         # 3. Collect issuer IDs and resolve issuer character names via ESI universe/names
-        issuer_ids = list({c["issuer_id"] for c in active_contracts if "issuer_id" in c})
+        issuer_ids = list({c["issuer_id"] for c in target_contracts if "issuer_id" in c})
         issuer_names = {}
         if issuer_ids:
             try:
@@ -354,10 +368,10 @@ def fetch_contracts(request):
             except Exception as e:
                 print("Failed to fetch issuer names:", e)
 
-        # 4. Collect all item type IDs across contracts and fetch items
+        # 4. Collect all item type IDs across target contracts and fetch items
         all_item_type_ids = set()
         contract_items_map = {}
-        for contract in active_contracts:
+        for contract in target_contracts:
             cid = contract.get("contract_id")
             items = []
             try:
@@ -382,7 +396,7 @@ def fetch_contracts(request):
                 type_name_map[t.id] = t.name
 
         results = []
-        for contract in active_contracts:
+        for contract in target_contracts:
             cid = contract.get("contract_id")
             raw_items = contract_items_map.get(cid, [])
             formatted_items = [
@@ -394,21 +408,29 @@ def fetch_contracts(request):
                 for it in raw_items
             ]
 
+            status_str = contract.get("status", "")
+            is_curr = status_str in ["outstanding", "in_progress"]
+
             results.append({
                 "contract_id": cid,
                 "issuer_id": contract.get("issuer_id"),
                 "issuer_name": issuer_names.get(contract.get("issuer_id"), f"Character {contract.get('issuer_id')}"),
                 "price": float(contract.get("price", 0) or 0),
                 "title": contract.get("title", ""),
-                "status": contract.get("status", ""),
+                "status": status_str,
+                "is_current": is_curr,
                 "date_issued": contract.get("date_issued", ""),
                 "items": formatted_items
             })
 
         return JsonResponse({
             "contracts": results,
-            "new_contracts": results,
-            "total_contracts": len(results)
+            "scope": scope,
+            "offset": offset,
+            "limit": limit,
+            "has_more": has_more,
+            "total_current": len(current_list),
+            "total_historic": len(historic_list)
         })
     except Exception as e:
         import traceback

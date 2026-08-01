@@ -21,117 +21,78 @@ async function loadContracts() {
     list.innerHTML = "<p>Loading contracts...</p>";
 
     try {
+        // Step 1: Fetch current active contracts first
         const res = await fetch("/fetch_contracts/", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ access_token: token })
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ access_token: token, scope: "current" })
         });
         
-        if (!res.ok) {
-            throw new Error(`HTTP ${res.status}: ${res.statusText}`);
-        }
-        
+        if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
         const data = await res.json();
-        
         if (data.error) {
             list.innerHTML = `<p style="color: #f44336;">Error: ${data.error}</p>`;
             return;
         }
         
-        const contracts = Array.isArray(data.contracts) ? data.contracts : [];
-
-        if (!contracts.length) {
-            list.innerHTML = "<p>No contracts found.</p>";
-            return;
-        }
-        
-        // Collect type names from contracts items or resolve dynamically via SDE API.
+        const currentContracts = Array.isArray(data.contracts) ? data.contracts : [];
         const typeMap = {};
-        const unmappedIds = [];
-        for (const c of contracts) {
-            if (Array.isArray(c.items)) {
-                for (const it of c.items) {
-                    if (it.type_name && !it.type_name.startsWith('TypeID_')) {
-                        typeMap[it.type_id] = it.type_name;
-                    } else if (it.type_id) {
-                        unmappedIds.push(it.type_id);
+
+        async function resolveTypeNames(contractsList) {
+            const unmapped = [];
+            for (const c of contractsList) {
+                if (Array.isArray(c.items)) {
+                    for (const it of c.items) {
+                        if (it.type_name && !it.type_name.startsWith('TypeID_')) {
+                            typeMap[it.type_id] = it.type_name;
+                        } else if (it.type_id && !typeMap[it.type_id]) {
+                            unmapped.push(it.type_id);
+                        }
                     }
                 }
             }
-        }
-        if (unmappedIds.length > 0) {
-            try {
-                const sdeRes = await fetch('/api/sde/names', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ ids: [...new Set(unmappedIds)] })
-                });
-                if (sdeRes.ok) {
-                    const resolvedNames = await sdeRes.json();
-                    Object.assign(typeMap, resolvedNames);
-                }
-            } catch (e) { console.error("Error resolving type names:", e); }
+            if (unmapped.length > 0) {
+                try {
+                    const sdeRes = await fetch('/api/sde/names', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ ids: [...new Set(unmapped)] })
+                    });
+                    if (sdeRes.ok) {
+                        const resolved = await sdeRes.json();
+                        Object.assign(typeMap, resolved);
+                    }
+                } catch (e) { console.error("Error resolving type names:", e); }
+            }
         }
 
-        /**
-         * Validates a single contract by comparing its contents to a quote code found in its title.
-         * @param {object} contract - The contract object from the ESI.
-         * @param {number} contractIndex - The index of the contract in the list, used for targeting DOM elements.
-         * @returns {Promise<object>} A promise that resolves to a validation result object.
-         *                          { valid: boolean|null, reason: string, quoteCode?: string, matchPercentage?: number }
-         *                          `valid` is null if no quote code is found.
-         */
-        async function validateContract(contract, contractIndex) {
+        await resolveTypeNames(currentContracts);
+
+        async function validateContract(contract) {
             const description = (contract && contract.title) ? contract.title : '';
-            
-            // Look for quote code in the title
             const quoteCodeMatch = description.match(/[A-F0-9]{6}/i);
-            if (!quoteCodeMatch) {
-                return { valid: null, reason: 'No quote code found in title' };
-            }
-            
+            if (!quoteCodeMatch) return { valid: null, reason: 'No quote code found in title' };
             const quoteCode = quoteCodeMatch[0].toUpperCase();
-            
             try {
-                // Fetch the original quote content
                 const quoteResponse = await fetch(`/api/quotes/${quoteCode}`);
-                
-                if (!quoteResponse.ok) {
-                    return { valid: null, reason: 'Title doesn\'t match any quote.', quoteCode: quoteCode };
-                }
-                
+                if (!quoteResponse.ok) return { valid: null, reason: 'Title doesn\'t match any quote.', quoteCode };
                 const quoteData = await quoteResponse.json();
-            
-                if (quoteData.error) {
-                    return { valid: null, reason: 'Title doesn\'t match any quote.', quoteCode: quoteCode };
-                }
+                if (quoteData.error) return { valid: null, reason: 'Title doesn\'t match any quote.', quoteCode };
                 
-                // Parse the original quote content and contract items for comparison
                 const originalContent = (quoteData && quoteData.content) ? String(quoteData.content).toLowerCase().trim() : '';
                 const itemsArr = Array.isArray(contract.items) ? contract.items : [];
                 const contractItems = itemsArr.map(item => {
                     const qty = (item && item.quantity) ? item.quantity : 1;
-                    const itemName = typeMap[item && item.type_id] ? typeMap[item.type_id] : `TypeID_${item && item.type_id}`;
+                    const itemName = typeMap[item && item.type_id] ? typeMap[item.type_id] : (item.type_name || `TypeID_${item && item.type_id}`);
                     return `${String(itemName).toLowerCase()} ${qty}`;
                 });
                 
-                // Create a comparable string from contract items
-                // This normalizes the contract's contents for comparison with the quote.
-                const contractContent = contractItems.join('\n');
-                
                 const originalLines = originalContent.split('\n').filter(line => line.trim());
-                const contractLines = contractItems;
-                
-                // Check if most items from the quote are present in the contract
                 let matchedItems = 0;
                 for (const originalLine of originalLines) {
                     const trimmedOriginal = originalLine.trim();
                     if (!trimmedOriginal) continue;
-                    let itemName;
-                    let quantity;
-                    // Attempt to parse various quantity formats from the original quote text (e.g., "Item Name x5", "Item Name (5)", "Item Name 5").
+                    let itemName, quantity;
                     let m = trimmedOriginal.match(/^(.*?)(?:\s*)\((?:x)?\s*([\d,]+)\)\s*$/i);
                     if (m) {
                         itemName = m[1].trim().toLowerCase();
@@ -142,23 +103,15 @@ async function loadContracts() {
                     } else if ((m = trimmedOriginal.match(/^(.*\S)\s+([\d,]+)\s*$/))) {
                         const before = m[1].trim().toLowerCase();
                         const full = trimmedOriginal.toLowerCase();
-                        // If full line matches a contract item (name with number) treat as quantity 1
-                        const fullExists = contractLines.some(cl => cl.startsWith(full + ' '));
-                        if (fullExists) {
-                            itemName = full;
-                            quantity = 1;
-                        } else {
-                            itemName = before;
-                            quantity = parseInt(m[2].replace(/,/g, '')) || 1;
-                        }
+                        const fullExists = contractItems.some(cl => cl.startsWith(full + ' '));
+                        if (fullExists) { itemName = full; quantity = 1; }
+                        else { itemName = before; quantity = parseInt(m[2].replace(/,/g, '')) || 1; }
                     } else {
-                        // No quantity specified: assume 1
                         itemName = trimmedOriginal.toLowerCase();
                         quantity = 1;
                     }
 
-                    // Find a matching item and quantity in the contract.
-                    const contractMatch = contractLines.find(contractLine => {
+                    const contractMatch = contractItems.find(contractLine => {
                         const contractItemMatch = contractLine.match(/^(.+?)\s+(\d+)$/);
                         if (contractItemMatch) {
                             const contractItemName = contractItemMatch[1].trim().toLowerCase();
@@ -169,90 +122,173 @@ async function loadContracts() {
                     });
                     if (contractMatch) matchedItems++;
                 }
-                
-                // A contract is considered valid if at least 80% of the items from the quote are present in the contract.
                 const matchPercentage = originalLines.length > 0 ? (matchedItems / originalLines.length) : 0;
                 const isValid = matchPercentage >= 0.8;
-                
                 return { 
                     valid: isValid, 
                     reason: isValid ? 'Items match quote' : `Only ${Math.round(matchPercentage * 100)}% of items match`,
-                    quoteCode: quoteCode,
+                    quoteCode,
                     matchPercentage: Math.round(matchPercentage * 100)
                 };
-                
             } catch (error) {
-                console.error('Error validating contract:', error);
-                return { valid: false, reason: 'Network or server error', quoteCode: quoteCode };
+                return { valid: false, reason: 'Network or server error', quoteCode };
             }
         }
 
-        // Initial render of the contract list with placeholders for calculated values and validation status.
-        list.innerHTML = contracts.map((contract, idx) => `
-            <div class="contract">
-                <div class="issuer-row">
-                    <p><strong>Issuer:</strong> ${contract.issuer_name || contract.issuer_id}</p>
+        function renderCard(contract, idx) {
+            const statusBadge = `<span style="padding:2px 8px; border-radius:4px; font-size:0.8em; font-weight:bold; background:${contract.is_current ? '#2e7d32' : '#424242'}; color:#fff;">${contract.status || 'unknown'}</span>`;
+            return `
+            <div class="contract" style="margin-bottom: 16px;">
+                <div class="issuer-row" style="display:flex; justify-content:space-between; align-items:center;">
+                    <p><strong>Issuer:</strong> ${contract.issuer_name || contract.issuer_id} ${statusBadge}</p>
                     <div class="show-items-container">
                         <span class="validation-indicator" id="validation-${idx}">⏳</span>
                         <button class="toggleItems" data-idx="${idx}">Show Items</button>
                     </div>
                 </div>
-                <p><strong>Price:</strong> ${contract.price.toLocaleString()}</p>
+                <p><strong>Price:</strong> ${contract.price.toLocaleString()} ISK</p>
                 <p><strong>Title:</strong> ${contract.title || 'No title'}</p>
                 <p class="contract-value" id="contract-value-${idx}"><em>Calculating value...</em></p>
                 <p class="validation-status" id="validation-status-${idx}"><em>Validating quote...</em></p>
                 <div class="itemCollapse" id="items-${idx}" style="display: none;">
                     <ul>
-                        ${contract.items.map(item => `<li>${typeMap[item.type_id] || item.type_id} (x${item.quantity})</li>`).join('')}
+                        ${(contract.items || []).map(item => `<li>${typeMap[item.type_id] || item.type_name || item.type_id} (x${item.quantity})</li>`).join('')}
                     </ul>
                 </div>
-            </div>
-        `).join('');
-        
-        // Validate each contract and calculate values
-        contracts.forEach(async (contract, idx) => {
-            // Asynchronously calculate the estimated market value of the contract's items.
-            if (typeof window.getContractValue === 'function') {
-                try {
-                    await window.getContractValue(contract.items || [] ).then(value => {
+            </div>`;
+        }
+
+        async function processCardValues(contractsList, startIndex) {
+            contractsList.forEach(async (contract, i) => {
+                const idx = startIndex + i;
+                if (typeof window.getContractValue === 'function') {
+                    try {
+                        const val = await window.getContractValue(contract.items || []);
                         const valueElem = document.getElementById(`contract-value-${idx}`);
-                        if (valueElem) valueElem.textContent = `Estimated Value: ${value.toLocaleString()} ISK`;
-                    });
-                } catch (e) {
-                    console.error('[loadContracts] getContractValue error for idx', idx, e);
+                        if (valueElem) valueElem.textContent = `Estimated Value: ${val.toLocaleString()} ISK`;
+                    } catch (e) {
+                        const valueElem = document.getElementById(`contract-value-${idx}`);
+                        if (valueElem) valueElem.textContent = 'Estimated Value: N/A';
+                    }
                 }
-            } else {
-                const valueElem = document.getElementById(`contract-value-${idx}`);
-                if (valueElem) valueElem.textContent = 'Estimated Value: N/A';
-            }
-            
-            // Asynchronously validate the contract against its quote code.
-            const validation = await validateContract(contract, idx);
-            const indicatorElem = document.getElementById(`validation-${idx}`);
-            const statusElem = document.getElementById(`validation-status-${idx}`);
-            
-            if (indicatorElem && statusElem) {
-                if (validation.valid === true) {
-                    // Code found and contents match = Green
-                    indicatorElem.textContent = '✅';
-                    indicatorElem.className = 'validation-indicator validation-valid';
-                    statusElem.textContent = `✅ Valid: ${validation.reason} (${validation.quoteCode})`;
-                    statusElem.style.color = '#4CAF50';
-                } else if (validation.valid === false) {
-                    // Code found but contents don't match = Red
-                    indicatorElem.textContent = '❌';
-                    indicatorElem.className = 'validation-indicator validation-invalid';
-                    statusElem.textContent = `❌ Invalid: ${validation.reason}${validation.quoteCode ? ` (${validation.quoteCode})` : ''}`;
-                    statusElem.style.color = '#f44336';
-                } else {
-                    // validation.valid === null (no quote code found in title) = Yellow
-                    indicatorElem.textContent = '⚠️';
-                    indicatorElem.className = 'validation-indicator validation-unknown';
-                    statusElem.textContent = `⚠️ Warning: ${validation.reason}`;
-                    statusElem.style.color = '#ff9800';
+                const validation = await validateContract(contract);
+                const indicatorElem = document.getElementById(`validation-${idx}`);
+                const statusElem = document.getElementById(`validation-status-${idx}`);
+                if (indicatorElem && statusElem) {
+                    if (validation.valid === true) {
+                        indicatorElem.textContent = '✅';
+                        indicatorElem.className = 'validation-indicator validation-valid';
+                        statusElem.textContent = `✅ Valid: ${validation.reason} (${validation.quoteCode})`;
+                        statusElem.style.color = '#4CAF50';
+                    } else if (validation.valid === false) {
+                        indicatorElem.textContent = '❌';
+                        indicatorElem.className = 'validation-indicator validation-invalid';
+                        statusElem.textContent = `❌ Invalid: ${validation.reason}${validation.quoteCode ? ` (${validation.quoteCode})` : ''}`;
+                        statusElem.style.color = '#f44336';
+                    } else {
+                        indicatorElem.textContent = '⚠️';
+                        indicatorElem.className = 'validation-indicator validation-unknown';
+                        statusElem.textContent = `⚠️ Warning: ${validation.reason}`;
+                        statusElem.style.color = '#ff9800';
+                    }
                 }
-            }
+            });
+        }
+
+        // Render Current Active Contracts section immediately
+        let html = `<h2>Current Active Contracts (${currentContracts.length})</h2>`;
+        if (currentContracts.length === 0) {
+            html += `<p style="margin-bottom: 24px; color: #888;">No active contracts pending processing.</p>`;
+        } else {
+            html += currentContracts.map((c, i) => renderCard(c, i)).join('');
+        }
+
+        const totalHistoric = data.total_historic || 0;
+        if (totalHistoric > 0) {
+            html += `
+            <div id="historic-section" style="margin-top: 36px;">
+                <h2>Historic Contracts (${totalHistoric})</h2>
+                <div id="historic-list-container"></div>
+                <p id="historic-loader-status" style="color: #aaa; margin-top: 12px;">⏳ Loading historic contracts (5 at a time)...</p>
+            </div>`;
+        }
+
+        list.innerHTML = html;
+        await processCardValues(currentContracts, 0);
+
+        // Re-attach toggle handlers for current cards
+        document.querySelectorAll('.toggleItems').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const idx = this.getAttribute('data-idx');
+                const itemsDiv = document.getElementById(`items-${idx}`);
+                if (itemsDiv) {
+                    itemsDiv.style.display = itemsDiv.style.display === 'none' ? 'block' : 'none';
+                    this.textContent = itemsDiv.style.display === 'none' ? 'Show Items' : 'Hide Items';
+                }
+            });
         });
+
+        // Step 2: Fetch historic contracts in chunks of 5
+        if (totalHistoric > 0) {
+            let offset = 0;
+            const limit = 5;
+            let totalLoaded = currentContracts.length;
+
+            const historicContainer = document.getElementById('historic-list-container');
+            const statusLabel = document.getElementById('historic-loader-status');
+
+            while (offset < totalHistoric) {
+                try {
+                    const hRes = await fetch("/fetch_contracts/", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ access_token: token, scope: "historic", offset, limit })
+                    });
+                    if (!hRes.ok) break;
+                    const hData = await hRes.json();
+                    const batch = Array.isArray(hData.contracts) ? hData.contracts : [];
+                    if (batch.length === 0) break;
+
+                    await resolveTypeNames(batch);
+
+                    const batchHtml = batch.map((c, i) => renderCard(c, totalLoaded + i)).join('');
+                    if (historicContainer) historicContainer.innerHTML += batchHtml;
+
+                    await processCardValues(batch, totalLoaded);
+
+                    // Re-attach button listeners for newly rendered batch
+                    document.querySelectorAll('.toggleItems').forEach(btn => {
+                        btn.onclick = function() {
+                            const idx = this.getAttribute('data-idx');
+                            const itemsDiv = document.getElementById(`items-${idx}`);
+                            if (itemsDiv) {
+                                itemsDiv.style.display = itemsDiv.style.display === 'none' ? 'block' : 'none';
+                                this.textContent = itemsDiv.style.display === 'none' ? 'Show Items' : 'Hide Items';
+                            }
+                        };
+                    });
+
+                    totalLoaded += batch.length;
+                    offset += limit;
+
+                    if (statusLabel) {
+                        statusLabel.textContent = `Loaded ${Math.min(offset, totalHistoric)} of ${totalHistoric} historic contracts...`;
+                    }
+
+                    if (!hData.has_more) break;
+                    // Short 300ms pause between chunk requests
+                    await new Promise(r => setTimeout(r, 300));
+                } catch (err) {
+                    console.error("Error fetching historic chunk:", err);
+                    break;
+                }
+            }
+
+            if (statusLabel) {
+                statusLabel.textContent = `✓ All ${totalHistoric} historic contracts loaded.`;
+                statusLabel.style.color = '#4CAF50';
+            }
+        }
         
         // Add event listeners to the "Show/Hide Items" buttons for each contract.
         document.querySelectorAll('.toggleItems').forEach(btn => {
