@@ -47,12 +47,32 @@ async function loadContracts() {
             return;
         }
         
-        // Fetch the mapping of type IDs to item names.
-        const typeMapRaw = await fetch('jsons/type_ids.json').then(r => r.json());
-        // Invert the map to be ID -> Name for easy lookup.
+        // Collect type names from contracts items or resolve dynamically via SDE API.
         const typeMap = {};
-        for (const [name, id] of Object.entries(typeMapRaw)) {
-            typeMap[id] = name;
+        const unmappedIds = [];
+        for (const c of contracts) {
+            if (Array.isArray(c.items)) {
+                for (const it of c.items) {
+                    if (it.type_name && !it.type_name.startsWith('TypeID_')) {
+                        typeMap[it.type_id] = it.type_name;
+                    } else if (it.type_id) {
+                        unmappedIds.push(it.type_id);
+                    }
+                }
+            }
+        }
+        if (unmappedIds.length > 0) {
+            try {
+                const sdeRes = await fetch('/api/sde/names', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ ids: [...new Set(unmappedIds)] })
+                });
+                if (sdeRes.ok) {
+                    const resolvedNames = await sdeRes.json();
+                    Object.assign(typeMap, resolvedNames);
+                }
+            } catch (e) { console.error("Error resolving type names:", e); }
         }
 
         /**

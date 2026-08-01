@@ -354,8 +354,9 @@ def fetch_contracts(request):
             except Exception as e:
                 print("Failed to fetch issuer names:", e)
 
-        # 4. Fetch items for each contract
-        results = []
+        # 4. Collect all item type IDs across contracts and fetch items
+        all_item_type_ids = set()
+        contract_items_map = {}
         for contract in active_contracts:
             cid = contract.get("contract_id")
             items = []
@@ -363,16 +364,35 @@ def fetch_contracts(request):
                 items_url = f"https://esi.evetech.net/latest/corporations/{corp_id}/contracts/{cid}/items/?datasource=tranquility"
                 items_res = requests.get(items_url, headers=headers, timeout=10)
                 if items_res.ok and isinstance(items_res.json(), list):
-                    items = [
-                        {
-                            "type_id": item.get("type_id"),
-                            "quantity": item.get("quantity", 1)
-                        }
-                        for item in items_res.json()
-                        if item.get("is_included", True)
-                    ]
+                    for item in items_res.json():
+                        if item.get("is_included", True):
+                            tid = item.get("type_id")
+                            qty = item.get("quantity", 1)
+                            items.append({"type_id": tid, "quantity": qty})
+                            if tid:
+                                all_item_type_ids.add(tid)
             except Exception as e:
                 print(f"Failed to fetch items for contract {cid}:", e)
+            contract_items_map[cid] = items
+
+        # 5. Bulk resolve type names from local SDE
+        type_name_map = {}
+        if all_item_type_ids:
+            for t in ItemType.objects.filter(id__in=list(all_item_type_ids)):
+                type_name_map[t.id] = t.name
+
+        results = []
+        for contract in active_contracts:
+            cid = contract.get("contract_id")
+            raw_items = contract_items_map.get(cid, [])
+            formatted_items = [
+                {
+                    "type_id": it["type_id"],
+                    "type_name": type_name_map.get(it["type_id"], f"TypeID_{it['type_id']}"),
+                    "quantity": it["quantity"]
+                }
+                for it in raw_items
+            ]
 
             results.append({
                 "contract_id": cid,
@@ -382,7 +402,7 @@ def fetch_contracts(request):
                 "title": contract.get("title", ""),
                 "status": contract.get("status", ""),
                 "date_issued": contract.get("date_issued", ""),
-                "items": items
+                "items": formatted_items
             })
 
         return JsonResponse({
