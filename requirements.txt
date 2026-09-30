@@ -1,4 +1,4 @@
-Django>=4.2,<5.0
+Django>=5.2
 django-eveonline-sde
 django-cors-headers
 requests
