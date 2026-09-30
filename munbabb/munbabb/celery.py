@@ -18,8 +18,11 @@ app.conf.worker_prefetch_multiplier = 1  # only prefetch single tasks at a time 
 app.conf.broker_connection_retry_on_startup = True
 
 app.conf.ONCE = {
-    'backend': 'allianceauth.services.tasks.DjangoBackend',
-    'settings': {}
+    'backend': 'celery_once.backends.Redis',
+    'settings': {
+        'url': 'redis://127.0.0.1:6379/0',
+        'default_timeout': 60 * 60,
+    }
 }
 
 app.autodiscover_tasks()

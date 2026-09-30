@@ -1,4 +1,5 @@
 Django>=5.2
+django-modeltranslation
 django-eveonline-sde
 django-cors-headers
 requests

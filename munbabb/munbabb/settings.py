@@ -24,21 +24,16 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
+    'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+
     'corsheaders',
     'django.contrib.sites',
-    'esi',
-    'modeltranslation',
-    'allianceauth',
-    'allianceauth.authentication',
-    'allianceauth.services',
-    'allianceauth.eveonline',
     'eve_sde',
     'api',
 ]
