@@ -89,7 +89,20 @@ DATABASES = {
 }
 
 LANGUAGE_CODE = 'en-us'
-LANGUAGES = [('en', 'English'), ('de', 'German'), ('es', 'Spanish')]
+LANGUAGES = [
+    ('en', 'English'),
+    ('de', 'German'),
+    ('es', 'Spanish'),
+    ('fr-fr', 'French'),
+    ('it-it', 'Italian'),
+    ('ja', 'Japanese'),
+    ('ko-kr', 'Korean'),
+    ('nl-nl', 'Dutch'),
+    ('pl-pl', 'Polish'),
+    ('ru', 'Russian'),
+    ('uk', 'Ukrainian'),
+    ('zh-hans', 'Chinese Simplified'),
+]
 
 TIME_ZONE = 'UTC'
 USE_I18N = True
